@@ -1,0 +1,16 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${GDK}/inc",
+                "C:/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include"
+            ],
+            "browse" : {
+                "limitSymbolsToIncludedHeaders" : true,
+                "databaseFilename" : ""
+            }
+        }
+    ],
+    "version": 4
+}

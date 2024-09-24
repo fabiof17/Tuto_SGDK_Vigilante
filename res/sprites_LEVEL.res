@@ -1,0 +1,1 @@
+SPRITE tiles_SPR_VIGILANTE          "sprites/tiles_SPR_VIGILANTE.png"       7   9  NONE 0 NONE TILE MEDIUM

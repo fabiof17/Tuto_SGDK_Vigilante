@@ -259,7 +259,7 @@ void joypad_PLAYER()
 
     else if(value & BUTTON_LEFT)
     {
-        if(player.state == STATE_IDLE || player.state == STATE_WALK)
+        if(player.state == STATE_IDLE || player.state == STATE_WALK || player.state == STATE_CROUCH)
         {
             if(G_POS_X_CAMERA > 0)
             {
@@ -322,7 +322,7 @@ void joypad_PLAYER()
 
     else if(value & BUTTON_RIGHT)
     {
-        if(player.state == STATE_IDLE || player.state == STATE_WALK || STATE_CROUCH)
+        if(player.state == STATE_IDLE || player.state == STATE_WALK || player.state == STATE_CROUCH)
         {
             if(G_POS_X_CAMERA == 0)
             {

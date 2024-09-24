@@ -22,7 +22,7 @@ void sequence_LOGO()
 {
     G_COUNTER_LOGO += 1;
     
-    if(G_COUNTER_LOGO  == 60)
+    if(G_COUNTER_LOGO  == 180)
     {
         G_COUNTER_LOGO = 0;
 

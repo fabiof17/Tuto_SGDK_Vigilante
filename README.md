@@ -1,6 +1,9 @@
 # Tutorial SGDK - Vigilante demo
 
-## How to :
+## Requiered knowledge :
+
+Knowing C language.
+
 # INSTALLATION
 
 ## 1) clone this repo
@@ -17,7 +20,7 @@ In the IDE of your choice (i use Visual Studio Code), type the following command
 [sgdk_install_folder]\bin\make -f [sgdk_install_folder]\makefile.gen clean
 
 
-Then
+Then :
 
 
 [sgdk_install_folder]\bin\make -f [sgdk_install_folder]\makefile.gen
@@ -30,7 +33,7 @@ If your SGDK folder is "C:\sgdk", then the commands are :
 
 C:\sgdk\bin\make -f C:\sgdk\makefile.gen clean
 
-and
+and :
 
 C:\sgdk\bin\make -f C:\sgdk\makefile.gen
 

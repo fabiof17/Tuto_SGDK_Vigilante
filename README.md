@@ -2,13 +2,16 @@
 
 ## How to :
 # INSTALLATION
-## download SGDK
+
+## 1) clone this repo
+
+## 2) download SGDK
 https://github.com/Stephane-D/SGDK
 
-## read the wiki for installation procedure
+## 3) read the wiki for installation procedure
 https://github.com/Stephane-D/SGDK/wiki
 
-## how to compile the demo
+## 4) compile the demo
 In the IDE of your choice (i use Visual Studio Code), type the following command in the terminal :
 
 [sgdk_install_folder]\bin\make -f [sgdk_install_folder]\makefile.gen clean

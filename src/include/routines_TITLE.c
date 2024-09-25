@@ -27,10 +27,17 @@ void sequence_TITLE()
         VDP_setHorizontalScrollVSync(BG_B,G_POS_X_CAMERA);
         VDP_setHorizontalScrollVSync(BG_A,G_POS_X_CAMERA);
 
-        // DISPLAY PRESS START BUTTON //
+        
         if(G_POS_X_CAMERA == 256)
         {
+            // DISPLAY PRESS START BUTTON //
             VDP_setTileMapEx(BG_B, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 39, 21, 39, 28, 18, 1, DMA_QUEUE);
+
+            // DISPLAY LEVEL //
+            VDP_setTileMapEx(BG_B, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 44, 23, 59, 28, 5, 1, DMA_QUEUE);
+
+            // DISPLAY LEVEL NUMBER //
+            VDP_drawIntEx_BG_A_QUEUE(G_LEVEL,1,51,23,PAL0);
         }
     }
 

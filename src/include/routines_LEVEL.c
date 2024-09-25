@@ -346,7 +346,7 @@ void joypad_PLAYER()
 
                 else
                 {
-                    if(G_POS_X_CAMERA < 1536)
+                    if(G_POS_X_CAMERA < G_LEVEL_LIMIT)
                     {
                         G_POS_X_CAMERA += 1;
 
@@ -369,7 +369,7 @@ void joypad_PLAYER()
             
             else
             {
-                if(G_POS_X_CAMERA < 1536)
+                if(G_POS_X_CAMERA < G_LEVEL_LIMIT)
                 {
                     G_POS_X_CAMERA += 1;
 

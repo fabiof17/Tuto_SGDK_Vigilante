@@ -76,10 +76,9 @@ extern u8 G_COUNTER_TITLE;
 
 
 extern u8 G_SEQUENCE;
-
 extern u8 G_LEVEL;
-
 extern bool G_SEQUENCE_LOADED;
+extern u16 G_LEVEL_LIMIT;
 
 
 extern u16 G_ADR_VRAM_BG_B;

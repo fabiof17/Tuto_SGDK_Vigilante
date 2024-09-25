@@ -60,7 +60,14 @@ void title_Callback(u16 joy, u16 changed, u16 state)
                 VDP_setHorizontalScrollVSync(BG_B,G_POS_X_CAMERA);
                 VDP_setHorizontalScrollVSync(BG_A,G_POS_X_CAMERA);
 
+                // DISPLAY PRESS START BUTTON //
                 VDP_setTileMapEx(BG_B, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 39, 21, 39, 28, 18, 1, DMA_QUEUE);
+
+                // DISPLAY LEVEL //
+                VDP_setTileMapEx(BG_B, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 44, 23, 59, 28, 5, 1, DMA_QUEUE);
+
+                // DISPLAY LEVEL NUMBER //
+                VDP_drawIntEx_BG_A_QUEUE(G_LEVEL,1,51,23,PAL0);
             }
 
             else
@@ -73,6 +80,30 @@ void title_Callback(u16 joy, u16 changed, u16 state)
                 G_SEQUENCE_LOADED = FALSE;
 
                 SYS_doVBlankProcess();
+            }
+        }
+
+        //
+        else if( changed & state & BUTTON_RIGHT )
+        {
+            if(G_LEVEL < 2)
+            {
+                G_LEVEL = 2;
+
+                // DISPLAY LEVEL NUMBER //
+                VDP_drawIntEx_BG_A_QUEUE(G_LEVEL,1,51,23,PAL0);
+            }
+        }
+
+        //
+        else if( changed & state & BUTTON_LEFT )
+        {
+            if(G_LEVEL > 1)
+            {
+                G_LEVEL = 1;
+
+                // DISPLAY LEVEL NUMBER //
+                VDP_drawIntEx_BG_A_QUEUE(G_LEVEL,1,51,23,PAL0);
             }
         }
     }

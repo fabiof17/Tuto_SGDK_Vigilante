@@ -617,6 +617,172 @@ void init_LEVEL()
     }
 
 
+    else if(G_LEVEL == 3)
+    {
+        //**************************************************************************************//
+        //                                                                                      //
+        //                                      CLEAN VRAM                                      //
+        //                                                                                      //
+        //**************************************************************************************//
 
+        /*u16 i = 0;
+
+        for(i=16 ; i<1440 ; i++)
+        {
+            VDP_loadTileSet(image_EMPTY_TILE.tileset , i , CPU);
+        }*/
+
+
+
+
+        //**************************************************************************************//
+        //                                                                                      //
+        //                                    SETUP DISPLAY                                     //
+        //                                                                                      //
+        //**************************************************************************************//
+
+        VDP_setPlaneSize(64,32,TRUE);
+        
+        SPR_initEx(200);
+        
+        VDP_setHilightShadow(FALSE);
+
+        VDP_setScrollingMode(HSCROLL_TILE, VSCROLL_PLANE);
+
+
+
+
+        //**************************************************************************************//
+        //                                                                                      //
+        //                                   NUMBERS TILESET                                    //
+        //                                                                                      //
+        //**************************************************************************************//
+
+        VDP_loadTileSet(image_NUMBERS.tileset, TILE_FONT_INDEX + 16, CPU);
+
+
+
+
+        //**************************************************************************************//
+        //                                                                                      //
+        //                                         BG                                           //
+        //                                                                                      //
+        //**************************************************************************************//
+
+        G_ADR_VRAM_BG_B = TILE_USER_INDEX;
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                         BG_B                                         //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        VDP_loadTileSet(image_LEVEL_3_BG_B.tileset, G_ADR_VRAM_BG_B, CPU);
+        VDP_setTileMapEx(BG_B, image_LEVEL_3_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 0, 0, 0, 0, 64, 28, CPU);
+
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                         BG_A                                         //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        G_ADR_VRAM_BG_A = G_ADR_VRAM_BG_B + image_LEVEL_3_BG_B.tileset->numTile;
+        VDP_loadTileSet(image_LEVEL_3_BG_A.tileset, G_ADR_VRAM_BG_A, CPU);
+        VDP_setTileMapEx(BG_A, image_LEVEL_3_BG_A.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_A), 0, 0, 0, 0, 64, 28, CPU);
+
+
+
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                         HUB                                          //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        VDP_setWindowHPos(0, 0);
+        VDP_setWindowVPos(0, 5);
+
+
+        G_ADR_VRAM_HUB = G_ADR_VRAM_BG_A + image_LEVEL_3_BG_A.tileset->numTile;
+        VDP_loadTileSet(image_HUB.tileset, G_ADR_VRAM_HUB, CPU);
+        VDP_setTileMapEx(WINDOW, image_HUB.tilemap, TILE_ATTR_FULL(PAL3, TRUE, FALSE, FALSE, G_ADR_VRAM_HUB), 0, 0, 0, 0, 32, 5, CPU);
+
+
+
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                SETUP PLANES POSITION                                 //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        G_POS_X_CAMERA = 0;
+
+
+        u8 i;
+
+        for (i=0; i<23; i++)
+        {
+            scrollTable_BG_B[i] = 0;
+            scrollTable_BG_A[i] = 0; 
+        }
+
+
+
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                     INIT SPRITES                                     //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        player.pos_X        = 89;
+        player.pos_Y        = 112;
+
+        player.counter_ANIM = 0;
+        player.axis         = AXIS_RIGHT;
+
+        player.state        = STATE_IDLE;
+
+
+        sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE,  player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
+        SPR_setAnimAndFrame(sprite_PLAYER,0,4);
+
+
+
+        SPR_update();
+        SYS_doVBlankProcess();
+
+
+
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                       PALETTES                                       //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        PAL_setColors(0,image_LEVEL_3_BG_B.palette->data,32,DMA_QUEUE);
+        //
+        //
+        PAL_setPalette(PAL3,palette_VIGILANTE.data,DMA_QUEUE);
+
+
+
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                       VARIABLES                                      //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        G_LEVEL_LIMIT           = 1280;
+        
+        G_REPEAT                = 0;
+        G_INDEX_ANIM_PUNCH      = 1;
+
+        G_SEQUENCE_LOADED       = TRUE;
+    }
 }
 

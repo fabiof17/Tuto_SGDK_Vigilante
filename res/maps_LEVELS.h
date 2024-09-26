@@ -5,6 +5,8 @@ extern const Image image_LEVEL_1_BG_B;
 extern const Image image_LEVEL_1_BG_A;
 extern const Image image_LEVEL_2_BG_B;
 extern const Image image_LEVEL_2_BG_A;
+extern const Image image_LEVEL_3_BG_B;
+extern const Image image_LEVEL_3_BG_A;
 extern const TileSet tileset_LEVEL_1_BG_B;
 extern const TileSet tileset_LEVEL_1_BG_A;
 extern const TileSet tileset_LEVEL_2_BG_B;

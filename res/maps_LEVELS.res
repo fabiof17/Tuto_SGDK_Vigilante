@@ -10,6 +10,9 @@ IMAGE image_LEVEL_1_BG_A            "map/level_1/tiles_LEVEL_1_BG_A.png"        
 IMAGE image_LEVEL_2_BG_B            "map/level_2/tiles_LEVEL_2_BG_B.png"           NONE ALL
 IMAGE image_LEVEL_2_BG_A            "map/level_2/tiles_LEVEL_2_BG_A.png"           NONE ALL
 
+IMAGE image_LEVEL_3_BG_B            "map/level_3/tiles_LEVEL_3_BG_B.png"           NONE ALL
+IMAGE image_LEVEL_3_BG_A            "map/level_3/tiles_LEVEL_3_BG_A.png"           NONE ALL
+
 
 //**********************************************************************************//
 //                                                                                  //

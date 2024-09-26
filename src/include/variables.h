@@ -104,6 +104,11 @@ extern u8 G_INDEX_ANIM_PUNCH;
 
 
 
+extern s16 scrollTable_BG_B[23];
+extern s16 scrollTable_BG_A[23];
+
+
+
 
 
 

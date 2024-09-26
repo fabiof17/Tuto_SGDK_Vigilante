@@ -86,9 +86,9 @@ void title_Callback(u16 joy, u16 changed, u16 state)
         //
         else if( changed & state & BUTTON_RIGHT )
         {
-            if(G_LEVEL < 2)
+            if(G_LEVEL < 3)
             {
-                G_LEVEL = 2;
+                G_LEVEL += 1;
 
                 // DISPLAY LEVEL NUMBER //
                 VDP_drawIntEx_BG_A_QUEUE(G_LEVEL,1,51,23,PAL0);
@@ -100,7 +100,7 @@ void title_Callback(u16 joy, u16 changed, u16 state)
         {
             if(G_LEVEL > 1)
             {
-                G_LEVEL = 1;
+                G_LEVEL -= 1;
 
                 // DISPLAY LEVEL NUMBER //
                 VDP_drawIntEx_BG_A_QUEUE(G_LEVEL,1,51,23,PAL0);

@@ -125,13 +125,38 @@ int main(bool hardReset)
 
             else
             {
-                JOY_setEventHandler(player_Callback);
-                joypad_PLAYER();
+                if(G_LEVEL == 1)
+                {
+                    JOY_setEventHandler(player_Callback);
+                    joypad_PLAYER_PLANE();
 
-                update_PLAYER_SPRITE();
-                
-                SPR_update();
-                SYS_doVBlankProcess();
+                    update_PLAYER_SPRITE();
+                    
+                    SPR_update();
+                    SYS_doVBlankProcess();
+                }
+
+                else if(G_LEVEL == 2)
+                {
+                    JOY_setEventHandler(player_Callback);
+                    joypad_PLAYER_PLANE();
+
+                    update_PLAYER_SPRITE();
+                    
+                    SPR_update();
+                    SYS_doVBlankProcess();
+                }
+
+                else if(G_LEVEL == 3)
+                {
+                    JOY_setEventHandler(player_Callback);
+                    joypad_PLAYER_TILE();
+
+                    update_PLAYER_SPRITE();
+                    
+                    SPR_update();
+                    SYS_doVBlankProcess();
+                }
             }
         }
     }

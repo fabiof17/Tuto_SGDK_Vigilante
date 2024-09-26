@@ -58,6 +58,12 @@ u8 G_INDEX_ANIM_PUNCH;
 
 
 
+s16 scrollTable_BG_B[23];
+s16 scrollTable_BG_A[23];
+
+
+
+
 
 
 

@@ -95,7 +95,7 @@ void title_Callback(u16 joy, u16 changed, u16 state)
         //
         else if( changed & state & BUTTON_RIGHT )
         {
-            if(G_LEVEL < 3)
+            if(G_LEVEL < 4)
             {
                 G_LEVEL += 1;
 

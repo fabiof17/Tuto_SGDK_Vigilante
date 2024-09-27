@@ -114,14 +114,19 @@ int main(bool hardReset)
                     init_INTERMEDE_1();
                 }
 
-                if(G_LEVEL == 2)
+                else if(G_LEVEL == 2)
                 {                    
                     init_INTERMEDE_2();
                 }
 
-                if(G_LEVEL == 3)
+                else if(G_LEVEL == 3)
                 {                    
                     init_INTERMEDE_3();
+                }
+
+                else if(G_LEVEL == 4)
+                {                    
+                    init_INTERMEDE_4();
                 }
             }
 
@@ -132,16 +137,21 @@ int main(bool hardReset)
                     sequence_INTERMEDE_1();
                 }
 
-                if(G_LEVEL == 2)
+                else if(G_LEVEL == 2)
                 {       
                     sequence_INTERMEDE_2();
                 }
 
-                if(G_LEVEL == 3)
+                else if(G_LEVEL == 3)
                 {    
                     sequence_INTERMEDE_3();
                 }
-                
+
+                else if(G_LEVEL == 4)
+                {    
+                    sequence_INTERMEDE_4();
+                }
+
                 SPR_update();
                 SYS_doVBlankProcess();
             } 
@@ -194,6 +204,17 @@ int main(bool hardReset)
                 {
                     JOY_setEventHandler(player_Callback);
                     joypad_PLAYER_TILE();
+
+                    update_PLAYER_SPRITE();
+                    
+                    SPR_update();
+                    SYS_doVBlankProcess();
+                }
+
+                else if(G_LEVEL == 4)
+                {
+                    JOY_setEventHandler(player_Callback);
+                    joypad_PLAYER_PLANE();
 
                     update_PLAYER_SPRITE();
                     

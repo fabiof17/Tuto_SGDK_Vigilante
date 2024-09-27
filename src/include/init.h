@@ -16,6 +16,8 @@ extern void init_INTERMEDE_2();
 
 extern void init_INTERMEDE_3();
 
+extern void init_INTERMEDE_4();
+
 extern void init_LEVEL();
 
 

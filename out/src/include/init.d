@@ -15,5 +15,5 @@ out/src/include/init.o: src/include/init.c C:/sgdk/inc/genesis.h \
  C:/sgdk/inc/ext/flash-save/flash.h C:/sgdk/inc/types.h \
  C:/sgdk/inc/ext/flash-save/saveman.h src/include/custom_tools.h \
  src/include/variables.h src/include/structures.h res/palettes.h \
- res/maps_GLOBAL.h res/maps_LEVELS.h res/maps_LOGO.h res/maps_TITLE.h \
- res/sprites_LEVEL.h
+ res/maps_GLOBAL.h res/maps_INTERMEDE.h res/maps_LEVELS.h res/maps_LOGO.h \
+ res/maps_TITLE.h res/sprites_INTERMEDE.h res/sprites_LEVEL.h

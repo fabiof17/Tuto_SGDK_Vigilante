@@ -14,6 +14,7 @@
 
 
 
+#include "include/routines_INTERMEDE.h"
 #include "include/routines_LEVEL.h"
 #include "include/routines_LOGO.h"
 #include "include/routines_TITLE.h"
@@ -103,7 +104,47 @@ int main(bool hardReset)
 
         else if(G_SEQUENCE == SEQUENCE_INTERMEDE)
         {
+            JOY_setEventHandler(disable_Callback);
             
+            // LOADING INTERMEDE SCREEN //
+            if(G_SEQUENCE_LOADED == FALSE)
+            {
+                if(G_LEVEL == 1)
+                {
+                    init_INTERMEDE_1();
+                }
+
+                if(G_LEVEL == 2)
+                {                    
+                    init_INTERMEDE_2();
+                }
+
+                if(G_LEVEL == 3)
+                {                    
+                    init_INTERMEDE_3();
+                }
+            }
+
+            else
+            {                                
+                if(G_LEVEL == 1)
+                {    
+                    sequence_INTERMEDE_1();
+                }
+
+                if(G_LEVEL == 2)
+                {       
+                    sequence_INTERMEDE_2();
+                }
+
+                if(G_LEVEL == 3)
+                {    
+                    sequence_INTERMEDE_3();
+                }
+                
+                SPR_update();
+                SYS_doVBlankProcess();
+            } 
         }
 
 
@@ -120,6 +161,8 @@ int main(bool hardReset)
             // LOADING LEVEL //
             if(G_SEQUENCE_LOADED == FALSE)
             {
+                JOY_setEventHandler(disable_Callback);
+                
                 init_LEVEL();
             }
 

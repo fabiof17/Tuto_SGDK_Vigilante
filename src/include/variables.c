@@ -22,8 +22,9 @@ char text_output[5];
 u16 palette_64[64];
 
 
-u8 G_COUNTER_LOGO;
-u8 G_COUNTER_TITLE;
+u16 G_COUNTER_LOGO;
+u16 G_COUNTER_TITLE;
+u16 G_COUNTER_INTERMEDE;
 
 
 
@@ -74,6 +75,10 @@ s16 scrollTable_BG_A[23];
 //                                       SPRITES                                        //
 //                                                                                      //
 //--------------------------------------------------------------------------------------//
+
+Sprite *sprite_MADONNA;
+Sprite *sprite_BOX;
+
 
 Sprite *sprite_PLAYER;
 

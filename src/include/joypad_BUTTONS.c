@@ -75,7 +75,16 @@ void title_Callback(u16 joy, u16 changed, u16 state)
                 PAL_setPalette(PAL0,palette_BLACK.data,DMA_QUEUE);
                 PAL_setPalette(PAL1,palette_BLACK.data,DMA_QUEUE);
 
-                G_SEQUENCE = SEQUENCE_GAME;
+                SYS_doVBlankProcess();
+
+                // CLEAR PLANES //
+                VDP_clearPlane(BG_B,TRUE);
+                VDP_clearPlane(BG_A,TRUE);
+
+                // RELEASE ALL SPRITES //
+                SPR_reset();
+
+                G_SEQUENCE = SEQUENCE_INTERMEDE;
 
                 G_SEQUENCE_LOADED = FALSE;
 

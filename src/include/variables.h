@@ -69,8 +69,9 @@ extern char text_output[5];
 extern u16 palette_64[64];
 
 
-extern u8 G_COUNTER_LOGO;
-extern u8 G_COUNTER_TITLE;
+extern u16 G_COUNTER_LOGO;
+extern u16 G_COUNTER_TITLE;
+extern u16 G_COUNTER_INTERMEDE;
 
 
 
@@ -119,6 +120,10 @@ extern s16 scrollTable_BG_A[23];
 //                                       SPRITES                                        //
 //                                                                                      //
 //--------------------------------------------------------------------------------------//
+
+extern Sprite *sprite_MADONNA;
+extern Sprite *sprite_BOX;
+
 
 extern Sprite *sprite_PLAYER;
 

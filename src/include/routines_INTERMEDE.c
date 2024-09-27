@@ -23,6 +23,35 @@
 
 
 
+inline static void display_TEXT(const Image *image , const struct_LINE_ *text_table)
+{
+    if(G_LINE_INDEX < (G_TEXT_MAX_LINES))
+    {
+        if(G_COUNTER_INTERMEDE > 83)
+        {
+            if(G_COUNTER_INTERMEDE%6 == TRUE)
+            {
+                u8 letter = text_table[G_LINE_INDEX].horizontal_POSITION + G_LETTER_INDEX;
+                u8 line   = text_table[G_LINE_INDEX].vertical_POSITION;
+                
+                VDP_setTileMapEx(BG_A, image->tilemap, TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, G_ADR_VRAM_TEXT), letter, line, G_LETTER_INDEX, G_LINE_INDEX, 1, 1, DMA_QUEUE);
+
+                G_LETTER_INDEX += 1;
+
+                if(G_LETTER_INDEX == (text_table[G_LINE_INDEX].number_LETTERS))
+                {
+                    G_LETTER_INDEX = 0;
+                    
+                    G_LINE_INDEX += 1;
+                }
+            }
+        }
+    }
+}
+
+
+
+
 void sequence_INTERMEDE_1()
 {
     // SPRITE AND BG ANIMATION //
@@ -99,28 +128,7 @@ void sequence_INTERMEDE_1()
 
 
     // TEXT DISPLAY //
-    if(G_LINE_INDEX < (G_TEXT_MAX_LINES))
-    {
-        if(G_COUNTER_INTERMEDE > 83)
-        {
-            if(G_COUNTER_INTERMEDE%6 == TRUE)
-            {
-                u8 letter = TABLE_INTERMEDE_1_TEXT[G_LINE_INDEX].horizontal_POSITION + G_LETTER_INDEX;
-                u8 line   = TABLE_INTERMEDE_1_TEXT[G_LINE_INDEX].vertical_POSITION;
-                
-                VDP_setTileMapEx(BG_A, image_INTERMEDE_1_TEXT.tilemap, TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, G_ADR_VRAM_TEXT), letter, line, G_LETTER_INDEX, G_LINE_INDEX, 1, 1, DMA_QUEUE);
-
-                G_LETTER_INDEX += 1;
-
-                if(G_LETTER_INDEX == (TABLE_INTERMEDE_1_TEXT[G_LINE_INDEX].number_LETTERS))
-                {
-                    G_LETTER_INDEX = 0;
-                    
-                    G_LINE_INDEX += 1;
-                }
-            }
-        }
-    }
+    display_TEXT(&image_INTERMEDE_1_TEXT , TABLE_INTERMEDE_1_TEXT);
 }
 
 
@@ -160,6 +168,12 @@ void sequence_INTERMEDE_2()
 
 
     G_COUNTER_INTERMEDE += 1;
+
+
+
+
+    // TEXT DISPLAY //
+    //display_TEXT(&image_INTERMEDE_2_TEXT , TABLE_INTERMEDE_2_TEXT);
 }
 
 
@@ -199,4 +213,10 @@ void sequence_INTERMEDE_3()
 
 
     G_COUNTER_INTERMEDE += 1;
+
+
+
+
+    // TEXT DISPLAY //
+    //display_TEXT(&image_INTERMEDE_3_TEXT , TABLE_INTERMEDE_3_TEXT);
 }

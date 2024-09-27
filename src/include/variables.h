@@ -82,9 +82,16 @@ extern bool G_SEQUENCE_LOADED;
 extern u16 G_LEVEL_LIMIT;
 
 
+extern u8 G_LINE_INDEX;
+extern u8 G_LETTER_INDEX;
+
+extern u8 G_TEXT_MAX_LINES;
+
+
 extern u16 G_ADR_VRAM_BG_B;
 extern u16 G_ADR_VRAM_BG_A;
 extern u16 G_ADR_VRAM_HUB;
+extern u16 G_ADR_VRAM_TEXT;
 
 
 extern s16 G_POS_X_CAMERA;

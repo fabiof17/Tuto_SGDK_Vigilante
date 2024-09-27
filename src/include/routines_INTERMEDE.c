@@ -15,11 +15,18 @@
 
 
 
+#include "tables_INTERMEDE.h"
+
+
+
+
 
 
 
 void sequence_INTERMEDE_1()
 {
+    // SPRITE AND BG ANIMATION //
+    
     if(G_COUNTER_INTERMEDE == 3)
     {
         SPR_setPosition(sprite_MADONNA,87,78);
@@ -65,6 +72,8 @@ void sequence_INTERMEDE_1()
         PAL_setPalette(PAL2,palette_BLACK.data,DMA_QUEUE);
         PAL_setPalette(PAL3,palette_BLACK.data,DMA_QUEUE);
 
+        SYS_doVBlankProcess();
+
 
         // RESET SCROLLING //
         VDP_setVerticalScroll(BG_B , 0);
@@ -81,12 +90,37 @@ void sequence_INTERMEDE_1()
         G_SEQUENCE = SEQUENCE_GAME;
 
         G_SEQUENCE_LOADED = FALSE;
-
-        SYS_doVBlankProcess();
     }
 
 
     G_COUNTER_INTERMEDE += 1;
+
+
+
+
+    // TEXT DISPLAY //
+    if(G_LINE_INDEX < (G_TEXT_MAX_LINES))
+    {
+        if(G_COUNTER_INTERMEDE > 83)
+        {
+            if(G_COUNTER_INTERMEDE%6 == TRUE)
+            {
+                u8 letter = TABLE_INTERMEDE_1_TEXT[G_LINE_INDEX].horizontal_POSITION + G_LETTER_INDEX;
+                u8 line   = TABLE_INTERMEDE_1_TEXT[G_LINE_INDEX].vertical_POSITION;
+                
+                VDP_setTileMapEx(BG_A, image_INTERMEDE_1_TEXT.tilemap, TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, G_ADR_VRAM_TEXT), letter, line, G_LETTER_INDEX, G_LINE_INDEX, 1, 1, DMA_QUEUE);
+
+                G_LETTER_INDEX += 1;
+
+                if(G_LETTER_INDEX == (TABLE_INTERMEDE_1_TEXT[G_LINE_INDEX].number_LETTERS))
+                {
+                    G_LETTER_INDEX = 0;
+                    
+                    G_LINE_INDEX += 1;
+                }
+            }
+        }
+    }
 }
 
 
@@ -104,11 +138,24 @@ void sequence_INTERMEDE_2()
         PAL_setPalette(PAL2,palette_BLACK.data,DMA_QUEUE);
         PAL_setPalette(PAL3,palette_BLACK.data,DMA_QUEUE);
 
+        SYS_doVBlankProcess();
+
+
+        // RESET SCROLLING //
+        VDP_setVerticalScroll(BG_B , 0);
+        VDP_setVerticalScroll(BG_A , 0);
+
+        // CLEAR PLANES //
+        VDP_clearPlane(BG_B,TRUE);
+        VDP_clearPlane(BG_A,TRUE);
+
+        // RELEASE ALL SPRITES //
+        SPR_reset();
+
+
         G_SEQUENCE = SEQUENCE_GAME;
 
         G_SEQUENCE_LOADED = FALSE;
-
-        SYS_doVBlankProcess();
     }
 
 
@@ -130,11 +177,24 @@ void sequence_INTERMEDE_3()
         PAL_setPalette(PAL2,palette_BLACK.data,DMA_QUEUE);
         PAL_setPalette(PAL3,palette_BLACK.data,DMA_QUEUE);
 
+        SYS_doVBlankProcess();
+
+
+        // RESET SCROLLING //
+        VDP_setVerticalScroll(BG_B , 0);
+        VDP_setVerticalScroll(BG_A , 0);
+
+        // CLEAR PLANES //
+        VDP_clearPlane(BG_B,TRUE);
+        VDP_clearPlane(BG_A,TRUE);
+
+        // RELEASE ALL SPRITES //
+        SPR_reset();
+
+
         G_SEQUENCE = SEQUENCE_GAME;
 
         G_SEQUENCE_LOADED = FALSE;
-
-        SYS_doVBlankProcess();
     }
 
 

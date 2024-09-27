@@ -1,4 +1,4 @@
-out/src/include/routines_INTERMEDE.o: src/include/routines_INTERMEDE.c \
+out/src/include/tables_INTERMEDE.o: src/include/tables_INTERMEDE.c \
  C:/sgdk/inc/genesis.h C:/sgdk/inc/types.h C:/sgdk/inc/config.h \
  C:/sgdk/inc/asm.h C:/sgdk/inc/sys.h C:/sgdk/inc/sram.h \
  C:/sgdk/inc/mapper.h C:/sgdk/inc/memory.h C:/sgdk/inc/memory_base.h \
@@ -14,6 +14,4 @@ out/src/include/routines_INTERMEDE.o: src/include/routines_INTERMEDE.c \
  C:/sgdk/inc/joy.h C:/sgdk/inc/timer.h C:/sgdk/inc/task.h \
  C:/sgdk/inc/task_cst.h C:/sgdk/inc/ext/flash-save/flash.h \
  C:/sgdk/inc/types.h C:/sgdk/inc/ext/flash-save/saveman.h \
- src/include/custom_tools.h res/palettes.h src/include/structures.h \
- src/include/variables.h res/maps_INTERMEDE.h \
- src/include/tables_INTERMEDE.h
+ src/include/structures.h

@@ -312,9 +312,26 @@ void init_INTERMEDE_1()
 
 
 
-    // RESET SCROLLING //
+    //--------------------------------------------------------------------------------------//
+    //                                                                                      //
+    //                                SETUP PLANES POSITION                                 //
+    //                                                                                      //
+    //--------------------------------------------------------------------------------------//
+
     VDP_setHorizontalScroll(BG_B , 0);
     VDP_setHorizontalScroll(BG_A , 0);
+
+
+
+
+    //--------------------------------------------------------------------------------------//
+    //                                                                                      //
+    //                                         TEXT                                         //
+    //                                                                                      //
+    //--------------------------------------------------------------------------------------//
+
+    G_ADR_VRAM_TEXT = G_ADR_VRAM_BG_A + image_INTERMEDE_BG_A.tileset->numTile;
+    VDP_loadTileSet(image_INTERMEDE_1_TEXT.tileset, G_ADR_VRAM_TEXT, CPU);
 
 
 
@@ -367,6 +384,12 @@ void init_INTERMEDE_1()
     //                                       VARIABLES                                      //
     //                                                                                      //
     //--------------------------------------------------------------------------------------//
+
+    G_TEXT_MAX_LINES            = 4;
+
+    G_LINE_INDEX                = 0;
+
+    G_LETTER_INDEX              = 0;
 
     G_POS_X_CAMERA              = 0;
 
@@ -438,7 +461,12 @@ void init_INTERMEDE_2()
 
 
 
-    // RESET SCROLLING //
+    //--------------------------------------------------------------------------------------//
+    //                                                                                      //
+    //                                SETUP PLANES POSITION                                 //
+    //                                                                                      //
+    //--------------------------------------------------------------------------------------//
+
     VDP_setHorizontalScroll(BG_B , 0);
     VDP_setHorizontalScroll(BG_A , 0);
 
@@ -495,6 +523,12 @@ void init_INTERMEDE_2()
     //                                       VARIABLES                                      //
     //                                                                                      //
     //--------------------------------------------------------------------------------------//
+
+    G_TEXT_MAX_LINES            = 3;
+
+    G_LINE_INDEX                = 0;
+
+    G_LETTER_INDEX              = 0;
 
     G_POS_X_CAMERA              = 0;
 
@@ -566,7 +600,12 @@ void init_INTERMEDE_3()
 
 
 
-    // RESET SCROLLING //
+    //--------------------------------------------------------------------------------------//
+    //                                                                                      //
+    //                                SETUP PLANES POSITION                                 //
+    //                                                                                      //
+    //--------------------------------------------------------------------------------------//
+    
     VDP_setHorizontalScroll(BG_B , 0);
     VDP_setHorizontalScroll(BG_A , 0);
 
@@ -623,6 +662,12 @@ void init_INTERMEDE_3()
     //                                       VARIABLES                                      //
     //                                                                                      //
     //--------------------------------------------------------------------------------------//
+
+    G_TEXT_MAX_LINES            = 3;
+
+    G_LINE_INDEX                = 0;
+
+    G_LETTER_INDEX              = 0;
 
     G_POS_X_CAMERA              = 0;
 

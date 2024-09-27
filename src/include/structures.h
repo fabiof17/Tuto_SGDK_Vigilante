@@ -3,6 +3,22 @@
 
 
 
+
+
+
+
+typedef struct
+{
+    u8 number_LETTERS;
+    
+    u8 horizontal_POSITION;
+    u8 vertical_POSITION;
+
+} struct_LINE_;
+
+
+
+
 typedef struct
 {
     s16 pos_X;

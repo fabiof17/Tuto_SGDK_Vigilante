@@ -2,6 +2,10 @@
 #define _INIT_H
 
 
+
+
+
+
 extern void init_SYSTEM();
 
 extern void init_VARIABLES();
@@ -19,6 +23,8 @@ extern void init_INTERMEDE_3();
 extern void init_INTERMEDE_4();
 
 extern void init_LEVEL();
+
+
 
 
 

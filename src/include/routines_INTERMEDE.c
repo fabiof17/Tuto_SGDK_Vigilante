@@ -265,3 +265,51 @@ void sequence_INTERMEDE_4()
     // TEXT DISPLAY //
     //display_TEXT(&image_INTERMEDE_3_TEXT , TABLE_INTERMEDE_3_TEXT);
 }
+
+
+void sequence_INTERMEDE_5()
+{
+    G_POS_X_CAMERA -= 1;
+
+    VDP_setHorizontalScrollVSync(BG_B,G_POS_X_CAMERA);
+    
+
+    if(G_COUNTER_INTERMEDE == 665)
+    {
+        PAL_setPalette(PAL0,palette_BLACK.data,DMA_QUEUE);
+        PAL_setPalette(PAL1,palette_BLACK.data,DMA_QUEUE);
+        PAL_setPalette(PAL2,palette_BLACK.data,DMA_QUEUE);
+        PAL_setPalette(PAL3,palette_BLACK.data,DMA_QUEUE);
+
+        SYS_doVBlankProcess();
+
+
+        // RESET SCROLLING //
+        VDP_setVerticalScroll(BG_B , 0);
+        VDP_setVerticalScroll(BG_A , 0);
+
+        // CLEAR PLANES //
+        VDP_clearPlane(BG_B,TRUE);
+        VDP_clearPlane(BG_A,TRUE);
+
+        // RELEASE ALL SPRITES //
+        SPR_reset();
+
+
+        G_SEQUENCE = SEQUENCE_GAME;
+
+        G_SEQUENCE_LOADED = FALSE;
+    }
+
+
+    G_COUNTER_INTERMEDE += 1;
+
+
+
+
+    // TEXT DISPLAY //
+    //display_TEXT(&image_INTERMEDE_3_TEXT , TABLE_INTERMEDE_3_TEXT);
+}
+
+
+

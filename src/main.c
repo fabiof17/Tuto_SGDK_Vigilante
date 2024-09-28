@@ -128,6 +128,11 @@ int main(bool hardReset)
                 {                    
                     init_INTERMEDE_4();
                 }
+
+                else if(G_LEVEL == 5)
+                {                    
+                    init_INTERMEDE_4();
+                }
             }
 
             else
@@ -150,6 +155,11 @@ int main(bool hardReset)
                 else if(G_LEVEL == 4)
                 {    
                     sequence_INTERMEDE_4();
+                }
+
+                else if(G_LEVEL == 5)
+                {    
+                    sequence_INTERMEDE_5();
                 }
 
                 SPR_update();
@@ -178,49 +188,13 @@ int main(bool hardReset)
 
             else
             {
-                if(G_LEVEL == 1)
-                {
-                    JOY_setEventHandler(player_Callback);
-                    joypad_PLAYER_PLANE();
+                JOY_setEventHandler(player_Callback);
+                joypad_PLAYER();
 
-                    update_PLAYER_SPRITE();
-                    
-                    SPR_update();
-                    SYS_doVBlankProcess();
-                }
-
-                else if(G_LEVEL == 2)
-                {
-                    JOY_setEventHandler(player_Callback);
-                    joypad_PLAYER_PLANE();
-
-                    update_PLAYER_SPRITE();
-                    
-                    SPR_update();
-                    SYS_doVBlankProcess();
-                }
-
-                else if(G_LEVEL == 3)
-                {
-                    JOY_setEventHandler(player_Callback);
-                    joypad_PLAYER_TILE();
-
-                    update_PLAYER_SPRITE();
-                    
-                    SPR_update();
-                    SYS_doVBlankProcess();
-                }
-
-                else if(G_LEVEL == 4)
-                {
-                    JOY_setEventHandler(player_Callback);
-                    joypad_PLAYER_PLANE();
-
-                    update_PLAYER_SPRITE();
-                    
-                    SPR_update();
-                    SYS_doVBlankProcess();
-                }
+                update_PLAYER_SPRITE();
+                
+                SPR_update();
+                SYS_doVBlankProcess();
             }
         }
     }

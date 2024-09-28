@@ -206,7 +206,7 @@ void update_PLAYER_SPRITE()
 
 
 
-inline static void scroll_PLANE(s16 increment)
+void scroll_PLANE(s16 increment)
 {
     G_POS_X_CAMERA += increment;
 
@@ -215,7 +215,90 @@ inline static void scroll_PLANE(s16 increment)
 }
 
 
-void joypad_PLAYER_PLANE()
+void scroll_PLANE_PARALLAX(s16 increment)
+{
+    G_POS_X_CAMERA += increment;
+
+    MAP_scrollTo(map_BG_B, G_POS_X_CAMERA >> 2 , 0);
+    MAP_scrollTo(map_BG_A, G_POS_X_CAMERA , 0);
+}
+
+
+void scroll_TILE(s16 increment)
+{
+    G_POS_X_CAMERA += increment;
+
+    u8 i;
+
+    for (i=0; i<11; i++)
+    {        
+        if(G_POS_X_CAMERA%8 == TRUE)
+        {
+            scrollTable_BG_B[i] = -(G_POS_X_CAMERA >> 3);
+        }
+        scrollTable_BG_A[i] = -G_POS_X_CAMERA; 
+    }
+
+    for (i=11; i<23; i++)
+    {
+        scrollTable_BG_B[i] = -G_POS_X_CAMERA;
+        scrollTable_BG_A[i] = -G_POS_X_CAMERA; 
+    }
+
+    VDP_setHorizontalScrollTile(BG_B, 5, scrollTable_BG_B, 23, DMA_QUEUE);
+    VDP_setHorizontalScrollTile(BG_A, 5, scrollTable_BG_A, 23, DMA_QUEUE);
+}
+
+
+
+
+void (*TABLE_SCROLLING_ROUTINE[5])(s16 increment)   =   {
+                                                            scroll_PLANE,
+                                                            scroll_PLANE,
+                                                            scroll_TILE,
+                                                            scroll_PLANE,
+                                                            scroll_PLANE_PARALLAX
+                                                        };
+
+
+
+
+
+
+
+inline static void update_TILEMAP_RIGHT()
+{
+    if(G_POS_X_CAMERA > 15)
+    {
+        if(G_POS_X_CAMERA%8 == TRUE)
+        {
+            VDP_setTileMapColumnEx(BG_B, image_LEVEL_3_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), (G_POS_X_CAMERA >> 3) - 2, (G_POS_X_CAMERA >> 3) + 62, 16, 12, DMA_QUEUE);
+            VDP_setTileMapColumnEx(BG_A, image_LEVEL_3_BG_A.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_A), (G_POS_X_CAMERA >> 3) - 2, (G_POS_X_CAMERA >> 3) + 62,  5, 23, DMA_QUEUE);
+        }
+    }
+}
+
+
+inline static void update_TILEMAP_LEFT()
+{
+    if(G_POS_X_CAMERA > 15)
+    {
+        if(G_POS_X_CAMERA%8 == TRUE)
+        {
+            VDP_setTileMapColumnEx(BG_B, image_LEVEL_3_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), (G_POS_X_CAMERA >> 3) - 2, (G_POS_X_CAMERA >> 3) - 2, 16, 12, DMA_QUEUE);
+            VDP_setTileMapColumnEx(BG_A, image_LEVEL_3_BG_A.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_A), (G_POS_X_CAMERA >> 3) - 2, (G_POS_X_CAMERA >> 3) - 2,  5, 23, DMA_QUEUE);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+void joypad_PLAYER()
 {
     u16 value=JOY_readJoypad(JOY_1);
     
@@ -283,7 +366,33 @@ void joypad_PLAYER_PLANE()
         {
             if(G_POS_X_CAMERA > 0)
             {
-                scroll_PLANE(-1);
+                //--------------------------------------------------------------------------------------//
+                //                                                                                      //
+                //                                    TILEMAP UPDATE                                    //
+                //                                                                                      //
+                //--------------------------------------------------------------------------------------//
+
+                if(G_LEVEL == 3)
+                {
+                    update_TILEMAP_LEFT();
+                }
+
+
+                //--------------------------------------------------------------------------------------//
+                //                                                                                      //
+                //                                      SCROLLING                                       //
+                //                                                                                      //
+                //--------------------------------------------------------------------------------------//
+
+                // POINTER DECLARATION //
+                void (*ptr_SCROLLING_ROUTINE)(s16 increment);
+
+                // SETTING POINTER TO SCROLLING FUNCTION //
+                ptr_SCROLLING_ROUTINE = TABLE_SCROLLING_ROUTINE[G_LEVEL - 1];
+
+                // RUNNING SCROLLING FUNCTION //
+                (*ptr_SCROLLING_ROUTINE)(-1);
+
 
                 if(player.axis != AXIS_LEFT)
                 {
@@ -365,7 +474,33 @@ void joypad_PLAYER_PLANE()
                 {
                     if(G_POS_X_CAMERA < G_LEVEL_LIMIT)
                     {
-                        scroll_PLANE(1);
+                        //--------------------------------------------------------------------------------------//
+                        //                                                                                      //
+                        //                                    TILEMAP UPDATE                                    //
+                        //                                                                                      //
+                        //--------------------------------------------------------------------------------------//
+
+                        if(G_LEVEL == 3)
+                        {
+                            update_TILEMAP_RIGHT();
+                        }
+
+
+                        //--------------------------------------------------------------------------------------//
+                        //                                                                                      //
+                        //                                      SCROLLING                                       //
+                        //                                                                                      //
+                        //--------------------------------------------------------------------------------------//
+
+                        // POINTER DECLARATION //
+                        void (*ptr_SCROLLING_ROUTINE)(s16 increment);
+
+                        // SETTING POINTER TO SCROLLING FUNCTION //
+                        ptr_SCROLLING_ROUTINE = TABLE_SCROLLING_ROUTINE[G_LEVEL - 1];
+
+                        // RUNNING SCROLLING FUNCTION //
+                        (*ptr_SCROLLING_ROUTINE)(1);
+
 
                         if(player.axis != AXIS_RIGHT)
                         {
@@ -385,7 +520,33 @@ void joypad_PLAYER_PLANE()
             {
                 if(G_POS_X_CAMERA < G_LEVEL_LIMIT)
                 {
-                    scroll_PLANE(1);
+                    //--------------------------------------------------------------------------------------//
+                    //                                                                                      //
+                    //                                    TILEMAP UPDATE                                    //
+                    //                                                                                      //
+                    //--------------------------------------------------------------------------------------//
+
+                    if(G_LEVEL == 3)
+                    {
+                        update_TILEMAP_RIGHT();
+                    }
+
+
+                    //--------------------------------------------------------------------------------------//
+                    //                                                                                      //
+                    //                                      SCROLLING                                       //
+                    //                                                                                      //
+                    //--------------------------------------------------------------------------------------//
+
+                    // POINTER DECLARATION //
+                    void (*ptr_SCROLLING_ROUTINE)(s16 increment);
+
+                    // SETTING POINTER TO SCROLLING FUNCTION //
+                    ptr_SCROLLING_ROUTINE = TABLE_SCROLLING_ROUTINE[G_LEVEL - 1];
+
+                    // RUNNING SCROLLING FUNCTION //
+                    (*ptr_SCROLLING_ROUTINE)(1);
+
 
                     if(player.axis != AXIS_RIGHT)
                     {
@@ -434,65 +595,6 @@ void joypad_PLAYER_PLANE()
 
 
 
-
-
-
-
-
-inline static void update_TILEMAP_RIGHT()
-{
-    if(G_POS_X_CAMERA > 15)
-    {
-        if(G_POS_X_CAMERA%8 == TRUE)
-        {
-            VDP_setTileMapColumnEx(BG_B, image_LEVEL_3_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), (G_POS_X_CAMERA >> 3) - 2, (G_POS_X_CAMERA >> 3) + 62, 16, 12, DMA_QUEUE);
-            VDP_setTileMapColumnEx(BG_A, image_LEVEL_3_BG_A.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_A), (G_POS_X_CAMERA >> 3) - 2, (G_POS_X_CAMERA >> 3) + 62,  5, 23, DMA_QUEUE);
-        }
-    }
-}
-
-
-
-
-inline static void update_TILEMAP_LEFT()
-{
-    if(G_POS_X_CAMERA > 15)
-    {
-        if(G_POS_X_CAMERA%8 == TRUE)
-        {
-            VDP_setTileMapColumnEx(BG_B, image_LEVEL_3_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), (G_POS_X_CAMERA >> 3) - 2, (G_POS_X_CAMERA >> 3) - 2, 16, 12, DMA_QUEUE);
-            VDP_setTileMapColumnEx(BG_A, image_LEVEL_3_BG_A.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_A), (G_POS_X_CAMERA >> 3) - 2, (G_POS_X_CAMERA >> 3) - 2,  5, 23, DMA_QUEUE);
-        }
-    }
-}
-
-
-
-
-inline static void scroll_TILE(s16 increment)
-{
-    G_POS_X_CAMERA += increment;
-
-    u8 i;
-
-    for (i=0; i<11; i++)
-    {        
-        if(G_POS_X_CAMERA%8 == TRUE)
-        {
-            scrollTable_BG_B[i] = -(G_POS_X_CAMERA >> 3);
-        }
-        scrollTable_BG_A[i] = -G_POS_X_CAMERA; 
-    }
-
-    for (i=11; i<23; i++)
-    {
-        scrollTable_BG_B[i] = -G_POS_X_CAMERA;
-        scrollTable_BG_A[i] = -G_POS_X_CAMERA; 
-    }
-
-    VDP_setHorizontalScrollTile(BG_B, 5, scrollTable_BG_B, 23, DMA_QUEUE);
-    VDP_setHorizontalScrollTile(BG_A, 5, scrollTable_BG_A, 23, DMA_QUEUE);
-}
 
 
 void joypad_PLAYER_TILE()
@@ -717,4 +819,9 @@ void joypad_PLAYER_TILE()
     }
 
 }
+
+
+
+
+
 

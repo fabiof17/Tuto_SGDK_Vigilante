@@ -6,7 +6,6 @@
 
 
 
-
 typedef struct
 {
     u8 number_LETTERS;
@@ -30,6 +29,8 @@ typedef struct
     bool axis;
 
 } struct_PLAYER_;
+
+
 
 
 

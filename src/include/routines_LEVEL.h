@@ -5,11 +5,12 @@
 
 
 
+
 extern void update_PLAYER_SPRITE();
 
-extern void joypad_PLAYER_PLANE();
+extern void joypad_PLAYER();
 
-extern void joypad_PLAYER_TILE();
+//extern void joypad_PLAYER_TILE();
 
 
 

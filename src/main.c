@@ -131,7 +131,7 @@ int main(bool hardReset)
 
                 else if(G_LEVEL == 5)
                 {                    
-                    init_INTERMEDE_4();
+                    init_INTERMEDE_5();
                 }
             }
 

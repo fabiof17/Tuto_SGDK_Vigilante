@@ -219,7 +219,7 @@ void scroll_PLANE_PARALLAX(s16 increment)
 {
     G_POS_X_CAMERA += increment;
 
-    MAP_scrollTo(map_BG_B, G_POS_X_CAMERA >> 2 , 0);
+    MAP_scrollTo(map_BG_B, G_POS_X_CAMERA / 3 , 0);
     MAP_scrollTo(map_BG_A, G_POS_X_CAMERA , 0);
 }
 

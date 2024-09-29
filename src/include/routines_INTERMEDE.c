@@ -173,7 +173,7 @@ void sequence_INTERMEDE_2()
 
 
     // TEXT DISPLAY //
-    //display_TEXT(&image_INTERMEDE_2_TEXT , TABLE_INTERMEDE_2_TEXT);
+    display_TEXT(&image_INTERMEDE_2_TEXT , TABLE_INTERMEDE_2_TEXT);
 }
 
 
@@ -218,7 +218,7 @@ void sequence_INTERMEDE_3()
 
 
     // TEXT DISPLAY //
-    //display_TEXT(&image_INTERMEDE_3_TEXT , TABLE_INTERMEDE_3_TEXT);
+    display_TEXT(&image_INTERMEDE_3_TEXT , TABLE_INTERMEDE_3_TEXT);
 }
 
 

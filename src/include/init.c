@@ -759,8 +759,8 @@ void init_INTERMEDE_4()
     //                                                                                      //
     //--------------------------------------------------------------------------------------//
 
-    VDP_loadTileSet(image_INTERMEDE_BG_B.tileset, G_ADR_VRAM_BG_B, CPU);
-    VDP_setTileMapEx(BG_B, image_INTERMEDE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 0, 0, 0, 0, 64, 28, CPU);
+    VDP_loadTileSet(image_INTERMEDE_4_BG_B.tileset, G_ADR_VRAM_BG_B, CPU);
+    VDP_setTileMapEx(BG_B, image_INTERMEDE_4_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 0, 0, 0, 0, 32, 28, CPU);
 
 
     //--------------------------------------------------------------------------------------//
@@ -769,10 +769,9 @@ void init_INTERMEDE_4()
     //                                                                                      //
     //--------------------------------------------------------------------------------------//
 
-    G_ADR_VRAM_BG_A = G_ADR_VRAM_BG_B + image_INTERMEDE_BG_B.tileset->numTile;
-    VDP_loadTileSet(image_INTERMEDE_BG_A.tileset, G_ADR_VRAM_BG_A, CPU);
-    VDP_setTileMapEx(BG_A, image_INTERMEDE_BG_A.tilemap, TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_A), 0, 0, 0, 0, 32, 28, CPU);
-    VDP_setTileMapEx(BG_A, image_INTERMEDE_BG_A.tilemap, TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_A), 8, 8, 32, 0, 6, 10, CPU);
+    G_ADR_VRAM_BG_A = G_ADR_VRAM_BG_B + image_INTERMEDE_4_BG_B.tileset->numTile;
+    VDP_loadTileSet(image_INTERMEDE_4_BG_A.tileset, G_ADR_VRAM_BG_A, CPU);
+    VDP_setTileMapEx(BG_A, image_INTERMEDE_4_BG_A.tilemap, TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_A), 0, 0, 0, 0, 32, 28, CPU);
 
 
 
@@ -799,16 +798,14 @@ void init_INTERMEDE_4()
     //                                       MADONNA                                        //
     //--------------------------------------------------------------------------------------//
 
-    sprite_MADONNA = SPR_addSprite(&tiles_SPR_MADONNA, 91, 123, TILE_ATTR(PAL2, FALSE, FALSE, FALSE));
-
-    SPR_setFrame(sprite_MADONNA,3);
+    sprite_MADONNA = SPR_addSprite(&tiles_SPR_MADONNA_2, 80, 100, TILE_ATTR(PAL2, FALSE, FALSE, FALSE));
 
 
     //--------------------------------------------------------------------------------------//
     //                                      WOODEN BOX                                      //
     //--------------------------------------------------------------------------------------//
 
-    sprite_BOX = SPR_addSprite(&tiles_SPR_BOX, 122, 104, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
+    //sprite_BOX = SPR_addSprite(&tiles_SPR_BOX, 122, 104, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
 
 
     SPR_update();
@@ -823,10 +820,10 @@ void init_INTERMEDE_4()
     //                                                                                      //
     //--------------------------------------------------------------------------------------//
 
-    PAL_setPalette(PAL0,image_INTERMEDE_BG_B.palette->data,DMA_QUEUE);
-    PAL_setPalette(PAL1,image_INTERMEDE_BG_A.palette->data,DMA_QUEUE);
+    PAL_setPalette(PAL0,image_INTERMEDE_4_BG_B.palette->data,DMA_QUEUE);
+    PAL_setPalette(PAL1,image_INTERMEDE_4_BG_A.palette->data,DMA_QUEUE);
     PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE.data,DMA_QUEUE);
-    PAL_setPalette(PAL3,palette_BOX.data,DMA_QUEUE);
+    //PAL_setPalette(PAL3,palette_BOX.data,DMA_QUEUE);
 
 
     SYS_doVBlankProcess();

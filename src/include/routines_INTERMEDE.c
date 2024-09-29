@@ -224,9 +224,9 @@ void sequence_INTERMEDE_3()
 
 void sequence_INTERMEDE_4()
 {
-    G_POS_X_CAMERA -= 1;
+    //G_POS_X_CAMERA -= 1;
 
-    VDP_setHorizontalScrollVSync(BG_B,G_POS_X_CAMERA);
+    //VDP_setHorizontalScrollVSync(BG_B,G_POS_X_CAMERA);
     
 
     if(G_COUNTER_INTERMEDE == 665)

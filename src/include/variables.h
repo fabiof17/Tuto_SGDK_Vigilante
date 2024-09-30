@@ -17,6 +17,8 @@
 #define FAILED                  0
 #define SUCCESS                 1
 
+#define VRAM_START_ADRESS       1 // 1 OR 16
+
 
 
 

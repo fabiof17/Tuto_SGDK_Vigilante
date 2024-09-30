@@ -224,51 +224,6 @@ void sequence_INTERMEDE_3()
 
 void sequence_INTERMEDE_4()
 {
-    //G_POS_X_CAMERA -= 1;
-
-    //VDP_setHorizontalScrollVSync(BG_B,G_POS_X_CAMERA);
-    
-
-    if(G_COUNTER_INTERMEDE == 665)
-    {
-        PAL_setPalette(PAL0,palette_BLACK.data,DMA_QUEUE);
-        PAL_setPalette(PAL1,palette_BLACK.data,DMA_QUEUE);
-        PAL_setPalette(PAL2,palette_BLACK.data,DMA_QUEUE);
-        PAL_setPalette(PAL3,palette_BLACK.data,DMA_QUEUE);
-
-        SYS_doVBlankProcess();
-
-
-        // RESET SCROLLING //
-        VDP_setVerticalScroll(BG_B , 0);
-        VDP_setVerticalScroll(BG_A , 0);
-
-        // CLEAR PLANES //
-        VDP_clearPlane(BG_B,TRUE);
-        VDP_clearPlane(BG_A,TRUE);
-
-        // RELEASE ALL SPRITES //
-        SPR_reset();
-
-
-        G_SEQUENCE = SEQUENCE_GAME;
-
-        G_SEQUENCE_LOADED = FALSE;
-    }
-
-
-    G_COUNTER_INTERMEDE += 1;
-
-
-
-
-    // TEXT DISPLAY //
-    //display_TEXT(&image_INTERMEDE_3_TEXT , TABLE_INTERMEDE_3_TEXT);
-}
-
-
-void sequence_INTERMEDE_5()
-{
     G_POS_X_CAMERA -= 1;
 
     VDP_setHorizontalScrollVSync(BG_B,G_POS_X_CAMERA);
@@ -308,7 +263,107 @@ void sequence_INTERMEDE_5()
 
 
     // TEXT DISPLAY //
-    //display_TEXT(&image_INTERMEDE_3_TEXT , TABLE_INTERMEDE_3_TEXT);
+    display_TEXT(&image_INTERMEDE_4_TEXT , TABLE_INTERMEDE_4_TEXT);
+}
+
+
+void sequence_INTERMEDE_5()
+{
+    // MADONNA + CHAIN SPRITES MOVE //
+    if(G_COUNTER_INTERMEDE > 55 && G_COUNTER_INTERMEDE < 354)
+    {
+        if( (G_COUNTER_INTERMEDE - 2)%6 == TRUE )
+        {
+            s16 pos_Y_MADONNA = SPR_getPositionY(sprite_MADONNA);
+            s16 pos_Y_CHAIN = SPR_getPositionY(sprite_CHAIN);
+
+            pos_Y_MADONNA -= 1;
+            pos_Y_CHAIN   -= 1;
+
+            SPR_setPosition(sprite_MADONNA,82,pos_Y_MADONNA);
+            SPR_setPosition(sprite_CHAIN,97,pos_Y_CHAIN);
+        }
+    }
+
+
+    // MADONNA SPRITE ANIMATION //
+    if(G_COUNTER_INTERMEDE == 74)
+    {
+        G_INDEX_MADONNA += 1;
+        
+        SPR_setFrame(sprite_MADONNA,G_INDEX_MADONNA);
+    }
+
+    else if(G_COUNTER_INTERMEDE == 104)
+    {
+        G_INDEX_MADONNA += 1;
+        
+        SPR_setFrame(sprite_MADONNA,G_INDEX_MADONNA);
+    }
+
+    else if(G_COUNTER_INTERMEDE == 121)
+    {
+        G_INDEX_MADONNA += 1;
+        
+        SPR_setFrame(sprite_MADONNA,G_INDEX_MADONNA);
+    }
+
+
+
+
+    if(G_COUNTER_INTERMEDE > 131)
+    {
+        if( (G_COUNTER_INTERMEDE - 2)%10 == TRUE )
+        {
+            G_INDEX_MADONNA += 1;
+
+            if(G_INDEX_MADONNA > 4)
+            {
+                G_INDEX_MADONNA = 1;
+            }
+
+            SPR_setFrame(sprite_MADONNA,G_INDEX_MADONNA);
+        }
+    }
+    
+
+
+
+    if(G_COUNTER_INTERMEDE == 665)
+    {
+        PAL_setPalette(PAL0,palette_BLACK.data,DMA_QUEUE);
+        PAL_setPalette(PAL1,palette_BLACK.data,DMA_QUEUE);
+        PAL_setPalette(PAL2,palette_BLACK.data,DMA_QUEUE);
+        PAL_setPalette(PAL3,palette_BLACK.data,DMA_QUEUE);
+
+        SYS_doVBlankProcess();
+
+
+        // RESET SCROLLING //
+        VDP_setVerticalScroll(BG_B , 0);
+        VDP_setVerticalScroll(BG_A , 0);
+
+        // CLEAR PLANES //
+        VDP_clearPlane(BG_B,TRUE);
+        VDP_clearPlane(BG_A,TRUE);
+
+        // RELEASE ALL SPRITES //
+        SPR_reset();
+
+
+        G_SEQUENCE = SEQUENCE_GAME;
+
+        G_SEQUENCE_LOADED = FALSE;
+    }
+
+
+    G_COUNTER_INTERMEDE += 1;
+
+
+
+
+    // TEXT DISPLAY //
+    display_TEXT(&image_INTERMEDE_5_TEXT , TABLE_INTERMEDE_5_TEXT);
 }
 
 

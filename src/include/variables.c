@@ -35,6 +35,7 @@ bool G_SEQUENCE_LOADED;
 u16 G_LEVEL_LIMIT;
 
 
+u8 G_INDEX_MADONNA;
 u8 G_LINE_INDEX;
 u8 G_LETTER_INDEX;
 
@@ -85,6 +86,7 @@ s16 scrollTable_BG_A[23];
 
 Sprite *sprite_MADONNA;
 Sprite *sprite_BOX;
+Sprite *sprite_CHAIN;
 
 
 Sprite *sprite_PLAYER;

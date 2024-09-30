@@ -82,6 +82,7 @@ extern bool G_SEQUENCE_LOADED;
 extern u16 G_LEVEL_LIMIT;
 
 
+extern u8 G_INDEX_MADONNA;
 extern u8 G_LINE_INDEX;
 extern u8 G_LETTER_INDEX;
 
@@ -130,6 +131,7 @@ extern s16 scrollTable_BG_A[23];
 
 extern Sprite *sprite_MADONNA;
 extern Sprite *sprite_BOX;
+extern Sprite *sprite_CHAIN;
 
 
 extern Sprite *sprite_PLAYER;

@@ -120,6 +120,10 @@ extern s16 scrollTable_BG_A[23];
 
 
 
+extern struct_ENEMY_ LIST_ENEMIES[4];
+
+
+
 
 
 

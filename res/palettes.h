@@ -6,5 +6,6 @@ extern const Palette palette_MADONNA_INTERMEDE;
 extern const Palette palette_BOX;
 extern const Palette palette_CHAIN_INTERMEDE;
 extern const Palette palette_VIGILANTE;
+extern const Palette palette_ENEMY_1_LEVEL_1;
 
 #endif // _RES_PALETTES_H_

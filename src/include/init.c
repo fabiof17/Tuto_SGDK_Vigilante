@@ -1050,7 +1050,7 @@ void init_LEVEL()
 
         VDP_setPlaneSize(64,32,TRUE);
         
-        SPR_initEx(200);
+        SPR_initEx(350);
         
         VDP_setHilightShadow(FALSE);
 
@@ -1162,6 +1162,12 @@ void init_LEVEL()
         //                                                                                      //
         //--------------------------------------------------------------------------------------//
 
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                      VIGILANTE                                       //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
         player.pos_X        = 87;
         player.pos_Y        = 113;
 
@@ -1173,6 +1179,27 @@ void init_LEVEL()
 
         sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE,  player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
         SPR_setAnimAndFrame(sprite_PLAYER,0,4);
+
+
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                      ENEMY TEST                                      //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        //LIST_ENEMIES[0].axis           = AXIS_LEFT;
+        //LIST_ENEMIES[0].counter_ANIM   = 0;
+
+
+
+        /*LIST_ENEMIES[0].spr_ENEMY    = SPR_addSprite(&tiles_SPR_PUNK_1,  216 , 121 , TILE_ATTR(PAL2, FALSE, FALSE, FALSE));
+
+        LIST_ENEMIES[1].spr_ENEMY    = SPR_addSprite(&tiles_SPR_DUDE,    176 , 121 , TILE_ATTR(PAL2, FALSE, FALSE, FALSE));
+
+        LIST_ENEMIES[2].spr_ENEMY    = SPR_addSprite(&tiles_SPR_PUNK_2,  136 , 121 , TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
+
+        LIST_ENEMIES[3].spr_ENEMY    = SPR_addSprite(&tiles_SPR_GUN_MAN,   0 , 121 , TILE_ATTR(PAL3, FALSE, FALSE, FALSE));*/
 
 
 
@@ -1190,7 +1217,7 @@ void init_LEVEL()
 
         PAL_setPalette(PAL0,image_LEVEL_1_BG_B.palette->data,DMA_QUEUE);
         PAL_setPalette(PAL1,image_LEVEL_1_BG_A.palette->data,DMA_QUEUE);
-        //
+        PAL_setPalette(PAL2,palette_ENEMY_1_LEVEL_1.data,DMA_QUEUE);
         PAL_setPalette(PAL3,palette_VIGILANTE.data,DMA_QUEUE);
         
 

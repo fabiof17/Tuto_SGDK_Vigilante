@@ -33,6 +33,25 @@ typedef struct
 
 
 
+typedef struct
+{
+    s16 pos_X;
+    s16 pos_Y;
+
+    u8 state;
+
+    u8 counter_ANIM;
+    bool axis;
+
+    Sprite *spr_ENEMY;
+
+    u8 pal;
+
+} struct_ENEMY_;
+
+
+
+
 
 
 #endif // _MAIN

@@ -12,7 +12,7 @@ PALETTE palette_CHAIN_INTERMEDE             "palettes/palette_CHAIN_INTERMEDE.pn
 
 PALETTE palette_VIGILANTE                   "palettes/palette_VIGILANTE.png"
 
-
+PALETTE palette_ENEMY_1_LEVEL_1             "palettes/palette_ENEMY_1_LEVEL_1.png"
 
 
 

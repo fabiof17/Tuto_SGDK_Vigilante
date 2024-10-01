@@ -72,6 +72,10 @@ s16 scrollTable_BG_A[23];
 
 
 
+struct_ENEMY_ LIST_ENEMIES[4];
+
+
+
 
 
 
@@ -90,6 +94,11 @@ Sprite *sprite_CHAIN;
 
 
 Sprite *sprite_PLAYER;
+
+
+
+
+
 
 
 

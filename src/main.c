@@ -104,11 +104,11 @@ int main(bool hardReset)
 
         else if(G_SEQUENCE == SEQUENCE_INTERMEDE)
         {
-            JOY_setEventHandler(disable_Callback);
-            
             // LOADING INTERMEDE SCREEN //
             if(G_SEQUENCE_LOADED == FALSE)
             {
+                JOY_setEventHandler(disable_Callback);
+                
                 if(G_LEVEL == 1)
                 {
                     init_INTERMEDE_1();
@@ -137,6 +137,8 @@ int main(bool hardReset)
 
             else
             {                                
+                JOY_setEventHandler(intermede_Callback);
+                
                 if(G_LEVEL == 1)
                 {    
                     sequence_INTERMEDE_1();
@@ -188,13 +190,71 @@ int main(bool hardReset)
 
             else
             {
-                JOY_setEventHandler(player_Callback);
-                joypad_PLAYER();
+                if(G_LEVEL == 1)
+                {
+                    JOY_setEventHandler(player_Callback);
+                    
+                    if(G_PAUSE == FALSE)
+                    {
+                        sequence_LEVEL_1();
+                    }
+                    
+                    SPR_update();
+                    SYS_doVBlankProcess();
+                }
 
-                update_PLAYER_SPRITE();
-                
-                SPR_update();
-                SYS_doVBlankProcess();
+                else if(G_LEVEL == 2)
+                {
+                    JOY_setEventHandler(player_Callback);
+                    
+                    if(G_PAUSE == FALSE)
+                    {
+                        sequence_LEVEL_2();
+                    }
+                    
+                    SPR_update();
+                    SYS_doVBlankProcess();
+                }
+
+                else if(G_LEVEL == 3)
+                {
+                    JOY_setEventHandler(player_Callback);
+                    
+                    if(G_PAUSE == FALSE)
+                    {
+                        sequence_LEVEL_3();
+                    }
+                    
+                    SPR_update();
+                    SYS_doVBlankProcess();
+                }
+
+                else if(G_LEVEL == 4)
+                {
+                    JOY_setEventHandler(player_Callback);
+                    
+                    if(G_PAUSE == FALSE)
+                    {
+                        sequence_LEVEL_4();
+                    }
+                    
+                    SPR_update();
+                    SYS_doVBlankProcess();
+                }
+
+                else if(G_LEVEL == 5)
+                {
+                    JOY_setEventHandler(player_Callback);
+                    
+                    if(G_PAUSE == FALSE)
+                    {
+                        sequence_LEVEL_5();
+                    }
+                    
+                    SPR_update();
+                    SYS_doVBlankProcess();
+                }
+
             }
         }
     }

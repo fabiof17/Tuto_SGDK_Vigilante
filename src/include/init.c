@@ -20,8 +20,14 @@
 
 
 
+#include "sound.h"
+
+
+
+
 #include "sprites_INTERMEDE.h"
 #include "sprites_LEVEL.h"
+#include "sprites_TITLE.h"
 
 
 
@@ -90,15 +96,39 @@ void init_VARIABLES()
     //                                                                                      //
     //**************************************************************************************// 
 
+    setRandomSeed(1024);
+
     //--------------------------------------------------------------------------------------//
     //                                                                                      //
     //                                  GENERAL VARIABLES                                   //
     //                                                                                      //
     //--------------------------------------------------------------------------------------//
 
+    G_POINTS                    = 0;
+
+    G_HI_SCORE                  = 5000;
+    
     G_LEVEL                     = 1;
 
+    G_PAUSE                     = FALSE;
+
     G_SEQUENCE_LOADED           = FALSE;
+
+    G_PHASE_LEVEL               = LEVEL_PLAY;
+
+
+
+
+    //**************************************************************************************//
+    //                                                                                      //
+    //                                         AUDIO                                        //
+    //                                                                                      //
+    //**************************************************************************************//
+
+    XGM_setPCM(SOUND_HIT_KICK, PCM_HIT_KICK, sizeof(PCM_HIT_KICK));
+
+
+
 }
 
 
@@ -172,7 +202,7 @@ void init_TITLE()
     //                                                                                      //
     //**************************************************************************************//
 
-    VDP_setPlaneSize(64,32,TRUE);
+    VDP_setPlaneSize(64,64,TRUE);
     
     SPR_init();
     
@@ -207,7 +237,7 @@ void init_TITLE()
     //--------------------------------------------------------------------------------------//
 
     VDP_loadTileSet(image_TITLE_BG_B.tileset, G_ADR_VRAM_BG_B, CPU);
-    VDP_setTileMapEx(BG_B, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 0, 0, 0, 0, 64, 28, CPU);
+    VDP_setTileMapEx(BG_B, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 0, 0, 0, 0, 64, 64, CPU);
 
 
     //--------------------------------------------------------------------------------------//
@@ -225,12 +255,24 @@ void init_TITLE()
 
     //--------------------------------------------------------------------------------------//
     //                                                                                      //
+    //                                     INIT SPRITES                                     //
+    //                                                                                      //
+    //--------------------------------------------------------------------------------------//
+
+    sprite_ARROW = SPR_addSprite(&tiles_SPR_ARROW, -8, -8, TILE_ATTR(PAL0, FALSE, FALSE, FALSE)); // 72 184
+
+    SPR_update();
+
+
+
+    //--------------------------------------------------------------------------------------//
+    //                                                                                      //
     //                                       PALETTES                                       //
     //                                                                                      //
     //--------------------------------------------------------------------------------------//
 
     PAL_setPalette(PAL0,image_TITLE_BG_B.palette->data,DMA_QUEUE);
-    PAL_setPalette(PAL1,image_TITLE_BG_A.palette->data,DMA_QUEUE);
+    PAL_setPalette(PAL1,palette_TITLE_BG_A_MD.data,DMA_QUEUE);
 
 
 
@@ -244,6 +286,10 @@ void init_TITLE()
     G_POS_X_CAMERA              = 0;
 
     G_COUNTER_TITLE             = 1;
+
+    G_OPTIONS                   = LEVEL_OPTION;
+
+    G_COLORS_OPTION             = MD_COLORS;
 
     G_SEQUENCE_LOADED           = TRUE;
 }
@@ -321,6 +367,9 @@ void init_INTERMEDE_1()
     VDP_setHorizontalScroll(BG_B , 0);
     VDP_setHorizontalScroll(BG_A , 0);
 
+    VDP_setVerticalScroll(BG_B , 0);
+    VDP_setVerticalScroll(BG_A , 0);
+
 
 
 
@@ -370,7 +419,17 @@ void init_INTERMEDE_1()
 
     PAL_setPalette(PAL0,image_INTERMEDE_BG_B.palette->data,DMA_QUEUE);
     PAL_setPalette(PAL1,image_INTERMEDE_BG_A.palette->data,DMA_QUEUE);
-    PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE.data,DMA_QUEUE);
+
+    if(G_COLORS_OPTION == MD_COLORS)
+    {
+        PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_MD.data,DMA_QUEUE);
+    }
+
+    else
+    {
+        PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_PCE.data,DMA_QUEUE);
+    }
+    
     PAL_setPalette(PAL3,palette_BOX.data,DMA_QUEUE);
 
 
@@ -475,6 +534,9 @@ void init_INTERMEDE_2()
     VDP_setHorizontalScroll(BG_B , 0);
     VDP_setHorizontalScroll(BG_A , 0);
 
+    VDP_setVerticalScroll(BG_B , 0);
+    VDP_setVerticalScroll(BG_A , 0);
+
 
 
 
@@ -526,7 +588,17 @@ void init_INTERMEDE_2()
 
     PAL_setPalette(PAL0,image_INTERMEDE_BG_B.palette->data,DMA_QUEUE);
     PAL_setPalette(PAL1,image_INTERMEDE_BG_A.palette->data,DMA_QUEUE);
-    PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE.data,DMA_QUEUE);
+
+    if(G_COLORS_OPTION == MD_COLORS)
+    {
+        PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_MD.data,DMA_QUEUE);
+    }
+
+    else
+    {
+        PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_PCE.data,DMA_QUEUE);
+    }
+
     PAL_setPalette(PAL3,palette_BOX.data,DMA_QUEUE);
 
 
@@ -631,6 +703,9 @@ void init_INTERMEDE_3()
     VDP_setHorizontalScroll(BG_B , 0);
     VDP_setHorizontalScroll(BG_A , 0);
 
+    VDP_setVerticalScroll(BG_B , 0);
+    VDP_setVerticalScroll(BG_A , 0);
+
 
 
 
@@ -681,7 +756,17 @@ void init_INTERMEDE_3()
 
     PAL_setPalette(PAL0,image_INTERMEDE_BG_B.palette->data,DMA_QUEUE);
     PAL_setPalette(PAL1,image_INTERMEDE_BG_A.palette->data,DMA_QUEUE);
-    PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE.data,DMA_QUEUE);
+    
+    if(G_COLORS_OPTION == MD_COLORS)
+    {
+        PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_MD.data,DMA_QUEUE);
+    }
+
+    else
+    {
+        PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_PCE.data,DMA_QUEUE);
+    }
+
     PAL_setPalette(PAL3,palette_BOX.data,DMA_QUEUE);
 
 
@@ -786,6 +871,9 @@ void init_INTERMEDE_4()
     VDP_setHorizontalScroll(BG_B , 0);
     VDP_setHorizontalScroll(BG_A , 0);
 
+    VDP_setVerticalScroll(BG_B , 0);
+    VDP_setVerticalScroll(BG_A , 0);
+
 
 
 
@@ -836,7 +924,17 @@ void init_INTERMEDE_4()
 
     PAL_setPalette(PAL0,image_INTERMEDE_BG_B.palette->data,DMA_QUEUE);
     PAL_setPalette(PAL1,image_INTERMEDE_BG_A.palette->data,DMA_QUEUE);
-    PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE.data,DMA_QUEUE);
+    
+    if(G_COLORS_OPTION == MD_COLORS)
+    {
+        PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_MD.data,DMA_QUEUE);
+    }
+
+    else
+    {
+        PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_PCE.data,DMA_QUEUE);
+    }
+
     PAL_setPalette(PAL3,palette_BOX.data,DMA_QUEUE);
 
 
@@ -940,6 +1038,9 @@ void init_INTERMEDE_5()
     VDP_setHorizontalScroll(BG_B , 0);
     VDP_setHorizontalScroll(BG_A , 0);
 
+    VDP_setVerticalScroll(BG_B , 0);
+    VDP_setVerticalScroll(BG_A , 0);
+
 
 
 
@@ -989,7 +1090,17 @@ void init_INTERMEDE_5()
 
     PAL_setPalette(PAL0,image_INTERMEDE_5_BG_B.palette->data,DMA_QUEUE);
     PAL_setPalette(PAL1,image_INTERMEDE_5_BG_A.palette->data,DMA_QUEUE);
-    PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE.data,DMA_QUEUE);
+    
+    if(G_COLORS_OPTION == MD_COLORS)
+    {
+        PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_MD.data,DMA_QUEUE);
+    }
+
+    else
+    {
+        PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_PCE.data,DMA_QUEUE);
+    }
+
     PAL_setPalette(PAL3,palette_CHAIN_INTERMEDE.data,DMA_QUEUE);
 
 
@@ -1050,7 +1161,7 @@ void init_LEVEL()
 
         VDP_setPlaneSize(64,32,TRUE);
         
-        SPR_initEx(350);
+        SPR_initEx(300);
         
         VDP_setHilightShadow(FALSE);
 
@@ -1076,7 +1187,7 @@ void init_LEVEL()
         //                                                                                      //
         //**************************************************************************************//
 
-        G_ADR_VRAM_BG_B = TILE_USER_INDEX; //VRAM_START_ADRESS
+        G_ADR_VRAM_BG_B = VRAM_START_ADRESS; //VRAM_START_ADRESS
 
         //--------------------------------------------------------------------------------------//
         //                                                                                      //
@@ -1157,10 +1268,56 @@ void init_LEVEL()
 
 
         //--------------------------------------------------------------------------------------//
+        //                                       HI SCORE                                       //
+        //--------------------------------------------------------------------------------------//
+        VDP_drawIntEx_WINDOW_CPU_PRIO(G_HI_SCORE,4,15,2,PAL3);
+
+        //--------------------------------------------------------------------------------------//
+        //                                        SCORE                                         //
+        //--------------------------------------------------------------------------------------//
+        VDP_drawIntEx_WINDOW_CPU_PRIO(G_POINTS,1,7,2,PAL3);
+
+
+
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                   PLAYER LIFE BAR                                    //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        G_ADR_VRAM_LIFE_PLAYER = G_ADR_VRAM_HUB + image_HUB.tileset->numTile;
+        VDP_loadTileSet(image_LIFE_PLAYER.tileset, G_ADR_VRAM_LIFE_PLAYER, CPU);
+
+
+
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                    BOSS LIFE BAR                                     //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        G_ADR_VRAM_LIFE_BOSS = G_ADR_VRAM_LIFE_PLAYER + image_LIFE_PLAYER.tileset->numTile;
+        VDP_loadTileSet(image_LIFE_BOSS.tileset, G_ADR_VRAM_LIFE_BOSS, CPU);
+
+
+
+
+        //**************************************************************************************//
         //                                                                                      //
         //                                     INIT SPRITES                                     //
         //                                                                                      //
+        //**************************************************************************************//
+
         //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                        PAUSE                                         //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        sprite_PAUSE = SPR_addSprite(&tiles_SPR_PAUSE, 0,-8, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
+
 
         //--------------------------------------------------------------------------------------//
         //                                                                                      //
@@ -1168,38 +1325,59 @@ void init_LEVEL()
         //                                                                                      //
         //--------------------------------------------------------------------------------------//
 
-        player.pos_X        = 87;
-        player.pos_Y        = 113;
+        G_GROUND_POSITION   = 113;
 
-        player.counter_ANIM = 0;
+        player.pos_X        = -8; //87
+        player.pos_Y        = G_GROUND_POSITION;
+
+        player.counter_ANIM = 4;
         player.axis         = AXIS_RIGHT;
 
         player.state        = STATE_IDLE;
 
 
-        sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE,  player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
+        if(G_COLORS_OPTION == MD_COLORS)
+        {
+            sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_MD, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
+        }
+
+        else
+        {
+            sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_PCE, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
+        }
+
+
         SPR_setAnimAndFrame(sprite_PLAYER,0,4);
 
 
 
+
         //--------------------------------------------------------------------------------------//
         //                                                                                      //
-        //                                      ENEMY TEST                                      //
+        //                                    STAGE 1 READY                                     //
         //                                                                                      //
         //--------------------------------------------------------------------------------------//
 
-        //LIST_ENEMIES[0].axis           = AXIS_LEFT;
-        //LIST_ENEMIES[0].counter_ANIM   = 0;
+        sprite_STAGE = SPR_addSprite(&tiles_SPR_STAGE_1, 72, 87, TILE_ATTR(PAL2, FALSE, FALSE, FALSE));
 
 
 
-        /*LIST_ENEMIES[0].spr_ENEMY    = SPR_addSprite(&tiles_SPR_PUNK_1,  216 , 121 , TILE_ATTR(PAL2, FALSE, FALSE, FALSE));
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                       ENEMIES                                        //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
 
-        LIST_ENEMIES[1].spr_ENEMY    = SPR_addSprite(&tiles_SPR_DUDE,    176 , 121 , TILE_ATTR(PAL2, FALSE, FALSE, FALSE));
+        for(i=0 ; i<4 ; i++)
+        {
+            LIST_ENEMIES[i].pos_X           = 0;
+            LIST_ENEMIES[i].pos_Y           = 0;
+            
+            LIST_ENEMIES[i].counter_ANIM    = 0;
 
-        LIST_ENEMIES[2].spr_ENEMY    = SPR_addSprite(&tiles_SPR_PUNK_2,  136 , 121 , TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
+            LIST_ENEMIES[i].spr_ENEMY       = NULL;
+        }
 
-        LIST_ENEMIES[3].spr_ENEMY    = SPR_addSprite(&tiles_SPR_GUN_MAN,   0 , 121 , TILE_ATTR(PAL3, FALSE, FALSE, FALSE));*/
 
 
 
@@ -1209,33 +1387,40 @@ void init_LEVEL()
 
 
 
-        //--------------------------------------------------------------------------------------//
+        //**************************************************************************************//
         //                                                                                      //
         //                                       PALETTES                                       //
         //                                                                                      //
-        //--------------------------------------------------------------------------------------//
+        //**************************************************************************************//
 
         PAL_setPalette(PAL0,image_LEVEL_1_BG_B.palette->data,DMA_QUEUE);
         PAL_setPalette(PAL1,image_LEVEL_1_BG_A.palette->data,DMA_QUEUE);
-        PAL_setPalette(PAL2,palette_ENEMY_1_LEVEL_1.data,DMA_QUEUE);
-        PAL_setPalette(PAL3,palette_VIGILANTE.data,DMA_QUEUE);
+        PAL_setPalette(PAL2,palette_STAGE.data,DMA_QUEUE);
+
+        if(G_COLORS_OPTION == MD_COLORS)
+        {
+            PAL_setPalette(PAL3,palette_VIGILANTE_MD.data,DMA_QUEUE);
+        }
+
+        else
+        {
+            PAL_setPalette(PAL3,palette_VIGILANTE_PCE.data,DMA_QUEUE);
+        }
+        
         
 
 
 
 
-        //--------------------------------------------------------------------------------------//
+        //**************************************************************************************//
         //                                                                                      //
         //                                       VARIABLES                                      //
         //                                                                                      //
-        //--------------------------------------------------------------------------------------//
+        //**************************************************************************************//
 
         G_LEVEL_LIMIT           = 1536;
-        
-        G_REPEAT                = 0;
-        G_INDEX_ANIM_PUNCH      = 1;
 
-        G_SEQUENCE_LOADED       = TRUE;
+        G_SPAWN_MAX_INDEX       = 72;
     }
     
 
@@ -1265,7 +1450,7 @@ void init_LEVEL()
 
         VDP_setPlaneSize(64,32,TRUE);
         
-        SPR_initEx(200);
+        SPR_initEx(300);
         
         VDP_setHilightShadow(FALSE);
 
@@ -1372,22 +1557,118 @@ void init_LEVEL()
 
 
         //--------------------------------------------------------------------------------------//
+        //                                       HI SCORE                                       //
+        //--------------------------------------------------------------------------------------//
+        VDP_drawIntEx_WINDOW_CPU_PRIO(G_HI_SCORE,4,15,2,PAL3);
+
+        //--------------------------------------------------------------------------------------//
+        //                                        SCORE                                         //
+        //--------------------------------------------------------------------------------------//
+        VDP_drawIntEx_WINDOW_CPU_PRIO(G_POINTS,1,7,2,PAL3);
+
+
+
+
+        //--------------------------------------------------------------------------------------//
         //                                                                                      //
-        //                                     INIT SPRITES                                     //
+        //                                   PLAYER LIFE BAR                                    //
         //                                                                                      //
         //--------------------------------------------------------------------------------------//
 
-        player.pos_X        = 87;
-        player.pos_Y        = 104;
+        G_ADR_VRAM_LIFE_PLAYER = G_ADR_VRAM_HUB + image_HUB.tileset->numTile;
+        VDP_loadTileSet(image_LIFE_PLAYER.tileset, G_ADR_VRAM_LIFE_PLAYER, CPU);
 
-        player.counter_ANIM = 0;
+
+
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                    BOSS LIFE BAR                                     //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        G_ADR_VRAM_LIFE_BOSS = G_ADR_VRAM_LIFE_PLAYER + image_LIFE_PLAYER.tileset->numTile;
+        VDP_loadTileSet(image_LIFE_BOSS.tileset, G_ADR_VRAM_LIFE_BOSS, CPU);
+
+
+
+
+        //**************************************************************************************//
+        //                                                                                      //
+        //                                     INIT SPRITES                                     //
+        //                                                                                      //
+        //**************************************************************************************//
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                        PAUSE                                         //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        sprite_PAUSE = SPR_addSprite(&tiles_SPR_PAUSE, 0,-8, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
+
+
+
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                      VIGILANTE                                       //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        G_GROUND_POSITION   = 104;
+
+        player.pos_X        = -8; //87
+        player.pos_Y        = G_GROUND_POSITION;
+
+        player.counter_ANIM = 4;
         player.axis         = AXIS_RIGHT;
 
         player.state        = STATE_IDLE;
 
 
-        sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE,  player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
+        if(G_COLORS_OPTION == MD_COLORS)
+        {
+            sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_MD, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
+        }
+
+        else
+        {
+            sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_PCE, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
+        }
+
+        
         SPR_setAnimAndFrame(sprite_PLAYER,0,4);
+
+
+
+        
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                    STAGE 2 READY                                     //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        sprite_STAGE = SPR_addSprite(&tiles_SPR_STAGE_2, 72, 87, TILE_ATTR(PAL2, FALSE, FALSE, FALSE));
+
+
+
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                       ENEMIES                                        //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        for(i=0 ; i<4 ; i++)
+        {
+            LIST_ENEMIES[i].pos_X           = 0;
+            LIST_ENEMIES[i].pos_Y           = 0;
+            
+            LIST_ENEMIES[i].counter_ANIM    = 0;
+
+            LIST_ENEMIES[i].spr_ENEMY       = NULL;
+        }
 
 
 
@@ -1397,32 +1678,38 @@ void init_LEVEL()
 
 
 
-        //--------------------------------------------------------------------------------------//
+        //**************************************************************************************//
         //                                                                                      //
         //                                       PALETTES                                       //
         //                                                                                      //
-        //--------------------------------------------------------------------------------------//
+        //**************************************************************************************//
 
         PAL_setPalette(PAL0,image_LEVEL_2_BG_B.palette->data,DMA_QUEUE);
         PAL_setPalette(PAL1,image_LEVEL_2_BG_A.palette->data,DMA_QUEUE);
-        //
-        PAL_setPalette(PAL3,palette_VIGILANTE.data,DMA_QUEUE);
+        PAL_setPalette(PAL2,palette_STAGE.data,DMA_QUEUE);
+
+        if(G_COLORS_OPTION == MD_COLORS)
+        {
+            PAL_setPalette(PAL3,palette_VIGILANTE_MD.data,DMA_QUEUE);
+        }
+
+        else
+        {
+            PAL_setPalette(PAL3,palette_VIGILANTE_PCE.data,DMA_QUEUE);
+        }
 
 
 
 
-        //--------------------------------------------------------------------------------------//
+        //**************************************************************************************//
         //                                                                                      //
         //                                       VARIABLES                                      //
         //                                                                                      //
-        //--------------------------------------------------------------------------------------//
+        //**************************************************************************************//
 
         G_LEVEL_LIMIT           = 1152;
-        
-        G_REPEAT                = 0;
-        G_INDEX_ANIM_PUNCH      = 1;
 
-        G_SEQUENCE_LOADED       = TRUE;
+        G_SPAWN_MAX_INDEX       = 72;
     }
 
 
@@ -1452,7 +1739,7 @@ void init_LEVEL()
 
         VDP_setPlaneSize(64,32,TRUE);
         
-        SPR_initEx(200);
+        SPR_initEx(300);
         
         VDP_setHilightShadow(FALSE);
 
@@ -1521,6 +1808,43 @@ void init_LEVEL()
 
 
         //--------------------------------------------------------------------------------------//
+        //                                       HI SCORE                                       //
+        //--------------------------------------------------------------------------------------//
+        VDP_drawIntEx_WINDOW_CPU_PRIO(G_HI_SCORE,4,15,2,PAL3);
+
+        //--------------------------------------------------------------------------------------//
+        //                                        SCORE                                         //
+        //--------------------------------------------------------------------------------------//
+        VDP_drawIntEx_WINDOW_CPU_PRIO(G_POINTS,1,7,2,PAL3);
+
+
+
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                   PLAYER LIFE BAR                                    //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        G_ADR_VRAM_LIFE_PLAYER = G_ADR_VRAM_HUB + image_HUB.tileset->numTile;
+        VDP_loadTileSet(image_LIFE_PLAYER.tileset, G_ADR_VRAM_LIFE_PLAYER, CPU);
+
+
+
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                    BOSS LIFE BAR                                     //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        G_ADR_VRAM_LIFE_BOSS = G_ADR_VRAM_LIFE_PLAYER + image_LIFE_PLAYER.tileset->numTile;
+        VDP_loadTileSet(image_LIFE_BOSS.tileset, G_ADR_VRAM_LIFE_BOSS, CPU);
+
+
+
+
+        //--------------------------------------------------------------------------------------//
         //                                                                                      //
         //                                SETUP PLANES POSITION                                 //
         //                                                                                      //
@@ -1539,23 +1863,80 @@ void init_LEVEL()
 
 
 
-        //--------------------------------------------------------------------------------------//
+        //**************************************************************************************//
         //                                                                                      //
         //                                     INIT SPRITES                                     //
         //                                                                                      //
+        //**************************************************************************************//
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                        PAUSE                                         //
+        //                                                                                      //
         //--------------------------------------------------------------------------------------//
 
-        player.pos_X        = 89;
-        player.pos_Y        = 112;
+        sprite_PAUSE = SPR_addSprite(&tiles_SPR_PAUSE, 0,-8, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
 
-        player.counter_ANIM = 0;
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                      VIGILANTE                                       //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        G_GROUND_POSITION   = 112;
+
+        player.pos_X        = -8;
+        player.pos_Y        = G_GROUND_POSITION;
+
+        player.counter_ANIM = 4;
         player.axis         = AXIS_RIGHT;
 
         player.state        = STATE_IDLE;
 
 
-        sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE,  player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
+        if(G_COLORS_OPTION == MD_COLORS)
+        {
+            sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_MD, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
+        }
+
+        else
+        {
+            sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_PCE, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
+        }
+
+
         SPR_setAnimAndFrame(sprite_PLAYER,0,4);
+
+
+
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                    STAGE 3 READY                                     //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        sprite_STAGE = SPR_addSprite(&tiles_SPR_STAGE_3, 72, 87, TILE_ATTR(PAL2, FALSE, FALSE, FALSE));
+
+
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                       ENEMIES                                        //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        for(i=0 ; i<4 ; i++)
+        {
+            LIST_ENEMIES[i].pos_X           = 0;
+            LIST_ENEMIES[i].pos_Y           = 0;
+            
+            LIST_ENEMIES[i].counter_ANIM    = 0;
+
+            LIST_ENEMIES[i].spr_ENEMY       = NULL;
+        }
+
 
 
 
@@ -1565,32 +1946,38 @@ void init_LEVEL()
 
 
 
-        //--------------------------------------------------------------------------------------//
+        //**************************************************************************************//
         //                                                                                      //
         //                                       PALETTES                                       //
         //                                                                                      //
-        //--------------------------------------------------------------------------------------//
+        //**************************************************************************************//
 
-        PAL_setColors(0,image_LEVEL_3_BG_B.palette->data,32,DMA_QUEUE);
-        //
-        //
-        PAL_setPalette(PAL3,palette_VIGILANTE.data,DMA_QUEUE);
+        PAL_setColors(0,image_LEVEL_3_BG_B.palette->data,32,DMA_QUEUE); // PAL0 & PAL1 ARE IN "image_LEVEL_3_BG_B" //
+        
+        PAL_setPalette(PAL2,palette_STAGE.data,DMA_QUEUE);
+        
+        if(G_COLORS_OPTION == MD_COLORS)
+        {
+            PAL_setPalette(PAL3,palette_VIGILANTE_MD.data,DMA_QUEUE);
+        }
+
+        else
+        {
+            PAL_setPalette(PAL3,palette_VIGILANTE_PCE.data,DMA_QUEUE);
+        }
 
 
 
 
-        //--------------------------------------------------------------------------------------//
+        //**************************************************************************************//
         //                                                                                      //
         //                                       VARIABLES                                      //
         //                                                                                      //
-        //--------------------------------------------------------------------------------------//
+        //**************************************************************************************//
 
         G_LEVEL_LIMIT           = 1280;
-        
-        G_REPEAT                = 0;
-        G_INDEX_ANIM_PUNCH      = 1;
 
-        G_SEQUENCE_LOADED       = TRUE;
+        G_SPAWN_MAX_INDEX       = 72;
     }
 
 
@@ -1620,7 +2007,7 @@ void init_LEVEL()
 
         VDP_setPlaneSize(64,32,TRUE);
         
-        SPR_initEx(200);
+        SPR_initEx(300);
         
         VDP_setHilightShadow(FALSE);
 
@@ -1727,22 +2114,116 @@ void init_LEVEL()
 
 
         //--------------------------------------------------------------------------------------//
+        //                                       HI SCORE                                       //
+        //--------------------------------------------------------------------------------------//
+        VDP_drawIntEx_WINDOW_CPU_PRIO(G_HI_SCORE,4,15,2,PAL3);
+
+        //--------------------------------------------------------------------------------------//
+        //                                        SCORE                                         //
+        //--------------------------------------------------------------------------------------//
+        VDP_drawIntEx_WINDOW_CPU_PRIO(G_POINTS,1,7,2,PAL3);
+
+
+
+
+        //--------------------------------------------------------------------------------------//
         //                                                                                      //
-        //                                     INIT SPRITES                                     //
+        //                                   PLAYER LIFE BAR                                    //
         //                                                                                      //
         //--------------------------------------------------------------------------------------//
 
-        player.pos_X        = 87;
-        player.pos_Y        = 113;
+        G_ADR_VRAM_LIFE_PLAYER = G_ADR_VRAM_HUB + image_HUB.tileset->numTile;
+        VDP_loadTileSet(image_LIFE_PLAYER.tileset, G_ADR_VRAM_LIFE_PLAYER, CPU);
 
-        player.counter_ANIM = 0;
+
+
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                    BOSS LIFE BAR                                     //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        G_ADR_VRAM_LIFE_BOSS = G_ADR_VRAM_LIFE_PLAYER + image_LIFE_PLAYER.tileset->numTile;
+        VDP_loadTileSet(image_LIFE_BOSS.tileset, G_ADR_VRAM_LIFE_BOSS, CPU);
+
+
+
+
+        //**************************************************************************************//
+        //                                                                                      //
+        //                                     INIT SPRITES                                     //
+        //                                                                                      //
+        //**************************************************************************************//
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                        PAUSE                                         //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        sprite_PAUSE = SPR_addSprite(&tiles_SPR_PAUSE, 0,-8, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
+
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                      VIGILANTE                                       //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        G_GROUND_POSITION   = 113;
+
+        player.pos_X        = -8;
+        player.pos_Y        = G_GROUND_POSITION;
+
+        player.counter_ANIM = 4;
         player.axis         = AXIS_RIGHT;
 
         player.state        = STATE_IDLE;
 
 
-        sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE,  player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
+        if(G_COLORS_OPTION == MD_COLORS)
+        {
+            sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_MD, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
+        }
+
+        else
+        {
+            sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_PCE, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
+        }
+
+
         SPR_setAnimAndFrame(sprite_PLAYER,0,4);
+
+
+
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                    STAGE 4 READY                                     //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        sprite_STAGE = SPR_addSprite(&tiles_SPR_STAGE_4, 72, 87, TILE_ATTR(PAL2, FALSE, FALSE, FALSE));
+
+
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                       ENEMIES                                        //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        for(i=0 ; i<4 ; i++)
+        {
+            LIST_ENEMIES[i].pos_X           = 0;
+            LIST_ENEMIES[i].pos_Y           = 0;
+            
+            LIST_ENEMIES[i].counter_ANIM    = 0;
+
+            LIST_ENEMIES[i].spr_ENEMY       = NULL;
+        }
+
 
 
 
@@ -1752,33 +2233,39 @@ void init_LEVEL()
 
 
 
-        //--------------------------------------------------------------------------------------//
+        //**************************************************************************************//
         //                                                                                      //
         //                                       PALETTES                                       //
         //                                                                                      //
-        //--------------------------------------------------------------------------------------//
+        //**************************************************************************************//
 
         PAL_setPalette(PAL0,image_LEVEL_4_BG_B.palette->data,DMA_QUEUE);
         PAL_setPalette(PAL1,image_LEVEL_4_BG_A.palette->data,DMA_QUEUE);
-        //
-        PAL_setPalette(PAL3,palette_VIGILANTE.data,DMA_QUEUE);
+        PAL_setPalette(PAL2,palette_STAGE.data,DMA_QUEUE);
+
+        if(G_COLORS_OPTION == MD_COLORS)
+        {
+            PAL_setPalette(PAL3,palette_VIGILANTE_MD.data,DMA_QUEUE);
+        }
+
+        else
+        {
+            PAL_setPalette(PAL3,palette_VIGILANTE_PCE.data,DMA_QUEUE);
+        }
         
 
 
 
 
-        //--------------------------------------------------------------------------------------//
+        //**************************************************************************************//
         //                                                                                      //
         //                                       VARIABLES                                      //
         //                                                                                      //
-        //--------------------------------------------------------------------------------------//
+        //**************************************************************************************//
 
         G_LEVEL_LIMIT           = 1536;
-        
-        G_REPEAT                = 0;
-        G_INDEX_ANIM_PUNCH      = 1;
 
-        G_SEQUENCE_LOADED       = TRUE;
+        G_SPAWN_MAX_INDEX       = 72;
     }
 
 
@@ -1808,7 +2295,7 @@ void init_LEVEL()
 
         VDP_setPlaneSize(64,32,TRUE);
         
-        SPR_initEx(200);
+        SPR_initEx(300);
         
         VDP_setHilightShadow(FALSE);
 
@@ -1915,22 +2402,116 @@ void init_LEVEL()
 
 
         //--------------------------------------------------------------------------------------//
+        //                                       HI SCORE                                       //
+        //--------------------------------------------------------------------------------------//
+        VDP_drawIntEx_WINDOW_CPU_PRIO(G_HI_SCORE,4,15,2,PAL3);
+
+        //--------------------------------------------------------------------------------------//
+        //                                        SCORE                                         //
+        //--------------------------------------------------------------------------------------//
+        VDP_drawIntEx_WINDOW_CPU_PRIO(G_POINTS,1,7,2,PAL3);
+
+
+
+
+        //--------------------------------------------------------------------------------------//
         //                                                                                      //
-        //                                     INIT SPRITES                                     //
+        //                                   PLAYER LIFE BAR                                    //
         //                                                                                      //
         //--------------------------------------------------------------------------------------//
 
-        player.pos_X        = 87;
-        player.pos_Y        = 105;
+        G_ADR_VRAM_LIFE_PLAYER = G_ADR_VRAM_HUB + image_HUB.tileset->numTile;
+        VDP_loadTileSet(image_LIFE_PLAYER.tileset, G_ADR_VRAM_LIFE_PLAYER, CPU);
 
-        player.counter_ANIM = 0;
+
+
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                    BOSS LIFE BAR                                     //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        G_ADR_VRAM_LIFE_BOSS = G_ADR_VRAM_LIFE_PLAYER + image_LIFE_PLAYER.tileset->numTile;
+        VDP_loadTileSet(image_LIFE_BOSS.tileset, G_ADR_VRAM_LIFE_BOSS, CPU);
+
+
+
+
+        //**************************************************************************************//
+        //                                                                                      //
+        //                                     INIT SPRITES                                     //
+        //                                                                                      //
+        //**************************************************************************************//
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                        PAUSE                                         //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        sprite_PAUSE = SPR_addSprite(&tiles_SPR_PAUSE, 0,-8, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
+
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                      VIGILANTE                                       //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        G_GROUND_POSITION   = 105;
+        
+        player.pos_X        = -8;
+        player.pos_Y        = G_GROUND_POSITION;
+
+        player.counter_ANIM = 4;
         player.axis         = AXIS_RIGHT;
 
         player.state        = STATE_IDLE;
 
 
-        sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE,  player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
+        if(G_COLORS_OPTION == MD_COLORS)
+        {
+            sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_MD, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
+        }
+
+        else
+        {
+            sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_PCE, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
+        }
+
+
         SPR_setAnimAndFrame(sprite_PLAYER,0,4);
+
+
+
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                    STAGE 5 READY                                     //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        sprite_STAGE = SPR_addSprite(&tiles_SPR_STAGE_5, 72, 87, TILE_ATTR(PAL2, FALSE, FALSE, FALSE));
+
+
+
+        //--------------------------------------------------------------------------------------//
+        //                                                                                      //
+        //                                       ENEMIES                                        //
+        //                                                                                      //
+        //--------------------------------------------------------------------------------------//
+
+        for(i=0 ; i<4 ; i++)
+        {
+            LIST_ENEMIES[i].pos_X           = 0;
+            LIST_ENEMIES[i].pos_Y           = 0;
+            
+            LIST_ENEMIES[i].counter_ANIM    = 0;
+
+            LIST_ENEMIES[i].spr_ENEMY       = NULL;
+        }
+
 
 
 
@@ -1940,33 +2521,57 @@ void init_LEVEL()
 
 
 
-        //--------------------------------------------------------------------------------------//
+        //**************************************************************************************//
         //                                                                                      //
         //                                       PALETTES                                       //
         //                                                                                      //
-        //--------------------------------------------------------------------------------------//
+        //**************************************************************************************//
 
         PAL_setPalette(PAL0,image_LEVEL_5_BG_B.palette->data,DMA_QUEUE);
         PAL_setPalette(PAL1,image_LEVEL_5_BG_A.palette->data,DMA_QUEUE);
-        //
-        PAL_setPalette(PAL3,palette_VIGILANTE.data,DMA_QUEUE);
+        PAL_setPalette(PAL2,palette_STAGE.data,DMA_QUEUE);
+
+        if(G_COLORS_OPTION == MD_COLORS)
+        {
+            PAL_setPalette(PAL3,palette_VIGILANTE_MD.data,DMA_QUEUE);
+        }
+
+        else
+        {
+            PAL_setPalette(PAL3,palette_VIGILANTE_PCE.data,DMA_QUEUE);
+        }
         
 
 
 
 
-        //--------------------------------------------------------------------------------------//
+        //**************************************************************************************//
         //                                                                                      //
         //                                       VARIABLES                                      //
         //                                                                                      //
-        //--------------------------------------------------------------------------------------//
+        //**************************************************************************************//
 
         G_LEVEL_LIMIT           = 1568;
-        
-        G_REPEAT                = 0;
-        G_INDEX_ANIM_PUNCH      = 1;
 
-        G_SEQUENCE_LOADED       = TRUE;
+        G_SPAWN_MAX_INDEX       = 72;
     }
+
+
+        
+    G_REPEAT                = 0;
+
+    G_INDEX_ANIM_PUNCH      = 1;
+
+    G_NUMBER_ENEMY          = 0;
+
+    G_INDEX_LIFE_PLAYER     = 13;
+
+    G_STEP_LIFE_PLAYER      = 0;
+
+    G_SPAWN_AUTHORIZED      = TRUE;
+
+    G_PHASE_LEVEL           = LEVEL_ENTER;// LEVEL_PLAY
+
+    G_SEQUENCE_LOADED       = TRUE;
 }
 

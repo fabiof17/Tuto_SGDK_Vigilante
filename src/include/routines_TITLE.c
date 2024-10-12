@@ -31,13 +31,21 @@ void sequence_TITLE()
         if(G_POS_X_CAMERA == 256)
         {
             // DISPLAY PRESS START BUTTON //
-            VDP_setTileMapEx(BG_B, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 39, 21, 39, 28, 18, 1, DMA_QUEUE);
+            VDP_setTileMapEx(BG_A, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 39, 19, 39, 28, 18, 1, DMA_QUEUE);
 
             // DISPLAY LEVEL //
-            VDP_setTileMapEx(BG_B, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 44, 23, 59, 28, 5, 1, DMA_QUEUE);
+            VDP_setTileMapEx(BG_A, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 44, 21, 59, 28, 5, 1, DMA_QUEUE);
 
             // DISPLAY LEVEL NUMBER //
-            VDP_drawIntEx_BG_A_QUEUE(G_LEVEL,1,51,23,PAL0);
+            VDP_drawIntEx_BG_A_QUEUE(G_LEVEL,1,51,21,PAL0);
+
+            // DISPLAY COLORS //
+            VDP_setTileMapEx(BG_A, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 43, 23, 25, 28, 6, 1, DMA_QUEUE);
+
+            // DISPLAY MD //
+            VDP_setTileMapEx(BG_A, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 51, 23, 32, 28, 2, 1, DMA_QUEUE);
+
+            SPR_setPosition(sprite_ARROW , 72 , 168);
         }
     }
 
@@ -46,32 +54,32 @@ void sequence_TITLE()
     {        
         if(G_COUNTER_TITLE == 0)
         {
-            VDP_setTileMapEx(BG_B, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 39, 21, 39, 28, 18, 1, DMA_QUEUE);
+            VDP_setTileMapEx(BG_A, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 39, 19, 39, 28, 18, 1, DMA_QUEUE);
         }
 
         else if(G_COUNTER_TITLE == 15)
         {
-            VDP_setTileMapEx(BG_B, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 39, 21, 39, 21, 18, 1, DMA_QUEUE);
+            VDP_setTileMapEx(BG_A, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 39, 19, 39, 21, 18, 1, DMA_QUEUE);
         }
 
         else if(G_COUNTER_TITLE == 30)
         {
-            VDP_setTileMapEx(BG_B, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 39, 21, 39, 28, 18, 1, DMA_QUEUE);
+            VDP_setTileMapEx(BG_A, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 39, 19, 39, 28, 18, 1, DMA_QUEUE);
         }
 
         else if(G_COUNTER_TITLE == 45)
         {
-            VDP_setTileMapEx(BG_B, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 39, 21, 39, 21, 18, 1, DMA_QUEUE);
+            VDP_setTileMapEx(BG_A, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 39, 19, 39, 21, 18, 1, DMA_QUEUE);
         }
 
         else if(G_COUNTER_TITLE == 60)
         {
-            VDP_setTileMapEx(BG_B, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 39, 21, 39, 28, 18, 1, DMA_QUEUE);
+            VDP_setTileMapEx(BG_A, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 39, 19, 39, 28, 18, 1, DMA_QUEUE);
         }
 
         else if(G_COUNTER_TITLE == 75)
         {
-            VDP_setTileMapEx(BG_B, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 39, 21, 39, 21, 18, 1, DMA_QUEUE);
+            VDP_setTileMapEx(BG_A, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 39, 19, 39, 21, 18, 1, DMA_QUEUE);
         }
 
         G_COUNTER_TITLE += 1;

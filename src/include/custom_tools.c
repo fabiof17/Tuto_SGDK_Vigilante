@@ -43,6 +43,13 @@ void VDP_drawIntEx_BG_A_DMA(u16 valeur , u8 zeros , s16 x, s16 y , u8 pal)
 
 
 
+void VDP_drawIntEx_BG_B_QUEUE(u16 valeur , u8 zeros , s16 x, s16 y , u8 pal)
+{
+	intToStr(valeur,text_output,zeros); //MIN -500.000.000 - MAX 500.000.000
+	VDP_drawTextEx(BG_B,text_output,TILE_ATTR(pal, TRUE, FALSE, FALSE),x,y,DMA_QUEUE);
+}
+
+
 void VDP_drawIntEx_BG_B_CPU_PRIO(u16 valeur , u8 zeros , s16 x, s16 y , u8 pal)
 {
 	intToStr(valeur,text_output,zeros); //MIN -500.000.000 - MAX 500.000.000
@@ -54,6 +61,30 @@ void VDP_drawIntEx_BG_B_CPU(u16 valeur , u8 zeros , s16 x, s16 y , u8 pal)
 {
 	intToStr(valeur,text_output,zeros); //MIN -500.000.000 - MAX 500.000.000
 	VDP_drawTextEx(BG_B,text_output,TILE_ATTR(pal, FALSE, FALSE, FALSE),x,y,CPU);
+}
+
+
+void VDP_drawIntEx_WINDOW_CPU_PRIO(u16 valeur , u8 zeros , s16 x, s16 y , u8 pal)
+{
+	intToStr(valeur,text_output,zeros); //MIN -500.000.000 - MAX 500.000.000
+	VDP_drawTextEx(WINDOW,text_output,TILE_ATTR(pal, TRUE, FALSE, FALSE),x,y,CPU);
+}
+
+
+void VDP_drawIntEx_WINDOW_QUEUE_PRIO(u16 valeur , u8 zeros , s16 x, s16 y , u8 pal)
+{
+	intToStr(valeur,text_output,zeros); //MIN -500.000.000 - MAX 500.000.000
+	VDP_drawTextEx(WINDOW,text_output,TILE_ATTR(pal, TRUE, FALSE, FALSE),x,y,DMA_QUEUE);
+}
+
+
+
+
+u8 random_NUMBER(u8 minimum , u8 maximum)
+{	
+	u8 resultat = random() % (maximum - minimum + 1) + minimum;
+
+	return resultat;
 }
 
 

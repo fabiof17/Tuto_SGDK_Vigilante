@@ -225,6 +225,31 @@ void update_PLAYER_SPRITE()
                 player.state = STATE_CROUCH;
         }
     }
+
+
+
+
+
+
+    else if(player.state == STATE_HIT_UP)
+    {
+        if(player.counter_ANIM == 0)
+        {
+            SPR_setAnimAndFrame(sprite_PLAYER,8,0);
+        }
+
+        else if(player.counter_ANIM == 9)
+        {
+            SPR_setAnimAndFrame(sprite_PLAYER,0,4);
+
+            player.counter_ANIM = 0;
+
+            player.state = STATE_IDLE;
+        }
+
+
+        player.counter_ANIM += 1;
+    }
 }
 
 
@@ -718,7 +743,7 @@ inline static void spawn_ENEMY_LEVEL_1()
                             // ENEMY SPAWN ON THE RIGHT //
                             if(random_NUMBER(0,1) == 0)
                             {
-                                LIST_ENEMIES[i].pos_X = 224;
+                                LIST_ENEMIES[i].pos_X = 256;
                                 LIST_ENEMIES[i].pos_Y = G_GROUND_POSITION;
 
                                 LIST_ENEMIES[i].axis  = AXIS_LEFT;
@@ -730,7 +755,7 @@ inline static void spawn_ENEMY_LEVEL_1()
                             // ENEMY SPAWN ON THE LEFT //
                             else
                             {
-                                LIST_ENEMIES[i].pos_X = -32;
+                                LIST_ENEMIES[i].pos_X = -56;
                                 LIST_ENEMIES[i].pos_Y = G_GROUND_POSITION;
 
                                 LIST_ENEMIES[i].axis  = AXIS_RIGHT;
@@ -744,7 +769,7 @@ inline static void spawn_ENEMY_LEVEL_1()
                         else
                         {
                             //
-                            LIST_ENEMIES[i].pos_X = 224;
+                            LIST_ENEMIES[i].pos_X = 256;
                             LIST_ENEMIES[i].pos_Y = G_GROUND_POSITION;
 
                             LIST_ENEMIES[i].axis  = AXIS_LEFT;
@@ -1003,6 +1028,33 @@ void update_PUNK(struct_ENEMY_ *enemy)
 
     if(enemy->state == ENEMY_WALK)
     {
+        // CHECK DISTANCE BETWEEN PUNK AND PLAYER //
+        if(enemy->axis == AXIS_LEFT)
+        {
+            if(enemy->pos_X < (player.pos_X + 56))
+            {
+                enemy->state = ENEMY_THREAT;
+
+                enemy->counter_ANIM = 0;
+
+                return;
+            }
+        }
+
+        else
+        {
+            if((enemy->pos_X + 48) > player.pos_X)
+            {
+                enemy->state = ENEMY_THREAT;
+
+                enemy->counter_ANIM = 0;
+
+                return;
+            }
+        }
+        
+        
+        
         enemy->counter_ANIM += 1;
 
 
@@ -1088,8 +1140,121 @@ void update_PUNK(struct_ENEMY_ *enemy)
     //----------------------------------------------------------------//
 
     else if(enemy->state == ENEMY_THREAT)
-    {
-        //
+    {                      
+        if(enemy->counter_ANIM == 0)
+        {
+            SPR_setAnim(enemy->spr_ENEMY,1);
+            SPR_setFrame(enemy->spr_ENEMY,0);
+        }
+
+        else if(enemy->counter_ANIM == 7 || enemy->counter_ANIM == 8 || enemy->counter_ANIM == 9 || enemy->counter_ANIM == 11 || enemy->counter_ANIM == 12 || enemy->counter_ANIM == 13)
+        {
+            SPR_setPosition(enemy->spr_ENEMY , enemy->pos_X ,  enemy->pos_Y);
+            
+            if(enemy->axis == AXIS_LEFT)
+            {
+                enemy->pos_X -= 1;
+
+                // CHECK DISTANCE BETWEEN PUNK AND PLAYER //
+                if(enemy->pos_X < (player.pos_X + 24))
+                {
+                    enemy->counter_ANIM = 0;
+                    enemy->state = ENEMY_ATTACK_UP;
+
+                    player.counter_ANIM = 0;
+                    player.state = STATE_HIT_UP;
+
+                    return;
+                }
+            }
+
+            else
+            {
+                enemy->pos_X += 1;
+
+                // CHECK DISTANCE BETWEEN PUNK AND PLAYER //
+                if(enemy->pos_X > (player.pos_X + 32))
+                {
+                    enemy->counter_ANIM = 0;
+                    enemy->state = ENEMY_ATTACK_UP;
+
+                    player.counter_ANIM = 0;
+                    player.state = STATE_HIT_UP;
+
+                    return;
+                }
+            }
+        }
+
+        else if(enemy->counter_ANIM == 14)
+        {
+            SPR_setFrame(enemy->spr_ENEMY,1);
+        }
+
+        else if(enemy->counter_ANIM == 15 || enemy->counter_ANIM == 16 || enemy->counter_ANIM == 17 || enemy->counter_ANIM == 19 || enemy->counter_ANIM == 20 || enemy->counter_ANIM == 21)
+        {
+            if(enemy->axis == AXIS_LEFT)
+            {
+                enemy->pos_X -= 1;
+            }
+
+            else
+            {
+                enemy->pos_X += 1;
+            }
+
+            SPR_setPosition(enemy->spr_ENEMY , enemy->pos_X ,  enemy->pos_Y);
+        }
+
+        else if(enemy->counter_ANIM == 22)
+        {
+            SPR_setFrame(enemy->spr_ENEMY,2);
+        }
+
+        else if(enemy->counter_ANIM == 22 || enemy->counter_ANIM == 23 || enemy->counter_ANIM == 24 || enemy->counter_ANIM == 26 || enemy->counter_ANIM == 27 || enemy->counter_ANIM == 28)
+        {
+            if(enemy->axis == AXIS_LEFT)
+            {
+                enemy->pos_X -= 1;
+            }
+
+            else
+            {
+                enemy->pos_X += 1;
+            }
+
+            SPR_setPosition(enemy->spr_ENEMY , enemy->pos_X ,  enemy->pos_Y);
+        }
+
+        else if(enemy->counter_ANIM == 29)
+        {
+            SPR_setFrame(enemy->spr_ENEMY,3);
+        }
+
+        else if(enemy->counter_ANIM == 30 || enemy->counter_ANIM == 31 || enemy->counter_ANIM == 32 || enemy->counter_ANIM == 34 || enemy->counter_ANIM == 35 || enemy->counter_ANIM == 36)
+        {
+            if(enemy->axis == AXIS_LEFT)
+            {
+                enemy->pos_X -= 1;
+            }
+
+            else
+            {
+                enemy->pos_X += 1;
+            }
+
+            SPR_setPosition(enemy->spr_ENEMY , enemy->pos_X ,  enemy->pos_Y);
+        }
+
+        else if(enemy->counter_ANIM == 37)
+        {
+            SPR_setFrame(enemy->spr_ENEMY,0);
+
+            enemy->counter_ANIM = 0;
+
+            return;
+        }
+
 
         enemy->counter_ANIM += 1;
     }
@@ -1101,9 +1266,78 @@ void update_PUNK(struct_ENEMY_ *enemy)
     //                                                                //
     //----------------------------------------------------------------//
 
-    else if(enemy->state == ENEMY_ATTACK)
+    else if(enemy->state == ENEMY_ATTACK_UP)
     {
-        //
+        if(enemy->counter_ANIM == 0)
+        {
+            SPR_setAnim(enemy->spr_ENEMY,2);
+            SPR_setFrame(enemy->spr_ENEMY,0);
+        }
+
+        else if(enemy->counter_ANIM == 8)
+        {
+            SPR_setFrame(enemy->spr_ENEMY,1);
+        }
+
+        else if(enemy->counter_ANIM == 16)
+        {
+            SPR_setFrame(enemy->spr_ENEMY,2);
+        }
+
+        else if(enemy->counter_ANIM == 24)
+        {
+            SPR_setFrame(enemy->spr_ENEMY,0);
+
+            enemy->counter_ANIM = 0;
+
+            if(enemy->axis == AXIS_LEFT)
+            {
+                // CHECK DISTANCE BETWEEN PUNK AND PLAYER //
+                if(enemy->pos_X < (player.pos_X + 24))
+                {
+                    enemy->counter_ANIM = 0;
+                    enemy->state = ENEMY_ATTACK_UP;
+
+                    player.counter_ANIM = 0;
+                    player.state = STATE_HIT_UP;
+
+                    return;
+                }
+
+                else
+                {
+                    enemy->counter_ANIM = 0;
+                    enemy->state = ENEMY_THREAT;
+
+                    return;
+                }
+            }
+
+            else
+            {
+                // CHECK DISTANCE BETWEEN PUNK AND PLAYER //
+                if(enemy->pos_X > (player.pos_X + 32))
+                {
+                    enemy->counter_ANIM = 0;
+                    enemy->state = ENEMY_ATTACK_UP;
+
+                    player.counter_ANIM = 0;
+                    player.state = STATE_HIT_UP;
+
+                    return;
+                }
+
+                else
+                {
+                    enemy->counter_ANIM = 0;
+                    enemy->state = ENEMY_THREAT;
+
+                    return;
+                }
+            }
+        }        
+
+        enemy->counter_ANIM += 1;
     }
 
 
@@ -1495,6 +1729,10 @@ inline static void update_ENEMY()
 
 
 
+
+
+
+
 inline static void collision_PLAYER_TO_ENEMY()
 {
     if(player.state == STATE_KICK || player.state == STATE_KICK_CROUCH)
@@ -1678,10 +1916,10 @@ inline static void collision_PLAYER_TO_ENEMY()
                                         else
                                         {
                                             LIST_ENEMIES[i].state = ENEMY_HIT_DOWN;
-                                        }
-                                        
-                                        //XGM_startPlayPCM(SOUND_HIT_KICK,15,SOUND_PCM_CH2);
+                                        }                                        
                                     }
+
+                                    XGM_startPlayPCM(SOUND_HIT_PUNCH,15,SOUND_PCM_CH2);
                                 }
                             }
                         }
@@ -1718,23 +1956,17 @@ inline static void collision_PLAYER_TO_ENEMY()
                                         // ENEMY IS HIT ON HEAD //
                                         if(player.state == STATE_KICK)
                                         {
-                                            LIST_ENEMIES[i].state = ENEMY_HIT_UP_SLIDE;
-
-                                            SPR_setAnim(LIST_ENEMIES[i].spr_ENEMY,4);
-                                            SPR_setFrame(LIST_ENEMIES[i].spr_ENEMY,0);
+                                            LIST_ENEMIES[i].state = ENEMY_HIT_UP;
                                         }
 
                                         // ENEMY IS HIT ON LEGS //
                                         else
                                         {
-                                            LIST_ENEMIES[i].state = ENEMY_HIT_DOWN_SLIDE;
-
-                                            SPR_setAnim(LIST_ENEMIES[i].spr_ENEMY,4);
-                                            SPR_setFrame(LIST_ENEMIES[i].spr_ENEMY,1);
+                                            LIST_ENEMIES[i].state = ENEMY_HIT_DOWN;
                                         }
                                     }
 
-                                    XGM_startPlayPCM(SOUND_HIT_KICK,15,SOUND_PCM_CH2);
+                                    XGM_startPlayPCM(SOUND_HIT_PUNCH,15,SOUND_PCM_CH2);
                                 }
                             }
                         }

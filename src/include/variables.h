@@ -56,6 +56,8 @@
 #define STATE_PUNCH_CROUCH      5
 #define STATE_KICK_CROUCH       6
 
+#define STATE_HIT_UP            10
+
 
 #define AXIS_RIGHT              0
 #define AXIS_LEFT               1
@@ -113,12 +115,13 @@
 #define ENEMY_WALK              1
 #define ENEMY_GRAB              2
 #define ENEMY_THREAT            3
-#define ENEMY_ATTACK            4
-#define ENEMY_HIT_UP_SLIDE      5
-#define ENEMY_HIT_DOWN_SLIDE    6
-#define ENEMY_HIT_UP            7
-#define ENEMY_HIT_DOWN          8
-#define ENEMY_DEAD              9
+#define ENEMY_ATTACK_UP         4
+#define ENEMY_ATTACK_DOWN       5
+#define ENEMY_HIT_UP_SLIDE      6
+#define ENEMY_HIT_DOWN_SLIDE    7
+#define ENEMY_HIT_UP            8
+#define ENEMY_HIT_DOWN          9
+#define ENEMY_DEAD              10
 
 
 
@@ -134,6 +137,7 @@
 //-----------------------------------------------------------------------------//
 
 #define SOUND_HIT_KICK              69
+#define SOUND_HIT_PUNCH             70
 
 
 

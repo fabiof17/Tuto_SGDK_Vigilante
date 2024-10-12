@@ -3,7 +3,6 @@
 
 extern const SpriteDefinition tiles_SPR_PAUSE;
 extern const SpriteDefinition tiles_SPR_VIGILANTE_MD;
-extern const SpriteDefinition tiles_SPR_VIGILANTE_PCE;
 extern const SpriteDefinition tiles_SPR_DUDE;
 extern const SpriteDefinition tiles_SPR_PUNK_1;
 extern const SpriteDefinition tiles_SPR_KNIFE_MAN;

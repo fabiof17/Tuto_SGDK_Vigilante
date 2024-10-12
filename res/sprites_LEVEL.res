@@ -1,7 +1,7 @@
 SPRITE tiles_SPR_PAUSE              "sprites/tiles_SPR_PAUSE.png"           5   1  NONE 0 
 
 SPRITE tiles_SPR_VIGILANTE_MD       "sprites/tiles_SPR_VIGILANTE_MD.png"    7   9  NONE 0 NONE TILE SLOW
-SPRITE tiles_SPR_VIGILANTE_PCE      "sprites/tiles_SPR_VIGILANTE_PCE.png"   7   9  NONE 0 NONE TILE SLOW
+//SPRITE tiles_SPR_VIGILANTE_PCE      "sprites/tiles_SPR_VIGILANTE_PCE.png"   7   9  NONE 0 NONE TILE SLOW
 
 
 SPRITE tiles_SPR_DUDE               "sprites/tiles_SPR_DUDE.png"            6   9  NONE 0 NONE TILE MEDIUM

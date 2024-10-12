@@ -126,6 +126,7 @@ void init_VARIABLES()
     //**************************************************************************************//
 
     XGM_setPCM(SOUND_HIT_KICK, PCM_HIT_KICK, sizeof(PCM_HIT_KICK));
+    XGM_setPCM(SOUND_HIT_PUNCH, PCM_HIT_PUNCH, sizeof(PCM_HIT_PUNCH));
 
 
 
@@ -1336,15 +1337,7 @@ void init_LEVEL()
         player.state        = STATE_IDLE;
 
 
-        if(G_COLORS_OPTION == MD_COLORS)
-        {
-            sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_MD, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
-        }
-
-        else
-        {
-            sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_PCE, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
-        }
+        sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_MD, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
 
 
         SPR_setAnimAndFrame(sprite_PLAYER,0,4);
@@ -1627,15 +1620,7 @@ void init_LEVEL()
         player.state        = STATE_IDLE;
 
 
-        if(G_COLORS_OPTION == MD_COLORS)
-        {
-            sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_MD, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
-        }
-
-        else
-        {
-            sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_PCE, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
-        }
+        sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_MD, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
 
         
         SPR_setAnimAndFrame(sprite_PLAYER,0,4);
@@ -1895,15 +1880,7 @@ void init_LEVEL()
         player.state        = STATE_IDLE;
 
 
-        if(G_COLORS_OPTION == MD_COLORS)
-        {
-            sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_MD, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
-        }
-
-        else
-        {
-            sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_PCE, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
-        }
+        sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_MD, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
 
 
         SPR_setAnimAndFrame(sprite_PLAYER,0,4);
@@ -2182,15 +2159,7 @@ void init_LEVEL()
         player.state        = STATE_IDLE;
 
 
-        if(G_COLORS_OPTION == MD_COLORS)
-        {
-            sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_MD, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
-        }
-
-        else
-        {
-            sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_PCE, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
-        }
+        sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_MD, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
 
 
         SPR_setAnimAndFrame(sprite_PLAYER,0,4);
@@ -2470,15 +2439,7 @@ void init_LEVEL()
         player.state        = STATE_IDLE;
 
 
-        if(G_COLORS_OPTION == MD_COLORS)
-        {
-            sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_MD, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
-        }
-
-        else
-        {
-            sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_PCE, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
-        }
+        sprite_PLAYER = SPR_addSprite(&tiles_SPR_VIGILANTE_MD, player.pos_X,player.pos_Y, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
 
 
         SPR_setAnimAndFrame(sprite_PLAYER,0,4);

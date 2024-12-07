@@ -91,7 +91,8 @@
         "routines_waiters.h": "c",
         "tables_safe.h": "c",
         "routines_title.h": "c",
-        "routines_level.h": "c"
+        "routines_level.h": "c",
+        "tables_levels.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled",
     "C_Cpp.default.compilerPath": ""

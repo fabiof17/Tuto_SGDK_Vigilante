@@ -35,6 +35,16 @@ bool G_PAUSE;
 
 u16 G_HI_SCORE;
 
+//s32 player.life;
+
+u8 G_NUMBER_LIFE;
+
+u8 G_TIME;
+
+u8 G_CHRONOMETER;
+
+u16 G_ADR_VRAM_LIFE_ICON;
+
 
 //--------------------------------------------------------------------------------------//
 //                                                                                      //
@@ -85,21 +95,23 @@ u8 G_TEXT_MAX_LINES;
 
 u8 G_LEVEL;
 
-u16 G_LEVEL_LIMIT;
+u16 G_CAMERA_LIMIT;
+u8 G_LEVEL_LIMIT;
 
 u16 G_ADR_VRAM_BG_B;
-
 u16 G_ADR_VRAM_BG_A;
-
 u16 G_ADR_VRAM_HUB;
 
 u16 G_ADR_VRAM_LIFE_PLAYER;
-
 u16 G_ADR_VRAM_LIFE_BOSS;
 
 s16 G_POS_X_CAMERA;
+//s16 G_POS_Y_CAMERA;
 
 u8 G_GROUND_POSITION;
+
+u8 G_INDEX_JUMP_V;
+u8 G_INDEX_JUMP_H;
 
 
 
@@ -107,10 +119,29 @@ u8 G_GROUND_POSITION;
 u8 G_PHASE_LEVEL;
 
 u8 G_NUMBER_ENEMY;
+u8 G_NUMBER_ENEMY_MAX;
 
-//bool G_SPECIAL_ENEMY_SPAWNED;
+//bool G_COLLISION;
 
 bool G_SPAWN_AUTHORIZED;
+
+
+
+
+u8 G_JUMP_KICK;
+u8 G_JUMP_PUNCH;
+
+bool G_JUMP_PUNCH;
+
+fix32 G_GRAVITY;
+
+u8 G_NUMBER_GRAB_LEFT;
+u8 G_NUMBER_GRAB_RIGHT;
+
+u8 G_NUMBER_GRAB_2_LEFT;
+u8 G_NUMBER_GRAB_2_RIGHT;
+
+bool G_WEAPON_GRABBED;
 
 
 
@@ -193,9 +224,11 @@ Sprite *sprite_CHAIN;
 
 Sprite *sprite_PAUSE;
 
-Sprite *sprite_PLAYER;
-
 Sprite *sprite_STAGE;
+
+Sprite *sprite_WEAPON;
+
+Sprite *sprite_NUNCHUK;
 
 
 

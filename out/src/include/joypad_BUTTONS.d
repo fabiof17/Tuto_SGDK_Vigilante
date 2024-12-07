@@ -15,4 +15,5 @@ out/src/include/joypad_BUTTONS.o: src/include/joypad_BUTTONS.c \
  C:/sgdk/inc/task_cst.h C:/sgdk/inc/ext/flash-save/flash.h \
  C:/sgdk/inc/types.h C:/sgdk/inc/ext/flash-save/saveman.h \
  src/include/custom_tools.h res/palettes.h src/include/variables.h \
- src/include/structures.h res/maps_TITLE.h
+ src/include/structures.h res/maps_TITLE.h res/musics.h \
+ res/sprites_LEVEL.h

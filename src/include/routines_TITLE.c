@@ -12,6 +12,9 @@
 #include "maps_TITLE.h"
 
 
+#include "musics.h"
+
+
 
 
 
@@ -45,7 +48,11 @@ void sequence_TITLE()
             // DISPLAY MD //
             VDP_setTileMapEx(BG_A, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 51, 23, 32, 28, 2, 1, DMA_QUEUE);
 
+            // SELECTION ARROW //
             SPR_setPosition(sprite_ARROW , 72 , 168);
+
+            // PLAY MUSIC //
+            XGM_startPlay(MUSIC_TITLE);
         }
     }
 

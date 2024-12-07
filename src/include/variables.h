@@ -25,6 +25,9 @@
 
 #define VRAM_START_ADRESS       1 // 1 OR 16
 
+#define AXIS_RIGHT              0
+#define AXIS_LEFT               1
+
 
 
 
@@ -48,26 +51,59 @@
 //                                                                             //
 //-----------------------------------------------------------------------------// 
 
+#define PLAYER_PUNCH_MARGIN     2
+#define PLAYER_KICK_MARGIN      4
+
+
+
+
 #define STATE_IDLE              0
 #define STATE_WALK              1
 #define STATE_CROUCH            2
+
 #define STATE_PUNCH             3
 #define STATE_KICK              4
+
 #define STATE_PUNCH_CROUCH      5
 #define STATE_KICK_CROUCH       6
 
-#define STATE_HIT_UP            10
+#define STATE_JUMP_V            7
+#define STATE_JUMP_H            8
+#define STATE_JUMP_KICK         9
+#define STATE_JUMP_KICK_BW      10
+
+#define STATE_HIT_UP            11
+#define STATE_HIT_DOWN          12
+
+#define STATE_GRAB              14
+#define STATE_DEAD              15
 
 
-#define AXIS_RIGHT              0
-#define AXIS_LEFT               1
+
+
+#define NO_JUMP_KICK            0
+#define JUMP_KICK               1
+#define JUMP_KICK_HIT           2
+
+#define NO_JUMP_PUNCH           0
+#define JUMP_PUNCH              1
+#define JUMP_PUNCH_HIT          2
+
+
+#define JUMP_HIGH_POINT         15
+
+#define JUMP_KICK_COLL_START    11
+#define JUMP_KICK_COLL_END      21
+
+#define JUMP_PUNCH_COLL_START   11
+#define JUMP_PUNCH_COLL_END     19
 
 
 
 
 //-----------------------------------------------------------------------------//
 //                                                                             //
-//                                     LEVEL                                   //
+//                                     TITLE                                   //
 //                                                                             //
 //-----------------------------------------------------------------------------// 
 
@@ -102,6 +138,15 @@
 #define KNIFE_MAN               2
 #define CHAIN_MAN               3
 #define GUN_MAN                 4
+#define STICK_MAN               5
+
+
+#define LEFT_SPAWN_POSITION     -56
+#define RIGHT_SPAWN_POSITION    216
+
+
+#define ENEMY_RIGHT_BOUND       27
+#define ENEMY_LEFT_BOUND        6
 
 
 
@@ -114,14 +159,17 @@
 
 #define ENEMY_WALK              1
 #define ENEMY_GRAB              2
-#define ENEMY_THREAT            3
-#define ENEMY_ATTACK_UP         4
-#define ENEMY_ATTACK_DOWN       5
-#define ENEMY_HIT_UP_SLIDE      6
-#define ENEMY_HIT_DOWN_SLIDE    7
-#define ENEMY_HIT_UP            8
-#define ENEMY_HIT_DOWN          9
-#define ENEMY_DEAD              10
+#define ENEMY_GRAB_2            3
+#define ENEMY_THREAT_FW         4
+#define ENEMY_THREAT_BW         5
+#define ENEMY_ATTACK_UP         6
+#define ENEMY_ATTACK_DOWN       7
+#define ENEMY_HIT_UP_SLIDE      8
+#define ENEMY_HIT_DOWN_SLIDE    9
+#define ENEMY_HIT_UP            10
+#define ENEMY_HIT_DOWN          11
+#define ENEMY_DEAD              12
+#define ENEMY_IDLE              13
 
 
 
@@ -138,6 +186,7 @@
 
 #define SOUND_HIT_KICK              69
 #define SOUND_HIT_PUNCH             70
+#define SOUND_NUNCHUCK              71
 
 
 
@@ -168,6 +217,16 @@ extern u16 G_COUNTER;
 extern bool G_PAUSE;
 
 extern u16 G_HI_SCORE;
+
+//extern s32 player.life;
+
+extern u8 G_NUMBER_LIFE;
+
+extern u8 G_TIME;
+
+extern u8 G_CHRONOMETER;
+
+extern u16 G_ADR_VRAM_LIFE_ICON;
 
 
 //--------------------------------------------------------------------------------------//
@@ -219,21 +278,22 @@ extern u8 G_TEXT_MAX_LINES;
 
 extern u8 G_LEVEL;
 
-extern u16 G_LEVEL_LIMIT;
+extern u16 G_CAMERA_LIMIT;
+extern u8 G_LEVEL_LIMIT;
 
 extern u16 G_ADR_VRAM_BG_B;
-
 extern u16 G_ADR_VRAM_BG_A;
-
 extern u16 G_ADR_VRAM_HUB;
 
 extern u16 G_ADR_VRAM_LIFE_PLAYER;
-
 extern u16 G_ADR_VRAM_LIFE_BOSS;
 
 extern s16 G_POS_X_CAMERA;
 
 extern u8 G_GROUND_POSITION;
+
+extern u8 G_INDEX_JUMP_V;
+extern u8 G_INDEX_JUMP_H;
 
 
 
@@ -241,10 +301,29 @@ extern u8 G_GROUND_POSITION;
 extern u8 G_PHASE_LEVEL;
 
 extern u8 G_NUMBER_ENEMY;
+extern u8 G_NUMBER_ENEMY_MAX;
 
-//extern bool G_SPECIAL_ENEMY_SPAWNED;
+//extern bool G_COLLISION;
 
 extern bool G_SPAWN_AUTHORIZED;
+
+
+
+
+extern u8 G_JUMP_KICK;
+extern u8 G_JUMP_PUNCH;
+
+extern bool G_JUMP_PUNCH;
+
+extern fix32 G_GRAVITY;
+
+extern u8 G_NUMBER_GRAB_LEFT;
+extern u8 G_NUMBER_GRAB_RIGHT;
+
+extern u8 G_NUMBER_GRAB_2_LEFT;
+extern u8 G_NUMBER_GRAB_2_RIGHT;
+
+extern bool G_WEAPON_GRABBED;
 
 
 
@@ -323,9 +402,11 @@ extern Sprite *sprite_CHAIN;
 
 extern Sprite *sprite_PAUSE;
 
-extern Sprite *sprite_PLAYER;
-
 extern Sprite *sprite_STAGE;
+
+extern Sprite *sprite_WEAPON;
+
+extern Sprite *sprite_NUNCHUK;
 
 
 

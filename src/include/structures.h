@@ -23,12 +23,41 @@ typedef struct
     s16 pos_X;
     s16 pos_Y;
 
+    bool axis;
     u8 state;
 
-    u8 counter_ANIM;
-    bool axis;
+    fix32 life;
+
+
+    u8 counter_ANIM_SPRITE;
+    
+
+    u8 counter_ANIM_H;
+    u8 counter_ANIM_V;
+
+    s16 pos_X_RESPAWN;
+
+    u8 counter_UNGRAB;
+
+    bool armed;
+
+    bool vulnerable;
+
+    bool invincible;
+
+    Sprite *spr_PLAYER;
 
 } struct_PLAYER_;
+
+
+
+
+typedef struct
+{
+    u8 frame;
+    s16 pos_VALUE;
+
+} struct_JUMP_;
 
 
 
@@ -51,8 +80,14 @@ typedef struct
     u8 points;
     
     u8 counter_ANIM;
+
+    u8 index_ANIM;
+
+    u8 index_FRAME;
     
     Sprite *spr_ENEMY;
+
+    bool vulnerable;
 
 } struct_ENEMY_;
 
@@ -70,6 +105,10 @@ typedef struct
     u8 points;
 
     const SpriteDefinition *tiles_SPRITE;
+
+    fix32 damages;
+
+    bool vulnerable;  
 
 } struct_ENEMY_TYPE;
 

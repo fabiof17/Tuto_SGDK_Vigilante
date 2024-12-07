@@ -15,4 +15,5 @@ out/src/include/routines_LEVEL.o: src/include/routines_LEVEL.c \
  C:/sgdk/inc/task_cst.h C:/sgdk/inc/ext/flash-save/flash.h \
  C:/sgdk/inc/types.h C:/sgdk/inc/ext/flash-save/saveman.h \
  src/include/custom_tools.h res/palettes.h src/include/structures.h \
- src/include/variables.h res/maps_LEVELS.h src/include/TABLES_LEVELS.h
+ src/include/variables.h res/maps_GLOBAL.h res/maps_LEVELS.h res/musics.h \
+ res/sprites_LEVEL.h src/include/TABLES_LEVELS.h

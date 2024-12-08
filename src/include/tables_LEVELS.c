@@ -15,19 +15,19 @@
 
 const struct_ENEMY_TYPE     TABLE_ENEMY_TYPE[6]         =   {
                                                                 // DUDE //
-                                                                { 1 , 6 , PAL2 , 10 , &tiles_SPR_DUDE , FIX32(0.5) , TRUE },
+                                                                { 1 , 6 , PAL2 , 10 , &tiles_SPR_DUDE      , FIX32(0.5) , TRUE },
 
                                                                 // PUNK //
-                                                                { 4 , 6 , PAL3 , 20 , &tiles_SPR_PUNK , FIX32(10L) , TRUE },
+                                                                { 4 , 6 , PAL3 , 20 , &tiles_SPR_PUNK      , FIX32(10L) , TRUE },
 
                                                                 // KNIFE_MAN //
-                                                                { NULL , NULL , PAL3 , NULL , NULL , FIX32(10L) , TRUE },
+                                                                { 4 , 6 , PAL3 , 20 , &tiles_SPR_KNIFE_MAN , FIX32(10L) , TRUE },
 
                                                                 // CHAIN_MAN //
                                                                 { 4 , 6 , PAL2 , 20 , &tiles_SPR_CHAIN_MAN , FIX32(10L) , TRUE },
 
                                                                 // GUN_MAN //
-                                                                { 4 , 6 , PAL3 , NULL , &tiles_SPR_GUN_MAN , NULL , FALSE },
+                                                                { 4 , 6 , PAL3 , 20 , &tiles_SPR_GUN_MAN   , FIX32(10L) , FALSE },
 
                                                                 // STICK_MAN //
                                                                 { 4 , 6 , PAL3 , 20 , &tiles_SPR_STICK_MAN , FIX32(10L) , TRUE }
@@ -45,7 +45,7 @@ const struct_SPAWN_DATA_    TABLE_SPAWN_LEVEL_1[72]     =   {
                                                                 { DUDE ,  30 , FALSE },
                                                                 { DUDE ,  15 , FALSE },
                                                                 { DUDE ,  10 , FALSE },
-                                                                { PUNK , 140 , TRUE  },// PUNK
+                                                                { KNIFE_MAN , 140 , TRUE  },// PUNK
 
                                                                 { DUDE , 120 , FALSE }, // 175
                                                                 { DUDE ,  30 , FALSE },
@@ -85,7 +85,7 @@ const struct_SPAWN_DATA_    TABLE_SPAWN_LEVEL_1[72]     =   {
                                                                 { DUDE ,  30 , FALSE },
                                                                 { DUDE ,  15 , FALSE },
                                                                 { DUDE ,  10 , FALSE },
-                                                                { PUNK , 140 , TRUE  },
+                                                                { STICK_MAN , 140 , TRUE  },
 
                                                                 { DUDE , 120 , FALSE }, // 175
                                                                 { DUDE ,  30 , FALSE },

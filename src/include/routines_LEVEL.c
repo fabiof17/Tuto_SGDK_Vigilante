@@ -1975,15 +1975,6 @@ void update_PLAYER_SPRITE()
                             player.pos_X = 98;
                         }
                     }
-
-                    // POINTER DECLARATION //
-                    /*void (*ptr_SCROLLING_ROUTINE)(s16 increment);
-
-                    // SETTING POINTER TO SCROLLING FUNCTION //
-                    ptr_SCROLLING_ROUTINE = TABLE_SCROLLING_ROUTINE[G_LEVEL - 1];
-
-                    // RUNNING SCROLLING FUNCTION //
-                    (*ptr_SCROLLING_ROUTINE)(pos_x_offset);*/
                 }
             
             
@@ -4135,6 +4126,58 @@ inline static void spawn_CHAIN_MAN_RIGHT()
 }
 
 
+inline static void spawn_KNIFE_MAN_RIGHT()
+{
+    if(G_SPAWN_AUTHORIZED == TRUE)
+    {
+        if(LIST_ENEMIES[0].spr_ENEMY == NULL)
+        {
+            LIST_ENEMIES[0].pos_X = RIGHT_SPAWN_POSITION;
+            LIST_ENEMIES[0].pos_Y = G_GROUND_POSITION;
+
+            LIST_ENEMIES[0].axis  = AXIS_LEFT;
+
+            // SET ENEMY LIFE POINTS //
+            LIST_ENEMIES[0].life = 4;
+
+            // ENEMY CAN BE HIT OR NOT AT CREATION TIME //
+            LIST_ENEMIES[0].vulnerable = TRUE;
+
+            // SET ENEMY ID //
+            LIST_ENEMIES[0].enemy_ID = KNIFE_MAN;
+
+            // RESET ANIM COUNTER //
+            LIST_ENEMIES[0].counter_ANIM = 0;
+
+            // SET ENEMY REWARD POINTS WHEN KILLED//
+            LIST_ENEMIES[0].points = 20;
+
+            // 1 ENEMY SPAWNED //
+            G_NUMBER_ENEMY += 1;
+            
+            // SET ENEMY STATE //
+            LIST_ENEMIES[0].state = ENEMY_WALK;
+
+            // WE CREATE ENEMY SPRITE //
+            LIST_ENEMIES[0].spr_ENEMY = SPR_addSprite(&tiles_SPR_KNIFE_MAN,  LIST_ENEMIES[0].pos_X , LIST_ENEMIES[0].pos_Y , TILE_ATTR(PAL3, FALSE, FALSE, LIST_ENEMIES[0].axis));
+
+
+            LIST_ENEMIES[0].index_ANIM = 0;
+
+            LIST_ENEMIES[0].index_FRAME = 0;
+
+            SPR_setAnimAndFrame(LIST_ENEMIES[0].spr_ENEMY , LIST_ENEMIES[0].index_ANIM , LIST_ENEMIES[0].index_FRAME);
+
+            // WE RESET SPAWN COUNTER //
+            G_SPAWN_COUNTER = 0;
+
+            // WE RESET SPAWN INDEX //
+            G_SPAWN_INDEX += 1;
+        }
+    }
+}
+
+
 
 
 inline static void spawn_ENEMY_LEVEL_1()
@@ -5942,12 +5985,1019 @@ void update_PUNK(struct_ENEMY_ *enemy)
         if(enemy->counter_ANIM == 0)
         {
             SPR_setAnim(enemy->spr_ENEMY,4);
-            SPR_setFrame(enemy->spr_ENEMY,0);
+            SPR_setFrame(enemy->spr_ENEMY,0 + G_REPEAT);
         }
 
         else if(enemy->counter_ANIM == 6)
         {
+            SPR_setFrame(enemy->spr_ENEMY,2);
+        }
+
+        else if(enemy->counter_ANIM == 17)
+        {
+            enemy->counter_ANIM = 0;
+
+            enemy->vulnerable = TRUE;
+            
+            enemy->state = ENEMY_THREAT_FW;
+
+            return;
+        }
+
+
+        enemy->counter_ANIM += 1;        
+    }
+
+
+    //****************************************************************//
+    //                                                                //
+    //                            HIT DOWN                            //
+    //                                                                //
+    //****************************************************************//
+
+    else if(enemy->state == ENEMY_HIT_DOWN)
+    {
+        //----------------------------------------------------------------//
+        //                                                                //
+        //                          UPDATE FRAME                          //
+        //                                                                //
+        //----------------------------------------------------------------//
+
+        if(enemy->counter_ANIM == 0)
+        {
+            SPR_setAnim(enemy->spr_ENEMY,5);
+            SPR_setFrame(enemy->spr_ENEMY,0);
+        }
+
+        else if(enemy->counter_ANIM == 17)
+        {
+            enemy->counter_ANIM = 0;
+
+            enemy->vulnerable = TRUE;
+            
+            enemy->state = ENEMY_THREAT_FW;
+
+            SPR_setAnimAndFrame(enemy->spr_ENEMY , 0 , 0);
+
+            return;
+        }
+
+
+        enemy->counter_ANIM += 1;  
+    }
+
+
+    //****************************************************************//
+    //                                                                //
+    //                              DEAD                              //
+    //                                                                //
+    //****************************************************************//
+
+    else if(enemy->state == ENEMY_DEAD)
+    {
+        //----------------------------------------------------------------//
+        //                                                                //
+        //                          UPDATE FRAME                          //
+        //                                                                //
+        //----------------------------------------------------------------//
+
+        if(enemy->counter_ANIM == 0)
+        {
+            SPR_setAnimAndFrame(enemy->spr_ENEMY , 6 , 0);
+        }
+
+        else if(enemy->counter_ANIM == 11)
+        {
+            SPR_setAnimAndFrame(enemy->spr_ENEMY , 6 , 1);
+        }
+
+        else if(enemy->counter_ANIM == 22)
+        {
+            SPR_setAnimAndFrame(enemy->spr_ENEMY , 6 , 2);
+        }
+
+        enemy->counter_ANIM += 1;
+
+
+        //----------------------------------------------------------------//
+        //                                                                //
+        //                         UPDATE POSITION                        //
+        //                                                                //
+        //----------------------------------------------------------------//
+
+        //----------------------------------------------------------------//
+        //                            AXIS LEFT                           //
+        //----------------------------------------------------------------//
+
+        if(enemy->axis == AXIS_LEFT)
+        {
+            enemy->pos_X += 2;
+        }
+
+
+        //----------------------------------------------------------------//
+        //                            AXIS RIGHT                          //
+        //----------------------------------------------------------------//
+
+        else
+        {
+            enemy->pos_X -= 2;
+        }
+
+        enemy->pos_Y += 3;
+
+
+        SPR_setPosition(enemy->spr_ENEMY , enemy->pos_X , enemy->pos_Y);
+
+
+        if(enemy->pos_Y > 224)
+        {
+            SPR_releaseSprite(enemy->spr_ENEMY);
+            enemy->spr_ENEMY = NULL;
+
+            G_NUMBER_ENEMY -= 1;
+        }
+    }
+}
+
+
+
+
+void update_KNIFE_MAN(struct_ENEMY_ *enemy)
+{
+    //****************************************************************//
+    //                                                                //
+    //                              WALK                              //
+    //                                                                //
+    //****************************************************************//
+
+    if(enemy->state == ENEMY_WALK)
+    {
+        //----------------------------------------------------------------//
+        //                                                                //
+        //                     CHECK THREAT DISTANCE                      //
+        //                                                                //
+        //----------------------------------------------------------------//
+
+        //----------------------------------------------------------------//
+        //                            AXIS LEFT                           //
+        //----------------------------------------------------------------//
+
+        if(enemy->axis == AXIS_LEFT)
+        {
+            if((enemy->pos_X - 42) < player.pos_X)
+            {
+                enemy->state = ENEMY_THREAT_FW;
+
+                enemy->counter_ANIM = 0;
+
+                enemy->vulnerable = TRUE;
+
+                return;
+            }
+        }
+
+        //----------------------------------------------------------------//
+        //                            AXIS RIGHT                          //
+        //----------------------------------------------------------------//
+
+        else
+        {
+            if((enemy->pos_X + 58) > player.pos_X)
+            {
+                enemy->state = ENEMY_THREAT_FW;
+
+                enemy->counter_ANIM = 0;
+
+                enemy->vulnerable = TRUE;
+
+                return;
+            }
+        }
+        
+        
+        
+        enemy->counter_ANIM += 1;
+
+
+        //----------------------------------------------------------------//
+        //                                                                //
+        //                         UPDATE POSITION                        //
+        //                                                                //
+        //----------------------------------------------------------------//
+
+        //----------------------------------------------------------------//
+        //                            AXIS LEFT                           //
+        //----------------------------------------------------------------//
+
+        if(enemy->axis == AXIS_LEFT)
+        {
+            if(enemy->counter_ANIM%2 == TRUE)
+            {
+                enemy->pos_X -= 2;
+            }
+
+            else
+            {
+                enemy->pos_X -= 1;
+            }
+        }
+        
+        //----------------------------------------------------------------//
+        //                            AXIS RIGHT                          //
+        //----------------------------------------------------------------//
+
+        else
+        {
+            if(enemy->counter_ANIM%2 == TRUE)
+            {
+                enemy->pos_X += 2;
+            }
+
+            else
+            {
+                enemy->pos_X += 1;
+            }
+        }
+
+
+        SPR_setPosition(enemy->spr_ENEMY , enemy->pos_X , enemy->pos_Y);
+
+
+
+
+        //----------------------------------------------------------------//
+        //                                                                //
+        //                          UPDATE FRAME                          //
+        //                                                                //
+        //----------------------------------------------------------------//
+
+        if(enemy->counter_ANIM == 21)
+        {
+            enemy->counter_ANIM = 0;
+        }
+
+
+
+
+        if(enemy->counter_ANIM == 0)
+        {
+            SPR_setAnimAndFrame(enemy->spr_ENEMY , 0 , 0);
+        }
+
+        else if(enemy->counter_ANIM == 5)
+        {
+            SPR_setAnimAndFrame(enemy->spr_ENEMY , 0 , 1);
+        }
+
+        else if(enemy->counter_ANIM == 11)
+        {
+            SPR_setAnimAndFrame(enemy->spr_ENEMY , 0 , 2);
+        }
+
+        else if(enemy->counter_ANIM == 16)
+        {
+            SPR_setAnimAndFrame(enemy->spr_ENEMY , 0 , 3);
+        }
+    }
+
+
+    //****************************************************************//
+    //                                                                //
+    //                            THREAT FW                           //
+    //                                                                //
+    //****************************************************************//
+
+    else if(enemy->state == ENEMY_THREAT_FW)
+    {
+        //----------------------------------------------------------------//
+        //                                                                //
+        //                     CHECK ATTACK DISTANCE                      //
+        //                                                                //
+        //----------------------------------------------------------------//
+
+        //----------------------------------------------------------------//
+        //                            AXIS LEFT                           //
+        //----------------------------------------------------------------//
+
+        if(enemy->axis == AXIS_LEFT)
+        {
+            //------------------------------------------------------//
+            //             IF PLAYER IS AT PUNCH RANGE              //
+            //------------------------------------------------------//
+            if(player.state != STATE_DEAD)
+            {
+                if(enemy->pos_X <= (player.pos_X + 16)) // PLAYER_CENTER
+                {
+                    enemy->counter_ANIM = 0;
+
+                    enemy->vulnerable = TRUE;
+
+                    //enemy->state = random_NUMBER(6,7);
+
+                    enemy->state = ENEMY_ATTACK_UP;
+
+                    return;
+                }
+            }
+        }
+
+        //----------------------------------------------------------------//
+        //                            AXIS RIGHT                          //
+        //----------------------------------------------------------------//
+
+        else if(enemy->axis == AXIS_RIGHT)
+        {
+            //------------------------------------------------------//
+            //             IF PLAYER IS AT PUNCH RANGE              //
+            //------------------------------------------------------//
+            if(player.state != STATE_DEAD)
+            {
+                if(player.pos_X <= (enemy->pos_X + 32))
+                {
+                    enemy->counter_ANIM = 0;
+
+                    enemy->vulnerable = TRUE;
+
+                    //enemy->state = random_NUMBER(6,7);
+
+                    enemy->state = ENEMY_ATTACK_UP;
+
+                    return;
+                }
+            }
+        }
+
+
+
+
+        //----------------------------------------------------------------//
+        //                                                                //
+        //                    UPDATE FRAME AND POSITION                   //
+        //                                                                //
+        //----------------------------------------------------------------//
+
+        if(enemy->counter_ANIM == 0)
+        {
+            SPR_setAnim(enemy->spr_ENEMY,1);
+            SPR_setFrame(enemy->spr_ENEMY,0);
+        }
+
+
+        else if(enemy->counter_ANIM == 7 || enemy->counter_ANIM == 8 || enemy->counter_ANIM == 9 || enemy->counter_ANIM == 11 || enemy->counter_ANIM == 12 || enemy->counter_ANIM == 13)
+        {
+            SPR_setPosition(enemy->spr_ENEMY , enemy->pos_X ,  enemy->pos_Y);
+            
+            if(enemy->axis == AXIS_LEFT)
+            {
+                enemy->pos_X -= 1;
+            }
+
+            else
+            {
+                enemy->pos_X += 1;
+            }
+        }
+
+
+        else if(enemy->counter_ANIM == 14)
+        {
             SPR_setFrame(enemy->spr_ENEMY,1);
+        }
+
+
+        else if(enemy->counter_ANIM == 15 || enemy->counter_ANIM == 16 || enemy->counter_ANIM == 17 || enemy->counter_ANIM == 19 || enemy->counter_ANIM == 20 || enemy->counter_ANIM == 21)
+        {
+            if(enemy->axis == AXIS_LEFT)
+            {
+                enemy->pos_X -= 1;
+            }
+
+            else
+            {
+                enemy->pos_X += 1;
+            }
+
+            SPR_setPosition(enemy->spr_ENEMY , enemy->pos_X ,  enemy->pos_Y);
+        }
+
+
+        else if(enemy->counter_ANIM == 22)
+        {
+            SPR_setFrame(enemy->spr_ENEMY,2);
+        }
+
+
+        else if(enemy->counter_ANIM == 23 || enemy->counter_ANIM == 24 || enemy->counter_ANIM == 25 || enemy->counter_ANIM == 27 || enemy->counter_ANIM == 28 || enemy->counter_ANIM == 29)
+        {
+            if(enemy->axis == AXIS_LEFT)
+            {
+                enemy->pos_X -= 1;
+            }
+
+            else
+            {
+                enemy->pos_X += 1;
+            }
+
+            SPR_setPosition(enemy->spr_ENEMY , enemy->pos_X ,  enemy->pos_Y);
+        }
+
+
+        else if(enemy->counter_ANIM == 30)
+        {
+            SPR_setFrame(enemy->spr_ENEMY,3);
+        }
+
+
+        else if(enemy->counter_ANIM == 31 || enemy->counter_ANIM == 32 || enemy->counter_ANIM == 33 || enemy->counter_ANIM == 35 || enemy->counter_ANIM == 36 || enemy->counter_ANIM == 37)
+        {
+            if(enemy->axis == AXIS_LEFT)
+            {
+                enemy->pos_X -= 1;
+            }
+
+            else
+            {
+                enemy->pos_X += 1;
+            }
+
+            SPR_setPosition(enemy->spr_ENEMY , enemy->pos_X ,  enemy->pos_Y);
+        }
+
+
+        else if(enemy->counter_ANIM == 38)
+        {
+            // CHECK DISTANCE BETWEEN PUNK AND PLAYER //
+            if(enemy->axis == AXIS_LEFT)
+            {
+                if((enemy->pos_X - 56) < player.pos_X)
+                {
+                    enemy->state = ENEMY_THREAT_FW;
+
+                    enemy->counter_ANIM = 0;
+
+                    SPR_setFrame(enemy->spr_ENEMY,0);
+
+                    return;
+                }
+
+                else
+                {
+                    enemy->state = ENEMY_WALK;
+
+                    enemy->counter_ANIM = 0;
+
+                    SPR_setAnimAndFrame(enemy->spr_ENEMY,0,0);
+
+                    return;
+                }
+            }
+
+            else if(enemy->axis == AXIS_RIGHT)
+            {
+                if((enemy->pos_X + 48) > player.pos_X)
+                {
+                    enemy->state = ENEMY_THREAT_FW;
+
+                    enemy->counter_ANIM = 0;
+
+                    SPR_setFrame(enemy->spr_ENEMY,0);
+
+                    return;
+                }
+
+                else
+                {
+                    enemy->state = ENEMY_WALK;
+
+                    enemy->counter_ANIM = 0;
+
+                    SPR_setAnimAndFrame(enemy->spr_ENEMY,0,0);
+
+                    return;
+                }
+            }
+        }
+
+
+        enemy->counter_ANIM += 1;
+
+
+        SPR_setPosition(enemy->spr_ENEMY , enemy->pos_X , enemy->pos_Y);
+    }
+
+
+    //****************************************************************//
+    //                                                                //
+    //                            THREAT BW                           //
+    //                                                                //
+    //****************************************************************//
+
+    /*else if(enemy->state == ENEMY_THREAT_BW)
+    {
+        //----------------------------------------------------------------//
+        //                                                                //
+        //                    UPDATE FRAME AND POSITION                   //
+        //                                                                //
+        //----------------------------------------------------------------//
+
+        if(enemy->counter_ANIM == 0)
+        {
+            SPR_setAnim(enemy->spr_ENEMY,1);
+            SPR_setFrame(enemy->spr_ENEMY,3);
+        }
+
+
+        else if(enemy->counter_ANIM == 7 || enemy->counter_ANIM == 8 || enemy->counter_ANIM == 9 || enemy->counter_ANIM == 11 || enemy->counter_ANIM == 12 || enemy->counter_ANIM == 13)
+        {
+            SPR_setPosition(enemy->spr_ENEMY , enemy->pos_X ,  enemy->pos_Y);
+            
+            if(enemy->axis == AXIS_LEFT)
+            {
+                enemy->pos_X += 1;
+            }
+
+            else
+            {
+                enemy->pos_X -= 1;
+            }
+        }
+
+
+        else if(enemy->counter_ANIM == 14)
+        {
+            SPR_setFrame(enemy->spr_ENEMY,2);
+        }
+
+
+        else if(enemy->counter_ANIM == 15 || enemy->counter_ANIM == 16 || enemy->counter_ANIM == 17 || enemy->counter_ANIM == 19 || enemy->counter_ANIM == 20 || enemy->counter_ANIM == 21)
+        {
+            if(enemy->axis == AXIS_LEFT)
+            {
+                enemy->pos_X += 1;
+            }
+
+            else
+            {
+                enemy->pos_X -= 1;
+            }
+
+            SPR_setPosition(enemy->spr_ENEMY , enemy->pos_X ,  enemy->pos_Y);
+        }
+
+
+        else if(enemy->counter_ANIM == 22)
+        {
+            SPR_setFrame(enemy->spr_ENEMY,1);
+        }
+
+
+        else if(enemy->counter_ANIM == 23 || enemy->counter_ANIM == 24 || enemy->counter_ANIM == 25 || enemy->counter_ANIM == 27 || enemy->counter_ANIM == 28 || enemy->counter_ANIM == 29)
+        {
+            if(enemy->axis == AXIS_LEFT)
+            {
+                enemy->pos_X += 1;
+            }
+
+            else
+            {
+                enemy->pos_X -= 1;
+            }
+
+            SPR_setPosition(enemy->spr_ENEMY , enemy->pos_X ,  enemy->pos_Y);
+        }
+
+
+        else if(enemy->counter_ANIM == 30)
+        {
+            SPR_setFrame(enemy->spr_ENEMY,0);
+        }
+
+
+        else if(enemy->counter_ANIM == 31 || enemy->counter_ANIM == 32 || enemy->counter_ANIM == 33 || enemy->counter_ANIM == 35 || enemy->counter_ANIM == 36 || enemy->counter_ANIM == 37)
+        {
+            if(enemy->axis == AXIS_LEFT)
+            {
+                enemy->pos_X += 1;
+            }
+
+            else
+            {
+                enemy->pos_X -= 1;
+            }
+
+            SPR_setPosition(enemy->spr_ENEMY , enemy->pos_X ,  enemy->pos_Y);
+        }
+
+
+        else if(enemy->counter_ANIM == 38)
+        {
+            enemy->state = ENEMY_THREAT_FW;
+
+            enemy->counter_ANIM = 0;
+
+            SPR_setFrame(enemy->spr_ENEMY,0);
+
+            return;
+        }
+
+
+        enemy->counter_ANIM += 1;
+
+
+        SPR_setPosition(enemy->spr_ENEMY , enemy->pos_X , enemy->pos_Y);
+    }*/
+
+
+    //****************************************************************//
+    //                                                                //
+    //                           ATTACK UP                            //
+    //                                                                //
+    //****************************************************************//
+
+    else if(enemy->state == ENEMY_ATTACK_UP)
+    {
+        //----------------------------------------------------------------//
+        //                                                                //
+        //                          UPDATE FRAME                          //
+        //                                                                //
+        //----------------------------------------------------------------//
+
+        if(enemy->counter_ANIM == 0)
+        {
+            SPR_setAnim(enemy->spr_ENEMY,2);
+            SPR_setFrame(enemy->spr_ENEMY,0);
+
+            SPR_setDepth(enemy->spr_ENEMY,1);
+        }
+
+
+        else if(enemy->counter_ANIM == 8)
+        {
+            SPR_setFrame(enemy->spr_ENEMY,1);
+
+            // ENEMY IS ON TOP OF PLAYER //
+            //SPR_setDepth(enemy->spr_ENEMY,1);
+        }
+
+
+        else if(enemy->counter_ANIM == 16)
+        {
+            SPR_setFrame(enemy->spr_ENEMY,2);
+        }
+
+
+        //------------------------------------------------------//
+        //                                                      //
+        //                        PUNCH 1                       //
+        //                                                      //
+        //------------------------------------------------------//
+        else if(enemy->counter_ANIM == 24)
+        {
+            SPR_setFrame(enemy->spr_ENEMY,3);
+
+            // ENEMY IS ON TOP OF PLAYER //
+            SPR_setDepth(enemy->spr_ENEMY,1);
+
+
+            if(player.state != STATE_CROUCH && player.state != STATE_PUNCH_CROUCH && player.state != STATE_KICK_CROUCH)
+            {
+                // CHECK COLLISION WITH PLAYER //
+                if(enemy->axis == AXIS_LEFT)
+                {
+                    if(player.vulnerable == TRUE)
+                    {
+                        //------------------------------------------------------//
+                        //        CHECK DISTANCE BETWEEN PUNK AND PLAYER        //
+                        //------------------------------------------------------//
+                        if(player.pos_X >= (enemy->pos_X - 40))
+                        {
+                            player.counter_ANIM_SPRITE = 0;
+
+                            if(player.state != STATE_GRAB)
+                            {
+                                player.state = STATE_HIT_UP;
+
+                                //player.vulnerable = FALSE;
+                            }
+
+                            player.life -= TABLE_ENEMY_TYPE[enemy->enemy_ID].damages;
+
+                            if(player.life < FIX32(0))
+                            {
+                                player.life = FIX32(0);
+                            }
+                            
+
+                            update_LIFE_PLAYER();
+
+
+                            if(player.armed == TRUE)
+                            {
+                                // LOSE NUNCHUCK //
+                                // A FAIRE //
+                                
+                                hide_NUNCHUCK();
+                            }
+                        }
+                    }
+                }
+
+
+                else if(enemy->axis == AXIS_RIGHT)
+                {
+                    //if(player.state == STATE_IDLE || player.state == STATE_WALK || player.state == STATE_PUNCH || player.state == STATE_KICK || player.state == STATE_JUMP_H || player.state == STATE_JUMP_V || player.state == STATE_GRAB)
+                    if(player.vulnerable == TRUE)
+                    {
+                        //------------------------------------------------------//
+                        //        CHECK DISTANCE BETWEEN PUNK AND PLAYER        //
+                        //------------------------------------------------------//
+                        if(player.pos_X <= (enemy->pos_X + 56))
+                        {
+                            player.counter_ANIM_SPRITE = 0;
+
+                            if(player.state != STATE_GRAB)
+                            {
+                                player.state = STATE_HIT_UP;
+
+                                //player.vulnerable = FALSE;
+                            }
+
+                            player.life -= TABLE_ENEMY_TYPE[enemy->enemy_ID].damages;
+
+                            if(player.life < FIX32(0))
+                            {
+                                player.life = FIX32(0);
+                            }
+
+
+                            update_LIFE_PLAYER();
+
+
+                            if(player.armed == TRUE)
+                            {
+                                hide_NUNCHUCK();
+                            }                        
+                        }
+                    }
+                }
+            }
+        }
+
+
+        else if(enemy->counter_ANIM == 32)
+        {
+            SPR_setAnimAndFrame(enemy->spr_ENEMY,1,0);
+        }
+
+
+        else if(enemy->counter_ANIM == 40)
+        {
+            //enemy->state = random_NUMBER(4,6); //ENEMY_THREAT_BW
+
+            enemy->counter_ANIM = 0;
+
+            //enemy->state = random_NUMBER(4,7);
+
+            enemy->state = ENEMY_THREAT_FW;
+
+            return;
+        }        
+
+
+        enemy->counter_ANIM += 1;
+
+
+        SPR_setPosition(enemy->spr_ENEMY , enemy->pos_X , enemy->pos_Y);
+    }
+
+
+    //****************************************************************//
+    //                                                                //
+    //                       HIT UP & DOWN SLIDE                      //
+    //                                                                //
+    //****************************************************************//
+
+    else if(enemy->state == ENEMY_HIT_UP_SLIDE || enemy->state == ENEMY_HIT_DOWN_SLIDE)
+    {
+        if(enemy->counter_ANIM == 0)
+        {
+            if(enemy->state == ENEMY_HIT_UP_SLIDE)
+            {
+                SPR_setAnim(enemy->spr_ENEMY,4);
+                SPR_setFrame(enemy->spr_ENEMY,0);
+            }
+
+            else if(enemy->state == ENEMY_HIT_DOWN_SLIDE)
+            {
+                SPR_setAnim(enemy->spr_ENEMY,5);
+                SPR_setFrame(enemy->spr_ENEMY,0);
+            }
+        }
+
+        else if(enemy->counter_ANIM == 1)
+        {
+            if(enemy->axis == AXIS_LEFT)
+            {
+                enemy->pos_X += 3;
+            }
+
+            else
+            {
+                enemy->pos_X -= 3;
+            } 
+        }
+
+        else if(enemy->counter_ANIM == 2)
+        {
+            if(enemy->axis == AXIS_LEFT)
+            {
+                enemy->pos_X += 2;
+            }
+
+            else
+            {
+                enemy->pos_X -= 2;
+            } 
+        }
+
+        else if(enemy->counter_ANIM == 3)
+        {
+            if(enemy->axis == AXIS_LEFT)
+            {
+                enemy->pos_X += 2;
+            }
+
+            else
+            {
+                enemy->pos_X -= 2;
+            } 
+        }
+
+        else if(enemy->counter_ANIM == 4)
+        {
+            if(enemy->axis == AXIS_LEFT)
+            {
+                enemy->pos_X += 3;
+            }
+
+            else
+            {
+                enemy->pos_X -= 3;
+            } 
+        }
+
+        else if(enemy->counter_ANIM == 5)
+        {
+            if(enemy->axis == AXIS_LEFT)
+            {
+                enemy->pos_X += 1;
+            }
+
+            else
+            {
+                enemy->pos_X -= 1;
+            } 
+        }
+
+        else if(enemy->counter_ANIM == 6)
+        {
+            if(enemy->axis == AXIS_LEFT)
+            {
+                enemy->pos_X += 2;
+            }
+
+            else
+            {
+                enemy->pos_X -= 2;
+            } 
+        }
+
+        else if(enemy->counter_ANIM == 7)
+        {
+            if(enemy->axis == AXIS_LEFT)
+            {
+                enemy->pos_X += 2;
+            }
+
+            else
+            {
+                enemy->pos_X -= 2;
+            } 
+        }
+
+        else if(enemy->counter_ANIM == 8)
+        {
+            if(enemy->axis == AXIS_LEFT)
+            {
+                enemy->pos_X += 1;
+            }
+
+            else
+            {
+                enemy->pos_X -= 1;
+            } 
+        }
+
+        else if(enemy->counter_ANIM == 9)
+        {
+            if(enemy->axis == AXIS_LEFT)
+            {
+                enemy->pos_X += 1;
+            }
+
+            else
+            {
+                enemy->pos_X -= 1;
+            } 
+        }
+
+        else if(enemy->counter_ANIM == 10)
+        {
+            if(enemy->axis == AXIS_LEFT)
+            {
+                enemy->pos_X += 1;
+            }
+
+            else
+            {
+                enemy->pos_X -= 1;
+            } 
+        }
+
+        else if(enemy->counter_ANIM == 11)
+        {
+            if(enemy->axis == AXIS_LEFT)
+            {
+                enemy->pos_X += 1;
+            }
+
+            else
+            {
+                enemy->pos_X -= 1;
+            } 
+        }
+
+        else if(enemy->counter_ANIM == 13)
+        {
+            if(enemy->axis == AXIS_LEFT)
+            {
+                enemy->pos_X += 1;
+            }
+
+            else
+            {
+                enemy->pos_X -= 1;
+            } 
+        }
+
+        else if(enemy->counter_ANIM == 17)
+        {
+            enemy->counter_ANIM = 0;
+
+            enemy->vulnerable = TRUE;
+            
+            enemy->state = ENEMY_WALK;
+
+            SPR_setAnimAndFrame(enemy->spr_ENEMY , 0 , 0);
+
+            //SPR_setPosition(enemy->spr_ENEMY , enemy->pos_X , enemy->pos_Y);
+
+            return;
+        }
+
+
+        enemy->counter_ANIM += 1;
+
+
+        SPR_setPosition(enemy->spr_ENEMY , enemy->pos_X , enemy->pos_Y);
+    }
+
+
+    //****************************************************************//
+    //                                                                //
+    //                             HIT UP                             //
+    //                                                                //
+    //****************************************************************//
+
+    else if(enemy->state == ENEMY_HIT_UP)
+    {
+        //----------------------------------------------------------------//
+        //                                                                //
+        //                          UPDATE FRAME                          //
+        //                                                                //
+        //----------------------------------------------------------------//
+
+        if(enemy->counter_ANIM == 0)
+        {
+            SPR_setAnim(enemy->spr_ENEMY,4);
+            SPR_setFrame(enemy->spr_ENEMY,0 + G_REPEAT);
+        }
+
+        else if(enemy->counter_ANIM == 6)
+        {
+            SPR_setFrame(enemy->spr_ENEMY,2);
         }
 
         else if(enemy->counter_ANIM == 17)
@@ -7086,12 +8136,12 @@ void update_CHAIN_MAN(struct_ENEMY_ *enemy)
         if(enemy->counter_ANIM == 0)
         {
             SPR_setAnim(enemy->spr_ENEMY,4);
-            SPR_setFrame(enemy->spr_ENEMY,0);
+            SPR_setFrame(enemy->spr_ENEMY,0 + G_REPEAT);
         }
 
         else if(enemy->counter_ANIM == 6)
         {
-            SPR_setFrame(enemy->spr_ENEMY,1);
+            SPR_setFrame(enemy->spr_ENEMY,2);
         }
 
         else if(enemy->counter_ANIM == 17)
@@ -7106,7 +8156,7 @@ void update_CHAIN_MAN(struct_ENEMY_ *enemy)
         }
 
 
-        enemy->counter_ANIM += 1;        
+        enemy->counter_ANIM += 1;         
     }
 
 
@@ -7227,7 +8277,7 @@ void update_CHAIN_MAN(struct_ENEMY_ *enemy)
 void (*TABLE_ENEMY_AI[6])(struct_ENEMY_ *enemy)      =   {
                                                             update_DUDE,
                                                             update_PUNK,
-                                                            NULL,
+                                                            update_KNIFE_MAN,
                                                             update_CHAIN_MAN,
                                                             NULL,
                                                             update_CHAIN_MAN
@@ -7347,8 +8397,9 @@ void sequence_LEVEL_1()
         collision_PLAYER_ATTACK();
         update_PLAYER_SPRITE();
 
+        //spawn_KNIFE_MAN_RIGHT();
         //spawn_PUNK_RIGHT();
-        //spawn_CHAIN_MAN_RIGHT();
+        
         spawn_ENEMY_LEVEL_1();
 
         update_ENEMY();

@@ -30,6 +30,19 @@
 
 
 
+inline static void update_HISCORE()
+{
+    if(G_POINTS < 10000)
+    {
+        VDP_drawIntEx_WINDOW_QUEUE_PRIO(G_POINTS,4,15,2,PAL3);
+    }
+
+    else
+    {
+        VDP_drawIntEx_WINDOW_QUEUE_PRIO(G_POINTS,5,14,2,PAL3);
+    }   
+}
+
 
 inline static void update_SCORE()
 {
@@ -47,7 +60,14 @@ inline static void update_SCORE()
     {
         VDP_drawIntEx_WINDOW_QUEUE_PRIO(G_POINTS,4,4,2,PAL3);
     }
-    
+
+
+    if(G_POINTS > G_HI_SCORE)
+    {
+        G_HI_SCORE = G_POINTS;
+
+        update_HISCORE();
+    }
 }
 
 
@@ -448,6 +468,34 @@ void joypad_PLAYER()
                     }
                 }
             }
+
+
+            else if(player.state == STATE_PUNCH_CROUCH)
+            {
+                if(value & BUTTON_LEFT)
+                {
+                    if(player.axis != AXIS_LEFT)
+                    {
+                        player.axis = AXIS_LEFT;
+                    }
+
+                    SPR_setHFlip(player.spr_PLAYER,TRUE);
+
+                    SPR_setPosition(player.spr_PLAYER,player.pos_X,player.pos_Y);
+                }
+
+                else if(value & BUTTON_RIGHT)
+                {
+                    if(player.axis != AXIS_RIGHT)
+                    {
+                        player.axis = AXIS_RIGHT;
+                    }
+
+                    SPR_setHFlip(player.spr_PLAYER,FALSE);
+
+                    SPR_setPosition(player.spr_PLAYER,player.pos_X,player.pos_Y);
+                }
+            }    
         }
 
     
@@ -622,8 +670,6 @@ void joypad_PLAYER()
             {
                 if(player.axis != AXIS_LEFT)
                 {
-                    //player.pos_X -= 16;
-
                     player.axis = AXIS_LEFT;
 
                     SPR_setHFlip(player.spr_PLAYER,TRUE);
@@ -790,6 +836,7 @@ void joypad_PLAYER()
                     hide_NUNCHUCK();
                 }
             }
+
 
             else if(player.state == STATE_KICK || player.state == STATE_PUNCH || player.state == STATE_PUNCH_CROUCH)
             {
@@ -1139,7 +1186,7 @@ void update_PLAYER_SPRITE()
         // IF PLAYER HAS THE NUNCHUCK //
         else
         {
-            if(player.counter_ANIM_SPRITE == 0)
+            if(player.counter_ANIM_SPRITE == 0 || player.counter_ANIM_SPRITE == 1)
             {
                 SPR_setAnimAndFrame(player.spr_PLAYER,15,1);
 
@@ -1163,7 +1210,7 @@ void update_PLAYER_SPRITE()
                 XGM_startPlayPCM(SOUND_NUNCHUCK,14,SOUND_PCM_CH3);
             }
 
-            else if(player.counter_ANIM_SPRITE == 2)
+            else if(player.counter_ANIM_SPRITE >= 2 && player.counter_ANIM_SPRITE < 4)
             {
                 SPR_setFrame(player.spr_PLAYER,2);
 
@@ -1185,7 +1232,7 @@ void update_PLAYER_SPRITE()
                 }
             }
 
-            else if(player.counter_ANIM_SPRITE == 4)
+            else if(player.counter_ANIM_SPRITE >= 4 && player.counter_ANIM_SPRITE < 6)
             {
                 SPR_setFrame(sprite_NUNCHUK,3);
 
@@ -1204,7 +1251,7 @@ void update_PLAYER_SPRITE()
                 }
             }
 
-            else if(player.counter_ANIM_SPRITE == 6)
+            else if(player.counter_ANIM_SPRITE >= 6 && player.counter_ANIM_SPRITE < 8)
             {
                 SPR_setFrame(sprite_NUNCHUK,4);
 
@@ -1245,7 +1292,7 @@ void update_PLAYER_SPRITE()
                 }
             }
 
-            else if(player.counter_ANIM_SPRITE == 9)
+            else if(player.counter_ANIM_SPRITE >= 9 && player.counter_ANIM_SPRITE < 11)
             {
                 SPR_setFrame(sprite_NUNCHUK,7);
 
@@ -8397,16 +8444,14 @@ void sequence_LEVEL_1()
         collision_PLAYER_ATTACK();
         update_PLAYER_SPRITE();
 
-        //spawn_KNIFE_MAN_RIGHT();
-        //spawn_PUNK_RIGHT();
-        
         spawn_ENEMY_LEVEL_1();
-
         update_ENEMY();
 
+
+        //spawn_KNIFE_MAN_RIGHT();
+        //spawn_PUNK_RIGHT();
+
         //VDP_drawIntEx_WINDOW_QUEUE_PRIO(player.vulnerable,1,0,0,PAL3);
-        //VDP_drawIntEx_WINDOW_QUEUE_PRIO(LIST_ENEMIES[0].pos_X,3,0,1,PAL3);
-        //VDP_drawIntEx_WINDOW_QUEUE_PRIO(player.state,2,0,0,PAL3);
     }
 
 

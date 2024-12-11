@@ -177,7 +177,7 @@ void scroll_PLANE_LEVEL_1(s16 increment)
     G_POS_X_CAMERA += increment;
 
     MAP_scrollTo(map_BG_B, G_POS_X_CAMERA , 0);
-    MAP_scrollTo(map_BG_A, G_POS_X_CAMERA , 0);
+    MAP_scrollTo(map_BG_A, G_POS_X_CAMERA , 224);
 }
 
 
@@ -207,11 +207,8 @@ void scroll_TILE(s16 increment)
 
     for (i=0; i<11; i++)
     {        
-        //if(G_POS_X_CAMERA%8 == TRUE)
-        //{
-            scrollTable_BG_B[i] = -(G_POS_X_CAMERA >> 3);
-        //}
-        scrollTable_BG_A[i] = -G_POS_X_CAMERA; 
+        scrollTable_BG_B[i] = -(G_POS_X_CAMERA >> 3);
+        scrollTable_BG_A[i] = -G_POS_X_CAMERA;
     }
 
     for (i=11; i<23; i++)
@@ -229,7 +226,7 @@ void scroll_TILE(s16 increment)
 
 void (*TABLE_SCROLLING_ROUTINE[5])(s16 increment)   =   {
                                                             scroll_PLANE_LEVEL_1,
-                                                            scroll_PLANE_LEVEL_2,
+                                                            scroll_PLANE_LEVEL_1,
                                                             scroll_TILE,
                                                             scroll_PLANE_LEVEL_1,
                                                             scroll_PLANE_PARALLAX
@@ -242,11 +239,11 @@ inline static void update_TILEMAP_RIGHT()
 {
     if(G_POS_X_CAMERA > 15)
     {
-        if(G_POS_X_CAMERA%8 == TRUE)
-        {
+        //if(G_POS_X_CAMERA%8 == TRUE)
+        //{
             VDP_setTileMapColumnEx(BG_B, image_LEVEL_3_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), (G_POS_X_CAMERA >> 3) - 2, (G_POS_X_CAMERA >> 3) + 62, 16, 12, DMA_QUEUE);
             VDP_setTileMapColumnEx(BG_A, image_LEVEL_3_BG_A.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_A), (G_POS_X_CAMERA >> 3) - 2, (G_POS_X_CAMERA >> 3) + 62,  5, 23, DMA_QUEUE);
-        }
+        //}
     }
 }
 
@@ -255,11 +252,11 @@ inline static void update_TILEMAP_LEFT()
 {
     if(G_POS_X_CAMERA > 15)
     {
-        if(G_POS_X_CAMERA%8 == TRUE)
-        {
+        //if(G_POS_X_CAMERA%8 == TRUE)
+        //{
             VDP_setTileMapColumnEx(BG_B, image_LEVEL_3_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), (G_POS_X_CAMERA >> 3) - 2, (G_POS_X_CAMERA >> 3) - 2, 16, 12, DMA_QUEUE);
             VDP_setTileMapColumnEx(BG_A, image_LEVEL_3_BG_A.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_A), (G_POS_X_CAMERA >> 3) - 2, (G_POS_X_CAMERA >> 3) - 2,  5, 23, DMA_QUEUE);
-        }
+        //}
     }
 }
 
@@ -2045,6 +2042,20 @@ void update_PLAYER_SPRITE()
 
 
 
+                //--------------------------------------------------------------------------------------//
+                //                                                                                      //
+                //                                    TILEMAP UPDATE                                    //
+                //                                                                                      //
+                //--------------------------------------------------------------------------------------//
+
+                if(G_LEVEL == 3)
+                {
+                    update_TILEMAP_LEFT();
+                }
+
+
+
+
                 // UPDATE WEAPON POSITION //
                 update_WEAPON(-pos_x_offset);
 
@@ -2195,7 +2206,7 @@ void update_PLAYER_SPRITE()
 
 
 
-
+                
                 //**************************************************//
                 //                                                  //
                 //                 UPDATE SCROLLING                 //
@@ -2209,7 +2220,21 @@ void update_PLAYER_SPRITE()
                 ptr_SCROLLING_ROUTINE = TABLE_SCROLLING_ROUTINE[G_LEVEL - 1];
 
                 // RUNNING SCROLLING FUNCTION //
-                (*ptr_SCROLLING_ROUTINE)(pos_x_offset);
+                (*ptr_SCROLLING_ROUTINE)(pos_x_offset); //pos_x_offset
+
+
+
+
+                //--------------------------------------------------------------------------------------//
+                //                                                                                      //
+                //                                    TILEMAP UPDATE                                    //
+                //                                                                                      //
+                //--------------------------------------------------------------------------------------//
+
+                if(G_LEVEL == 3)
+                {
+                    update_TILEMAP_RIGHT();
+                }
 
 
 
@@ -2851,6 +2876,20 @@ void update_PLAYER_SPRITE()
 
 
 
+                //--------------------------------------------------------------------------------------//
+                //                                                                                      //
+                //                                    TILEMAP UPDATE                                    //
+                //                                                                                      //
+                //--------------------------------------------------------------------------------------//
+
+                if(G_LEVEL == 3)
+                {
+                    update_TILEMAP_RIGHT();
+                }
+
+
+
+
                 // UPDATE WEAPON POSITION //
                 update_WEAPON(-pos_x_offset);
 
@@ -3016,6 +3055,21 @@ void update_PLAYER_SPRITE()
 
                 // RUNNING SCROLLING FUNCTION //
                 (*ptr_SCROLLING_ROUTINE)(pos_x_offset);
+
+
+
+
+                //--------------------------------------------------------------------------------------//
+                //                                                                                      //
+                //                                    TILEMAP UPDATE                                    //
+                //                                                                                      //
+                //--------------------------------------------------------------------------------------//
+
+                if(G_LEVEL == 3)
+                {
+                    update_TILEMAP_LEFT();
+                }
+
 
 
 
@@ -8515,6 +8569,8 @@ void sequence_LEVEL_2()
             {
                 PAL_setPalette(PAL2,palette_ENEMY_1_PCE.data,DMA_QUEUE);
             }
+
+            XGM_startPlay(MUSIC_LEVEL_2);
         }
     }
 
@@ -8600,13 +8656,9 @@ void sequence_LEVEL_3()
     else if(G_PHASE_LEVEL == LEVEL_PLAY)
     {
         joypad_PLAYER();
-
-        //collision_PLAYER_ATTACK();
-
-        //spawn_ENEMY_LEVEL_1();
-        //update_ENEMY();
-
         update_PLAYER_SPRITE();
+
+        //VDP_drawIntEx_WINDOW_QUEUE_PRIO(G_TOTO,1,0,0,PAL3);
     }
 
 

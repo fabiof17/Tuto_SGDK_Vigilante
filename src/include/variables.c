@@ -181,7 +181,7 @@ u8 G_SPAWN_INDEX;
 u8 G_SPAWN_MAX_INDEX;
 
 
-
+//bool G_TOTO;
 
 
 

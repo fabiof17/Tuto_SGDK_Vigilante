@@ -362,7 +362,7 @@ extern u8 G_SPAWN_INDEX;
 extern u8 G_SPAWN_MAX_INDEX;
 
 
-
+//extern bool G_TOTO;
 
 
 

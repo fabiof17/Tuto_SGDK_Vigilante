@@ -9,7 +9,7 @@ SPRITE tiles_SPR_PUNK               "sprites/tiles_SPR_PUNK.png"           11   
 SPRITE tiles_SPR_KNIFE_MAN          "sprites/tiles_SPR_KNIFE_MAN.png"      11   9  NONE 0 NONE TILE MEDIUM
 SPRITE tiles_SPR_CHAIN_MAN          "sprites/tiles_SPR_CHAIN_MAN.png"      11   9  NONE 0 NONE TILE MEDIUM
 SPRITE tiles_SPR_STICK_MAN          "sprites/tiles_SPR_STICK_MAN.png"      11   9  NONE 0 NONE TILE MEDIUM
-SPRITE tiles_SPR_GUN_MAN            "sprites/tiles_SPR_GUN_MAN.png"         7   8  NONE 0 NONE TILE MEDIUM
+SPRITE tiles_SPR_GUN_MAN            "sprites/tiles_SPR_GUN_MAN.png"        11   9  NONE 0 NONE TILE MEDIUM
 
 
 SPRITE tiles_SPR_STAGE_1            "sprites/tiles_STAGE_1.png"            14   2  NONE 0

@@ -136,9 +136,6 @@ void init_VARIABLES()
     XGM_setPCM(SOUND_HIT_KICK, PCM_HIT_KICK, sizeof(PCM_HIT_KICK));
     XGM_setPCM(SOUND_HIT_PUNCH, PCM_HIT_PUNCH, sizeof(PCM_HIT_PUNCH));
     XGM_setPCM(SOUND_NUNCHUCK, PCM_NUNCHUCK, sizeof(PCM_NUNCHUCK));
-
-
-
 }
 
 
@@ -657,7 +654,7 @@ void init_INTERMEDE_3()
 
     VDP_setPlaneSize(64,32,TRUE);
     
-    SPR_init();
+    SPR_initEx(256);
     
     VDP_setHilightShadow(FALSE);
 
@@ -1191,6 +1188,159 @@ inline static void init_PLAYER()
 
 
 
+inline static void init_HUB()
+{
+    //**************************************************************************************//
+    //                                                                                      //
+    //                                   NUMBERS TILESET                                    //
+    //                                                                                      //
+    //**************************************************************************************//
+
+    VDP_loadTileSet(image_NUMBERS.tileset, TILE_FONT_INDEX + 16, CPU);
+
+
+
+
+    //**************************************************************************************//
+    //                                                                                      //
+    //                                   LETTERS TILESET                                    //
+    //                                                                                      //
+    //**************************************************************************************//
+
+    VDP_loadTileSet(image_LETTERS_CAPS_HUB.tileset, TILE_FONT_INDEX + 33, CPU);
+
+
+
+
+    VDP_setWindowHPos(0, 0);
+    VDP_setWindowVPos(0, 5);
+
+    VDP_loadTileSet(image_HUB.tileset, G_ADR_VRAM_HUB, CPU);
+    VDP_setTileMapEx(WINDOW, image_HUB.tilemap, TILE_ATTR_FULL(PAL3, TRUE, FALSE, FALSE, G_ADR_VRAM_HUB), 0, 0, 0, 0, 32, 5, CPU);
+
+
+
+
+    //--------------------------------------------------------------------------------------//
+    //                                                                                      //
+    //                                       HI SCORE                                       //
+    //                                                                                      //
+    //--------------------------------------------------------------------------------------//
+
+    VDP_setTileMapEx(WINDOW, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL3, TRUE, FALSE, FALSE, TILE_FONT_INDEX + 40), 13, 1, 0, 0, 1, 1, CPU);
+    VDP_setTileMapEx(WINDOW, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL3, TRUE, FALSE, FALSE, TILE_FONT_INDEX + 41), 14, 1, 0, 0, 1, 1, CPU);
+
+    VDP_setTileMapEx(WINDOW, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL3, TRUE, FALSE, FALSE, TILE_FONT_INDEX + 51), 16, 1, 0, 0, 1, 1, CPU);
+    VDP_setTileMapEx(WINDOW, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL3, TRUE, FALSE, FALSE, TILE_FONT_INDEX + 35), 17, 1, 0, 0, 1, 1, CPU);
+    VDP_setTileMapEx(WINDOW, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL3, TRUE, FALSE, FALSE, TILE_FONT_INDEX + 47), 18, 1, 0, 0, 1, 1, CPU);
+    VDP_setTileMapEx(WINDOW, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL3, TRUE, FALSE, FALSE, TILE_FONT_INDEX + 50), 19, 1, 0, 0, 1, 1, CPU);
+    VDP_setTileMapEx(WINDOW, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL3, TRUE, FALSE, FALSE, TILE_FONT_INDEX + 37), 20, 1, 0, 0, 1, 1, CPU);
+
+
+    //--------------------------------------------------------------------------------------//
+    //                                    HI SCORE VALUE                                    //
+    //--------------------------------------------------------------------------------------//
+
+    VDP_drawIntEx_WINDOW_CPU_PRIO(G_HI_SCORE,4,15,2,PAL3);
+
+
+
+
+    //--------------------------------------------------------------------------------------//
+    //                                     SCORE VALUE                                      //
+    //--------------------------------------------------------------------------------------//
+
+    VDP_drawIntEx_WINDOW_CPU_PRIO(G_POINTS,1,7,2,PAL3);
+
+
+
+
+    //--------------------------------------------------------------------------------------//
+    //                                                                                      //
+    //                                        PLAYER                                        //
+    //                                                                                      //
+    //--------------------------------------------------------------------------------------//
+
+    VDP_setTileMapEx(WINDOW, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL3, TRUE, FALSE, FALSE, TILE_FONT_INDEX + 48), 2, 1, 0, 0, 1, 1, CPU);
+    VDP_setTileMapEx(WINDOW, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL3, TRUE, FALSE, FALSE, TILE_FONT_INDEX + 44), 3, 1, 0, 0, 1, 1, CPU);
+    VDP_setTileMapEx(WINDOW, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL3, TRUE, FALSE, FALSE, TILE_FONT_INDEX + 33), 4, 1, 0, 0, 1, 1, CPU);
+    VDP_setTileMapEx(WINDOW, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL3, TRUE, FALSE, FALSE, TILE_FONT_INDEX + 57), 5, 1, 0, 0, 1, 1, CPU);
+    VDP_setTileMapEx(WINDOW, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL3, TRUE, FALSE, FALSE, TILE_FONT_INDEX + 37), 6, 1, 0, 0, 1, 1, CPU);
+    VDP_setTileMapEx(WINDOW, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL3, TRUE, FALSE, FALSE, TILE_FONT_INDEX + 50), 7, 1, 0, 0, 1, 1, CPU);
+
+
+    //--------------------------------------------------------------------------------------//
+    //                                                                                      //
+    //                                   PLAYER LIFE BAR                                    //
+    //                                                                                      //
+    //--------------------------------------------------------------------------------------//
+
+    G_ADR_VRAM_LIFE_PLAYER = G_ADR_VRAM_HUB + image_HUB.tileset->numTile;
+    VDP_loadTileSet(image_LIFE_PLAYER.tileset, G_ADR_VRAM_LIFE_PLAYER, CPU);
+
+
+
+
+    //--------------------------------------------------------------------------------------//
+    //                                                                                      //
+    //                                    BOSS LIFE BAR                                     //
+    //                                                                                      //
+    //--------------------------------------------------------------------------------------//
+
+    G_ADR_VRAM_LIFE_BOSS = G_ADR_VRAM_LIFE_PLAYER + image_LIFE_PLAYER.tileset->numTile;
+    VDP_loadTileSet(image_LIFE_BOSS.tileset, G_ADR_VRAM_LIFE_BOSS, CPU);
+
+
+
+
+    //--------------------------------------------------------------------------------------//
+    //                                                                                      //
+    //                           DISPLAY PLAYER AND BOSS LIFE BAR                           //
+    //                                                                                      //
+    //--------------------------------------------------------------------------------------//
+
+    u8 i;
+
+    for(i=0 ; i<14 ; i++)
+    {
+        VDP_setTileMapEx(WINDOW, image_LIFE_PLAYER.tilemap, TILE_ATTR_FULL(PAL3, TRUE, FALSE, FALSE, G_ADR_VRAM_LIFE_PLAYER), 7 + i, 3, 8, 0, 1, 1, CPU);
+        VDP_setTileMapEx(WINDOW, image_LIFE_BOSS.tilemap, TILE_ATTR_FULL(PAL3, TRUE, FALSE, FALSE, G_ADR_VRAM_LIFE_BOSS),     7 + i, 4, 8, 0, 1, 1, CPU);
+    }
+
+
+
+
+    //--------------------------------------------------------------------------------------//
+    //                                                                                      //
+    //                                      LIFE ICON                                       //
+    //                                                                                      //
+    //--------------------------------------------------------------------------------------//
+
+    G_ADR_VRAM_LIFE_ICON = G_ADR_VRAM_LIFE_BOSS + image_LIFE_BOSS.tileset->numTile;
+    VDP_loadTileSet(image_LIFE_ICON.tileset, G_ADR_VRAM_LIFE_ICON, CPU);
+
+    for(i=0 ; i<2 ; i++)
+    {
+        VDP_setTileMapEx(WINDOW, image_LIFE_ICON.tilemap, TILE_ATTR_FULL(PAL3, TRUE, FALSE, FALSE, G_ADR_VRAM_LIFE_ICON), 27 + i, 3, 0, 0, 1, 2, CPU);
+    }
+
+
+
+
+    //--------------------------------------------------------------------------------------//
+    //                                                                                      //
+    //                                     DISPLAY TIME                                     //
+    //                                                                                      //
+    //--------------------------------------------------------------------------------------//
+
+    G_TIME = 99;
+
+    VDP_drawIntEx_WINDOW_CPU_PRIO(G_TIME,2,23,4,PAL3);
+}
+
+
+
+
 void init_LEVEL()
 {
     if(G_LEVEL == 1)
@@ -1219,22 +1369,11 @@ void init_LEVEL()
 
         VDP_setPlaneSize(64,32,TRUE);
         
-        SPR_initEx(224);
+        SPR_initEx(220);//220
         
         VDP_setHilightShadow(FALSE);
 
         VDP_setScrollingMode(HSCROLL_PLANE, VSCROLL_PLANE);
-
-
-
-
-        //**************************************************************************************//
-        //                                                                                      //
-        //                                   NUMBERS TILESET                                    //
-        //                                                                                      //
-        //**************************************************************************************//
-
-        VDP_loadTileSet(image_NUMBERS.tileset, TILE_FONT_INDEX + 16, CPU);
 
 
 
@@ -1253,18 +1392,7 @@ void init_LEVEL()
         //                                                                                      //
         //--------------------------------------------------------------------------------------//
 
-        VDP_loadTileSet(&tileset_LEVEL_1_BG_B, G_ADR_VRAM_BG_B, CPU);
-
-
-        //--------------------------------------------------------------------------------------//
-        //                                                                                      //
-        //                                         BG_A                                         //
-        //                                                                                      //
-        //--------------------------------------------------------------------------------------//
-
-        G_ADR_VRAM_BG_A = G_ADR_VRAM_BG_B + tileset_LEVEL_1_BG_B.numTile;
-        VDP_loadTileSet(&tileset_LEVEL_1_BG_A, G_ADR_VRAM_BG_A, CPU);
-
+        VDP_loadTileSet(&tileset_LEVEL_1_BG_B_A, G_ADR_VRAM_BG_B, CPU);
 
 
 
@@ -1274,7 +1402,7 @@ void init_LEVEL()
         //                                                                                      //
         //--------------------------------------------------------------------------------------//
 
-        map_BG_B = MAP_create(&map_LEVEL_1_BG_B, BG_B, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B));
+        map_BG_B = MAP_create(&map_LEVEL_1_BG_B_A, BG_B, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B));
         SYS_doVBlankProcess();
 
 
@@ -1284,7 +1412,7 @@ void init_LEVEL()
         //                                                                                      //
         //--------------------------------------------------------------------------------------//
 
-        map_BG_A = MAP_create(&map_LEVEL_1_BG_A, BG_A, TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_A));
+        map_BG_A = MAP_create(&map_LEVEL_1_BG_B_A, BG_A, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B));
         SYS_doVBlankProcess();
 
 
@@ -1302,7 +1430,7 @@ void init_LEVEL()
         MAP_scrollTo(map_BG_B, G_POS_X_CAMERA , 0);
         SYS_doVBlankProcess();
 
-        MAP_scrollTo(map_BG_A, G_POS_X_CAMERA , 0);
+        MAP_scrollTo(map_BG_A, G_POS_X_CAMERA , 224);
         SYS_doVBlankProcess();
 
 
@@ -1314,95 +1442,9 @@ void init_LEVEL()
         //                                                                                      //
         //--------------------------------------------------------------------------------------//
 
-        VDP_setWindowHPos(0, 0);
-        VDP_setWindowVPos(0, 5);
+        G_ADR_VRAM_HUB = G_ADR_VRAM_BG_B + tileset_LEVEL_1_BG_B_A.numTile;
 
-
-        G_ADR_VRAM_HUB = G_ADR_VRAM_BG_A + tileset_LEVEL_1_BG_A.numTile;
-        VDP_loadTileSet(image_HUB.tileset, G_ADR_VRAM_HUB, CPU);
-        VDP_setTileMapEx(WINDOW, image_HUB.tilemap, TILE_ATTR_FULL(PAL3, TRUE, FALSE, FALSE, G_ADR_VRAM_HUB), 0, 0, 0, 0, 32, 5, CPU);
-
-
-
-
-        //--------------------------------------------------------------------------------------//
-        //                                       HI SCORE                                       //
-        //--------------------------------------------------------------------------------------//
-        VDP_drawIntEx_WINDOW_CPU_PRIO(G_HI_SCORE,4,15,2,PAL3);
-
-        //--------------------------------------------------------------------------------------//
-        //                                        SCORE                                         //
-        //--------------------------------------------------------------------------------------//
-        VDP_drawIntEx_WINDOW_CPU_PRIO(G_POINTS,1,7,2,PAL3);
-
-
-
-
-        //--------------------------------------------------------------------------------------//
-        //                                                                                      //
-        //                                   PLAYER LIFE BAR                                    //
-        //                                                                                      //
-        //--------------------------------------------------------------------------------------//
-
-        G_ADR_VRAM_LIFE_PLAYER = G_ADR_VRAM_HUB + image_HUB.tileset->numTile;
-        VDP_loadTileSet(image_LIFE_PLAYER.tileset, G_ADR_VRAM_LIFE_PLAYER, CPU);
-
-
-
-
-        //--------------------------------------------------------------------------------------//
-        //                                                                                      //
-        //                                    BOSS LIFE BAR                                     //
-        //                                                                                      //
-        //--------------------------------------------------------------------------------------//
-
-        G_ADR_VRAM_LIFE_BOSS = G_ADR_VRAM_LIFE_PLAYER + image_LIFE_PLAYER.tileset->numTile;
-        VDP_loadTileSet(image_LIFE_BOSS.tileset, G_ADR_VRAM_LIFE_BOSS, CPU);
-
-
-
-
-        //--------------------------------------------------------------------------------------//
-        //                                                                                      //
-        //                           DISPLAY PLAYER AND BOSS LIFE BAR                           //
-        //                                                                                      //
-        //--------------------------------------------------------------------------------------//
-
-        for(i=0 ; i<14 ; i++)
-        {
-            VDP_setTileMapEx(WINDOW, image_LIFE_PLAYER.tilemap, TILE_ATTR_FULL(PAL3, TRUE, FALSE, FALSE, G_ADR_VRAM_LIFE_PLAYER), 7 + i, 3, 8, 0, 1, 1, CPU);
-            VDP_setTileMapEx(WINDOW, image_LIFE_BOSS.tilemap, TILE_ATTR_FULL(PAL3, TRUE, FALSE, FALSE, G_ADR_VRAM_LIFE_BOSS),     7 + i, 4, 8, 0, 1, 1, CPU);
-        }
-
-
-
-
-        //--------------------------------------------------------------------------------------//
-        //                                                                                      //
-        //                                      LIFE ICON                                       //
-        //                                                                                      //
-        //--------------------------------------------------------------------------------------//
-
-        G_ADR_VRAM_LIFE_ICON = G_ADR_VRAM_LIFE_BOSS + image_LIFE_BOSS.tileset->numTile;
-        VDP_loadTileSet(image_LIFE_ICON.tileset, G_ADR_VRAM_LIFE_ICON, CPU);
-
-        for(i=0 ; i<2 ; i++)
-        {
-            VDP_setTileMapEx(WINDOW, image_LIFE_ICON.tilemap, TILE_ATTR_FULL(PAL3, TRUE, FALSE, FALSE, G_ADR_VRAM_LIFE_ICON), 27 + i, 3, 0, 0, 1, 2, CPU);
-        }
-
-
-
-
-        //--------------------------------------------------------------------------------------//
-        //                                                                                      //
-        //                                     DISPLAY TIME                                     //
-        //                                                                                      //
-        //--------------------------------------------------------------------------------------//
-
-        G_TIME = 99;
-
-        VDP_drawIntEx_WINDOW_CPU_PRIO(G_TIME,2,23,4,PAL3);
+        init_HUB();
 
 
 
@@ -1510,8 +1552,8 @@ void init_LEVEL()
         //                                                                                      //
         //**************************************************************************************//
 
-        PAL_setPalette(PAL0,image_LEVEL_1_BG_B.palette->data,DMA_QUEUE);
-        PAL_setPalette(PAL1,image_LEVEL_1_BG_A.palette->data,DMA_QUEUE);
+        PAL_setColors(0,image_LEVEL_1_BG_B_A.palette->data,32,DMA_QUEUE);
+
         PAL_setPalette(PAL2,palette_STAGE.data,DMA_QUEUE);
 
         if(G_COLORS_OPTION == MD_COLORS)
@@ -1540,8 +1582,6 @@ void init_LEVEL()
         G_LEVEL_LIMIT           = 128;
 
         G_SPAWN_MAX_INDEX       = 72;
-
-        G_WEAPON_GRABBED        = FALSE;
 
 
 
@@ -1831,9 +1871,22 @@ void init_LEVEL()
         //                                                                                      //
         //**************************************************************************************//
 
-        G_CAMERA_LIMIT           = 1152;
+        G_CAMERA_LIMIT           = 1536;
+
+        G_LEVEL_LIMIT           = 128;
 
         G_SPAWN_MAX_INDEX       = 72;
+
+
+
+
+        //**************************************************************************************//
+        //                                                                                      //
+        //                                         MUSIC                                        //
+        //                                                                                      //
+        //**************************************************************************************//
+
+        XGM_startPlay(MUSIC_ENTER_LEVEL);
     }
 
 
@@ -1863,7 +1916,7 @@ void init_LEVEL()
 
         VDP_setPlaneSize(64,32,TRUE);
         
-        SPR_initEx(300);
+        SPR_initEx(256);
         
         VDP_setHilightShadow(FALSE);
 
@@ -2403,7 +2456,7 @@ void init_LEVEL()
 
         VDP_setPlaneSize(64,32,TRUE);
         
-        SPR_initEx(300);
+        SPR_initEx(256);
         
         VDP_setHilightShadow(FALSE);
 
@@ -2658,11 +2711,11 @@ void init_LEVEL()
 
 
         
-    player.life           = FIX32(112L);
+    player.life             = FIX32(112L);
     
     G_REPEAT                = 0;
 
-    G_INDEX_JUMP_V            = 0;
+    G_INDEX_JUMP_V          = 0;
 
     G_INDEX_ANIM_PUNCH      = 1;
 
@@ -2675,14 +2728,16 @@ void init_LEVEL()
     G_STEP_LIFE_PLAYER      = 0;
 
     G_NUMBER_GRAB_LEFT      = 0;
-    G_NUMBER_GRAB_RIGHT     = 0;;
+    G_NUMBER_GRAB_RIGHT     = 0;
 
-    G_NUMBER_GRAB_2_LEFT    = 0;;
-    G_NUMBER_GRAB_2_RIGHT   = 0;;
+    G_NUMBER_GRAB_2_LEFT    = 0;
+    G_NUMBER_GRAB_2_RIGHT   = 0;
+
+    G_WEAPON_GRABBED        = FALSE;
 
     G_SPAWN_AUTHORIZED      = TRUE;
 
-    G_PHASE_LEVEL           = LEVEL_ENTER;// LEVEL_PLAY
+    G_PHASE_LEVEL           = LEVEL_ENTER;
 
     G_SEQUENCE_LOADED       = TRUE;
 }

@@ -2424,7 +2424,9 @@ void init_LEVEL()
         //                                                                                      //
         //**************************************************************************************//
 
-        G_CAMERA_LIMIT           = 1536;
+        G_CAMERA_LIMIT          = 1536;
+
+        G_LEVEL_LIMIT           = 205;
 
         G_SPAWN_MAX_INDEX       = 72;
     }
@@ -2620,7 +2622,7 @@ void init_LEVEL()
         //                                                                                      //
         //--------------------------------------------------------------------------------------//
 
-        G_GROUND_POSITION   = 105;
+        G_GROUND_POSITION   = 103;
         
         player.pos_X        = -8;
         player.pos_Y        = G_GROUND_POSITION;

@@ -145,8 +145,8 @@
 #define RIGHT_SPAWN_POSITION    216
 
 
-#define ENEMY_RIGHT_BOUND       27
-#define ENEMY_LEFT_BOUND        6
+#define ENEMY_RIGHT_BOUND       20//27 (-7)
+#define ENEMY_LEFT_BOUND        4//6 (-2)
 
 
 

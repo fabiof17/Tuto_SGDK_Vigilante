@@ -222,13 +222,22 @@ void scroll_TILE(s16 increment)
 }
 
 
+void scroll_PLANE_LEVEL_4(s16 increment)
+{
+    G_POS_X_CAMERA += increment;
+
+    MAP_scrollTo(map_BG_B, G_POS_X_CAMERA , 0);
+    MAP_scrollTo(map_BG_A, G_POS_X_CAMERA , 0);
+}
+
+
 
 
 void (*TABLE_SCROLLING_ROUTINE[5])(s16 increment)   =   {
                                                             scroll_PLANE_LEVEL_1,
                                                             scroll_PLANE_LEVEL_1,
                                                             scroll_TILE,
-                                                            scroll_PLANE_LEVEL_1,
+                                                            scroll_PLANE_LEVEL_4,
                                                             scroll_PLANE_PARALLAX
                                                         };
 
@@ -2010,14 +2019,48 @@ void update_PLAYER_SPRITE()
                 //------------------------------------------------------//
                 else if(G_POS_X_CAMERA == G_CAMERA_LIMIT)
                 {
-                    if(player.pos_X > 98)
+                    // WE CHECK COLLISIONS WITH ENEMIES //
+                    for(i=0 ; i<4 ; i++)
                     {
-                        if(player.pos_X - pos_x_offset < 98)
+                        // IF ENEMY EXISTS //
+                        if(LIST_ENEMIES[i].spr_ENEMY != NULL)
                         {
-                            pos_x_offset = player.pos_X - 98;
+                            // IF ENEMY IS FACING RIGHT //
+                            if(LIST_ENEMIES[i].axis == AXIS_RIGHT)
+                            {
+                                // IF PLAYER HAS NOT YET COLLIDED WITH AN ENEMY //
+                                if(player.pos_X > LIST_ENEMIES[i].pos_X + ENEMY_RIGHT_BOUND)
+                                {
+                                    // IF PLAYER COLLIDES WITH AN ENEMY //
+                                    if(player.pos_X + pos_x_offset <= LIST_ENEMIES[i].pos_X + ENEMY_RIGHT_BOUND)
+                                    {
+                                        // WE CALCULE THE NEW AMOUNT OF PIXELS THE PLAYER WILL MOVE //
+                                        pos_x_offset = player.pos_X + pos_x_offset - (LIST_ENEMIES[i].pos_X + ENEMY_RIGHT_BOUND);
+                                    }
+                                }
 
-                            player.pos_X = 98;
+                                else
+                                {
+                                    pos_x_offset = 0;
+                                }
+                            }
                         }
+                    }
+
+
+                    // WE CALCULATE HOW MANY PIXELS THE CAMERA IS SUPPOSED TO MOVE //
+                    if(player.pos_X + pos_x_offset < 98)
+                    {
+                        player.pos_X = 98;
+
+                        pos_x_offset = player.pos_X + pos_x_offset - 98;
+                    }
+
+                    else
+                    {
+                        player.pos_X += pos_x_offset;
+                        
+                        pos_x_offset = 0;
                     }
                 }
             
@@ -2093,23 +2136,48 @@ void update_PLAYER_SPRITE()
                 //------------------------------------------------------//
                 if(G_POS_X_CAMERA == 0)
                 {
-                    //--------------------------------------------------//
-                    //      IF PLAYER MOVES BEYOND MIDDLE OF SCREEN     //
-                    //--------------------------------------------------//
-                    if( (player.pos_X + pos_x_offset) > 98)
+                    // WE CHECK COLLISIONS WITH ENEMIES //
+                    for(i=0 ; i<4 ; i++)
                     {
-                        pos_x_offset = (player.pos_X + pos_x_offset - 98);
+                        // IF ENEMY EXISTS //
+                        if(LIST_ENEMIES[i].spr_ENEMY != NULL)
+                        {
+                            // IF ENEMY IS FACING LEFT //
+                            if(LIST_ENEMIES[i].axis == AXIS_LEFT)
+                            {
+                                // IF PLAYER HAS NOT YET COLLIDED WITH AN ENEMY //
+                                if(player.pos_X < LIST_ENEMIES[i].pos_X - ENEMY_LEFT_BOUND) // + ENEMY_LEFT_BOUND
+                                {
+                                    // IF PLAYER COLLIDES WITH AN ENEMY //
+                                    if(player.pos_X + pos_x_offset >= LIST_ENEMIES[i].pos_X - ENEMY_LEFT_BOUND) // + ENEMY_LEFT_BOUND
+                                    {
+                                        // WE CALCULE THE NEW AMOUNT OF PIXELS THE PLAYER WILL MOVE //
+                                        pos_x_offset = player.pos_X + pos_x_offset - (LIST_ENEMIES[i].pos_X - ENEMY_LEFT_BOUND); // + ENEMY_LEFT_BOUND
+                                    }
+                                }
 
-                        player.pos_X = 98;
+                                // IF PLAYER HAS ALREADY COLLIDED WITH AN ENEMY, HE DOESN'T MOVE //
+                                else
+                                {
+                                    pos_x_offset = 0;
+                                }
+                            }
+                        }
                     }
 
-                    //--------------------------------------------------//
-                    //              ELSE PLAYER MOVES RIGHT             //
-                    //--------------------------------------------------//                        
+                    //VDP_drawIntEx_WINDOW_QUEUE_PRIO(pos_x_offset,1,0,0,PAL3);
+                    // WE CALCULATE HOW MANY PIXELS THE CAMERA IS SUPPOSED TO MOVE //
+                    if(player.pos_X + pos_x_offset > 98)
+                    {
+                        player.pos_X = 98;
+
+                        pos_x_offset = player.pos_X + pos_x_offset - 98;
+                    }
+
                     else
                     {
                         player.pos_X += pos_x_offset;
-
+                        
                         pos_x_offset = 0;
                     }
                 }                    
@@ -7738,8 +7806,8 @@ void update_CHAIN_MAN(struct_ENEMY_ *enemy)
             SPR_setFrame(enemy->spr_ENEMY,0);
         }
 
-
-        else if(enemy->counter_ANIM == 8)
+        // 8
+        else if(enemy->counter_ANIM == 10)
         {
             SPR_setFrame(enemy->spr_ENEMY,1);
 
@@ -7753,7 +7821,8 @@ void update_CHAIN_MAN(struct_ENEMY_ *enemy)
         //                        PUNCH 1                       //
         //                                                      //
         //------------------------------------------------------//
-        else if(enemy->counter_ANIM == 16)
+        // 16
+        else if(enemy->counter_ANIM == 18)
         {
             SPR_setFrame(enemy->spr_ENEMY,2);
 
@@ -7845,14 +7914,14 @@ void update_CHAIN_MAN(struct_ENEMY_ *enemy)
             }
         }
 
-
-        else if(enemy->counter_ANIM == 24)
+        // 24
+        else if(enemy->counter_ANIM == 26)
         {
             SPR_setAnimAndFrame(enemy->spr_ENEMY,1,0);
         }
 
-
-        else if(enemy->counter_ANIM == 32)
+        // 32
+        else if(enemy->counter_ANIM == 34)
         {
             //enemy->state = random_NUMBER(4,6); //ENEMY_THREAT_BW
 
@@ -7892,7 +7961,7 @@ void update_CHAIN_MAN(struct_ENEMY_ *enemy)
         }
 
 
-        else if(enemy->counter_ANIM == 8)
+        else if(enemy->counter_ANIM == 10)
         {
             SPR_setFrame(enemy->spr_ENEMY,1);
 
@@ -7906,7 +7975,7 @@ void update_CHAIN_MAN(struct_ENEMY_ *enemy)
         //                        PUNCH 1                       //
         //                                                      //
         //------------------------------------------------------//
-        else if(enemy->counter_ANIM == 16)
+        else if(enemy->counter_ANIM == 18)
         {
             SPR_setFrame(enemy->spr_ENEMY,2);
 
@@ -7995,13 +8064,13 @@ void update_CHAIN_MAN(struct_ENEMY_ *enemy)
         }
 
 
-        else if(enemy->counter_ANIM == 24)
+        else if(enemy->counter_ANIM == 26)
         {
             SPR_setAnimAndFrame(enemy->spr_ENEMY,1,0);
         }
 
 
-        else if(enemy->counter_ANIM == 32)
+        else if(enemy->counter_ANIM == 34)
         {
             enemy->counter_ANIM = 0;
 
@@ -8498,14 +8567,9 @@ void sequence_LEVEL_1()
         collision_PLAYER_ATTACK();
         update_PLAYER_SPRITE();
 
-        spawn_ENEMY_LEVEL_1();
-        update_ENEMY();
-
-
-        //spawn_KNIFE_MAN_RIGHT();
         //spawn_PUNK_RIGHT();
-
-        //VDP_drawIntEx_WINDOW_QUEUE_PRIO(player.vulnerable,1,0,0,PAL3);
+        //spawn_ENEMY_LEVEL_1();
+        //update_ENEMY();
     }
 
 

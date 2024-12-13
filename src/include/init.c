@@ -2146,6 +2146,8 @@ void init_LEVEL()
 
         G_CAMERA_LIMIT           = 1280;
 
+        G_LEVEL_LIMIT           = 128;
+
         G_SPAWN_MAX_INDEX       = 72;
     }
 
@@ -2706,7 +2708,9 @@ void init_LEVEL()
         //                                                                                      //
         //**************************************************************************************//
 
-        G_CAMERA_LIMIT           = 1568;
+        G_CAMERA_LIMIT          = 1536;
+
+        G_LEVEL_LIMIT           = 171;
 
         G_SPAWN_MAX_INDEX       = 72;
     }

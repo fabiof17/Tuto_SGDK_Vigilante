@@ -519,13 +519,15 @@ void joypad_PLAYER()
                         {
                             player.pos_X -= 1;
 
-                            if(player.axis != AXIS_LEFT)
-                            {
+                            //if(player.axis != AXIS_LEFT)
+                            //{
                                 //SPR_setHFlip(player.spr_PLAYER,TRUE);
 
-                                player.axis = AXIS_LEFT;
-                            }
+                                //player.axis = AXIS_LEFT;
+                            //}
                         }
+
+                        player.axis = AXIS_LEFT;
                     }
 
 
@@ -578,12 +580,12 @@ void joypad_PLAYER()
                         }
 
 
-                        if(player.axis != AXIS_LEFT)
-                        {
+                        //if(player.axis != AXIS_LEFT)
+                        //{
                             //SPR_setHFlip(player.spr_PLAYER,TRUE);
 
                             player.axis = AXIS_LEFT;
-                        }
+                        //}
                     }
 
 
@@ -594,12 +596,12 @@ void joypad_PLAYER()
                         {
                             player.pos_X -= 1;
 
-                            if(player.axis != AXIS_LEFT)
-                            {
+                            //if(player.axis != AXIS_LEFT)
+                            //{
                                 //SPR_setHFlip(player.spr_PLAYER,TRUE);
                                 
                                 player.axis = AXIS_LEFT;
-                            }
+                            //}
                         }
 
                         else
@@ -646,12 +648,12 @@ void joypad_PLAYER()
                             }
 
 
-                            if(player.axis != AXIS_LEFT)
-                            {
+                            //if(player.axis != AXIS_LEFT)
+                            //{
                                 //SPR_setHFlip(player.spr_PLAYER,TRUE);
                                 
                                 player.axis = AXIS_LEFT;
-                            }   
+                            //}   
                         }
                     }
 
@@ -700,10 +702,10 @@ void joypad_PLAYER()
                             player.pos_X += 1;
 
 
-                            if(player.axis != AXIS_RIGHT)
-                            {
+                            //if(player.axis != AXIS_RIGHT)
+                            //{
                                 player.axis = AXIS_RIGHT;
-                            }
+                            //}
                         }
 
                         else
@@ -752,11 +754,11 @@ void joypad_PLAYER()
                                 // UPDATE WEAPON POSITION //
 
 
-                                if(player.axis != AXIS_RIGHT)
-                                {
+                                //if(player.axis != AXIS_RIGHT)
+                                //{
 
                                     player.axis = AXIS_RIGHT;
-                                }
+                                //}
 
                                 //SPR_setHFlip(player.spr_PLAYER,FALSE);
                             }
@@ -811,10 +813,10 @@ void joypad_PLAYER()
                         }
 
 
-                        if(player.axis != AXIS_RIGHT)
-                        {
+                        //if(player.axis != AXIS_RIGHT)
+                        //{
                             player.axis = AXIS_RIGHT;
-                        }
+                        //}
                     }
 
 
@@ -826,6 +828,8 @@ void joypad_PLAYER()
                             player.pos_X += 1;
                         }
                     }
+
+                    player.axis = AXIS_RIGHT;
 
 
                     SPR_setPosition(player.spr_PLAYER,player.pos_X,player.pos_Y);
@@ -2903,24 +2907,49 @@ void update_PLAYER_SPRITE()
                 //------------------------------------------------------//
                 else if(G_POS_X_CAMERA == G_CAMERA_LIMIT)
                 {
-                    if(player.pos_X > 98)
+                    // WE CHECK COLLISIONS WITH ENEMIES //
+                    for(i=0 ; i<4 ; i++)
                     {
-                        if(player.pos_X - pos_x_offset < 98)
+                        // IF ENEMY EXISTS //
+                        if(LIST_ENEMIES[i].spr_ENEMY != NULL)
                         {
-                            pos_x_offset = player.pos_X - 98;
+                            // IF ENEMY IS FACING RIGHT //
+                            if(LIST_ENEMIES[i].axis == AXIS_RIGHT)
+                            {
+                                // IF PLAYER HAS NOT YET COLLIDED WITH AN ENEMY //
+                                if(player.pos_X > LIST_ENEMIES[i].pos_X + ENEMY_RIGHT_BOUND)
+                                {
+                                    // IF PLAYER COLLIDES WITH AN ENEMY //
+                                    if(player.pos_X + pos_x_offset <= LIST_ENEMIES[i].pos_X + ENEMY_RIGHT_BOUND)
+                                    {
+                                        // WE CALCULE THE NEW AMOUNT OF PIXELS THE PLAYER WILL MOVE //
+                                        pos_x_offset = player.pos_X + pos_x_offset - (LIST_ENEMIES[i].pos_X + ENEMY_RIGHT_BOUND);
+                                    }
+                                }
 
-                            player.pos_X = 98;
+                                else
+                                {
+                                    pos_x_offset = 0;
+                                }
+                            }
                         }
                     }
 
-                    // POINTER DECLARATION //
-                    /*void (*ptr_SCROLLING_ROUTINE)(s16 increment);
 
-                    // SETTING POINTER TO SCROLLING FUNCTION //
-                    ptr_SCROLLING_ROUTINE = TABLE_SCROLLING_ROUTINE[G_LEVEL - 1];
+                    // WE CALCULATE HOW MANY PIXELS THE CAMERA IS SUPPOSED TO MOVE //
+                    if(player.pos_X + pos_x_offset < 98)
+                    {
+                        player.pos_X = 98;
 
-                    // RUNNING SCROLLING FUNCTION //
-                    (*ptr_SCROLLING_ROUTINE)(pos_x_offset);*/
+                        pos_x_offset = player.pos_X + pos_x_offset - 98;
+                    }
+
+                    else
+                    {
+                        player.pos_X += pos_x_offset;
+                        
+                        pos_x_offset = 0;
+                    }
                 }
             
             
@@ -2995,26 +3024,51 @@ void update_PLAYER_SPRITE()
                 //------------------------------------------------------//
                 if(G_POS_X_CAMERA == 0)
                 {
-                    //--------------------------------------------------//
-                    //      IF PLAYER MOVES BEYOND MIDDLE OF SCREEN     //
-                    //--------------------------------------------------//
-                    if( (player.pos_X + pos_x_offset) > 98)
+                    // WE CHECK COLLISIONS WITH ENEMIES //
+                    for(i=0 ; i<4 ; i++)
                     {
-                        pos_x_offset = (player.pos_X + pos_x_offset - 98);
+                        // IF ENEMY EXISTS //
+                        if(LIST_ENEMIES[i].spr_ENEMY != NULL)
+                        {
+                            // IF ENEMY IS FACING LEFT //
+                            if(LIST_ENEMIES[i].axis == AXIS_LEFT)
+                            {
+                                // IF PLAYER HAS NOT YET COLLIDED WITH AN ENEMY //
+                                if(player.pos_X < LIST_ENEMIES[i].pos_X - ENEMY_LEFT_BOUND) // + ENEMY_LEFT_BOUND
+                                {
+                                    // IF PLAYER COLLIDES WITH AN ENEMY //
+                                    if(player.pos_X + pos_x_offset >= LIST_ENEMIES[i].pos_X - ENEMY_LEFT_BOUND) // + ENEMY_LEFT_BOUND
+                                    {
+                                        // WE CALCULE THE NEW AMOUNT OF PIXELS THE PLAYER WILL MOVE //
+                                        pos_x_offset = player.pos_X + pos_x_offset - (LIST_ENEMIES[i].pos_X - ENEMY_LEFT_BOUND); // + ENEMY_LEFT_BOUND
+                                    }
+                                }
 
-                        player.pos_X = 98;
+                                // IF PLAYER HAS ALREADY COLLIDED WITH AN ENEMY, HE DOESN'T MOVE //
+                                else
+                                {
+                                    pos_x_offset = 0;
+                                }
+                            }
+                        }
                     }
 
-                    //--------------------------------------------------//
-                    //              ELSE PLAYER MOVES RIGHT             //
-                    //--------------------------------------------------//                        
+
+                    // WE CALCULATE HOW MANY PIXELS THE CAMERA IS SUPPOSED TO MOVE //
+                    if(player.pos_X + pos_x_offset > 98)
+                    {
+                        player.pos_X = 98;
+
+                        pos_x_offset = player.pos_X + pos_x_offset - 98;
+                    }
+
                     else
                     {
                         player.pos_X += pos_x_offset;
-
+                        
                         pos_x_offset = 0;
                     }
-                }                    
+                }                   
             
 
                 //------------------------------------------------------//
@@ -8568,8 +8622,8 @@ void sequence_LEVEL_1()
         update_PLAYER_SPRITE();
 
         //spawn_PUNK_RIGHT();
-        //spawn_ENEMY_LEVEL_1();
-        //update_ENEMY();
+        spawn_ENEMY_LEVEL_1();
+        update_ENEMY();
     }
 
 

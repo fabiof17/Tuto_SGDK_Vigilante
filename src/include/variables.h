@@ -108,10 +108,10 @@
 //-----------------------------------------------------------------------------// 
 
 #define LEVEL_OPTION            0
-#define COLORS_OPTION           1
+#define LIVES_OPTION           1
 
-#define MD_COLORS               0
-#define PCE_COLORS              1
+//#define MD_COLORS               0
+//#define PCE_COLORS              1
 
 
 //-----------------------------------------------------------------------------//
@@ -221,7 +221,7 @@ extern u16 G_HI_SCORE;
 
 //extern s32 player.life;
 
-extern u8 G_NUMBER_LIFE;
+extern u8 G_NUMBER_LIVES;
 
 extern u8 G_TIME;
 
@@ -249,7 +249,7 @@ extern u16 G_COUNTER_TITLE;
 
 extern bool G_OPTIONS;
 
-extern bool G_COLORS_OPTION;
+//extern bool G_COLORS_OPTION;
 
 
 //--------------------------------------------------------------------------------------//

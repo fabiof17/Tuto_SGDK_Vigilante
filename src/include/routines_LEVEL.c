@@ -8935,16 +8935,9 @@ void sequence_LEVEL_1()
             SPR_releaseSprite(sprite_STAGE);
             sprite_STAGE = NULL;
 
-            if(G_COLORS_OPTION == MD_COLORS)
-            {
-                PAL_setPalette(PAL2,palette_ENEMY_1_MD.data,DMA_QUEUE);
-            }
 
-            else
-            {
-                //PAL_setPalette(PAL2,palette_ENEMY_1_PCE.data,DMA_QUEUE);
-                PAL_setPalette(PAL2,palette_ENEMY_1_MD.data,DMA_QUEUE);
-            }
+            PAL_setPalette(PAL2,palette_ENEMY_1_MD.data,DMA_QUEUE);
+
 
 
             XGM_startPlay(MUSIC_LEVEL_1);
@@ -9017,15 +9010,9 @@ void sequence_LEVEL_2()
             SPR_releaseSprite(sprite_STAGE);
             sprite_STAGE = NULL;
 
-            if(G_COLORS_OPTION == MD_COLORS)
-            {
-                PAL_setPalette(PAL2,palette_ENEMY_1_MD.data,DMA_QUEUE);
-            }
 
-            else
-            {
-                PAL_setPalette(PAL2,palette_ENEMY_1_PCE.data,DMA_QUEUE);
-            }
+            PAL_setPalette(PAL2,palette_ENEMY_1_MD.data,DMA_QUEUE);
+
 
             XGM_startPlay(MUSIC_LEVEL_2);
         }
@@ -9097,15 +9084,8 @@ void sequence_LEVEL_3()
             SPR_releaseSprite(sprite_STAGE);
             sprite_STAGE = NULL;
 
-            if(G_COLORS_OPTION == MD_COLORS)
-            {
-                PAL_setPalette(PAL2,palette_ENEMY_1_MD.data,DMA_QUEUE);
-            }
+            PAL_setPalette(PAL2,palette_ENEMY_1_MD.data,DMA_QUEUE);
 
-            else
-            {
-                PAL_setPalette(PAL2,palette_ENEMY_1_PCE.data,DMA_QUEUE);
-            }
         }
     }
 
@@ -9169,15 +9149,8 @@ void sequence_LEVEL_4()
             SPR_releaseSprite(sprite_STAGE);
             sprite_STAGE = NULL;
 
-            if(G_COLORS_OPTION == MD_COLORS)
-            {
-                PAL_setPalette(PAL2,palette_ENEMY_1_MD.data,DMA_QUEUE);
-            }
+            PAL_setPalette(PAL2,palette_ENEMY_1_MD.data,DMA_QUEUE);
 
-            else
-            {
-                PAL_setPalette(PAL2,palette_ENEMY_1_PCE.data,DMA_QUEUE);
-            }
         }
     }
 
@@ -9247,15 +9220,7 @@ void sequence_LEVEL_5()
             SPR_releaseSprite(sprite_STAGE);
             sprite_STAGE = NULL;
 
-            if(G_COLORS_OPTION == MD_COLORS)
-            {
-                PAL_setPalette(PAL2,palette_ENEMY_1_MD.data,DMA_QUEUE);
-            }
-
-            else
-            {
-                PAL_setPalette(PAL2,palette_ENEMY_1_PCE.data,DMA_QUEUE);
-            }
+            PAL_setPalette(PAL2,palette_ENEMY_1_MD.data,DMA_QUEUE);
         }
     }
 

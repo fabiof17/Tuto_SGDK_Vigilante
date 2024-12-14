@@ -110,7 +110,7 @@ void init_VARIABLES()
     //                                                                                      //
     //--------------------------------------------------------------------------------------//
 
-    G_NUMBER_LIFE               = 2;
+    G_NUMBER_LIVES               = 2;
     
     G_POINTS                    = 0;
 
@@ -296,7 +296,7 @@ void init_TITLE()
 
     G_OPTIONS                   = LEVEL_OPTION;
 
-    G_COLORS_OPTION             = MD_COLORS;
+    //G_COLORS_OPTION             = MD_COLORS;
 
     G_SEQUENCE_LOADED           = TRUE;
 }
@@ -427,15 +427,9 @@ void init_INTERMEDE_1()
     PAL_setPalette(PAL0,image_INTERMEDE_BG_B.palette->data,DMA_QUEUE);
     PAL_setPalette(PAL1,image_INTERMEDE_BG_A.palette->data,DMA_QUEUE);
 
-    if(G_COLORS_OPTION == MD_COLORS)
-    {
-        PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_MD.data,DMA_QUEUE);
-    }
 
-    else
-    {
-        PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_PCE.data,DMA_QUEUE);
-    }
+    PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_MD.data,DMA_QUEUE);
+
     
     PAL_setPalette(PAL3,palette_BOX.data,DMA_QUEUE);
 
@@ -606,15 +600,9 @@ void init_INTERMEDE_2()
     PAL_setPalette(PAL0,image_INTERMEDE_BG_B.palette->data,DMA_QUEUE);
     PAL_setPalette(PAL1,image_INTERMEDE_BG_A.palette->data,DMA_QUEUE);
 
-    if(G_COLORS_OPTION == MD_COLORS)
-    {
-        PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_MD.data,DMA_QUEUE);
-    }
 
-    else
-    {
-        PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_PCE.data,DMA_QUEUE);
-    }
+    PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_MD.data,DMA_QUEUE);
+
 
     PAL_setPalette(PAL3,palette_BOX.data,DMA_QUEUE);
 
@@ -774,15 +762,9 @@ void init_INTERMEDE_3()
     PAL_setPalette(PAL0,image_INTERMEDE_BG_B.palette->data,DMA_QUEUE);
     PAL_setPalette(PAL1,image_INTERMEDE_BG_A.palette->data,DMA_QUEUE);
     
-    if(G_COLORS_OPTION == MD_COLORS)
-    {
-        PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_MD.data,DMA_QUEUE);
-    }
 
-    else
-    {
-        PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_PCE.data,DMA_QUEUE);
-    }
+    PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_MD.data,DMA_QUEUE);
+
 
     PAL_setPalette(PAL3,palette_BOX.data,DMA_QUEUE);
 
@@ -942,15 +924,9 @@ void init_INTERMEDE_4()
     PAL_setPalette(PAL0,image_INTERMEDE_BG_B.palette->data,DMA_QUEUE);
     PAL_setPalette(PAL1,image_INTERMEDE_BG_A.palette->data,DMA_QUEUE);
     
-    if(G_COLORS_OPTION == MD_COLORS)
-    {
-        PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_MD.data,DMA_QUEUE);
-    }
 
-    else
-    {
-        PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_PCE.data,DMA_QUEUE);
-    }
+    PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_MD.data,DMA_QUEUE);
+
 
     PAL_setPalette(PAL3,palette_BOX.data,DMA_QUEUE);
 
@@ -1108,15 +1084,9 @@ void init_INTERMEDE_5()
     PAL_setPalette(PAL0,image_INTERMEDE_5_BG_B.palette->data,DMA_QUEUE);
     PAL_setPalette(PAL1,image_INTERMEDE_5_BG_A.palette->data,DMA_QUEUE);
     
-    if(G_COLORS_OPTION == MD_COLORS)
-    {
-        PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_MD.data,DMA_QUEUE);
-    }
 
-    else
-    {
-        PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_PCE.data,DMA_QUEUE);
-    }
+    PAL_setPalette(PAL2,palette_MADONNA_INTERMEDE_MD.data,DMA_QUEUE);
+
 
     PAL_setPalette(PAL3,palette_CHAIN_INTERMEDE.data,DMA_QUEUE);
 
@@ -1319,7 +1289,7 @@ inline static void init_HUB()
     G_ADR_VRAM_LIFE_ICON = G_ADR_VRAM_LIFE_BOSS + image_LIFE_BOSS.tileset->numTile;
     VDP_loadTileSet(image_LIFE_ICON.tileset, G_ADR_VRAM_LIFE_ICON, CPU);
 
-    for(i=0 ; i<2 ; i++)
+    for(i=0 ; i<G_NUMBER_LIVES ; i++)
     {
         VDP_setTileMapEx(WINDOW, image_LIFE_ICON.tilemap, TILE_ATTR_FULL(PAL3, TRUE, FALSE, FALSE, G_ADR_VRAM_LIFE_ICON), 27 + i, 3, 0, 0, 1, 2, CPU);
     }
@@ -1556,15 +1526,8 @@ void init_LEVEL()
 
         PAL_setPalette(PAL2,palette_STAGE.data,DMA_QUEUE);
 
-        if(G_COLORS_OPTION == MD_COLORS)
-        {
-            PAL_setPalette(PAL3,palette_VIGILANTE_MD.data,DMA_QUEUE);
-        }
+        PAL_setPalette(PAL3,palette_VIGILANTE_MD.data,DMA_QUEUE);
 
-        else
-        {
-            PAL_setPalette(PAL3,palette_VIGILANTE_PCE.data,DMA_QUEUE);
-        }
         
         
 
@@ -1852,15 +1815,8 @@ void init_LEVEL()
 
         PAL_setPalette(PAL2,palette_STAGE.data,DMA_QUEUE);
 
-        if(G_COLORS_OPTION == MD_COLORS)
-        {
-            PAL_setPalette(PAL3,palette_VIGILANTE_MD.data,DMA_QUEUE);
-        }
+        PAL_setPalette(PAL3,palette_VIGILANTE_MD.data,DMA_QUEUE);
 
-        else
-        {
-            PAL_setPalette(PAL3,palette_VIGILANTE_PCE.data,DMA_QUEUE);
-        }
 
 
 
@@ -2124,16 +2080,9 @@ void init_LEVEL()
         PAL_setColors(0,image_LEVEL_3_BG_B.palette->data,32,DMA_QUEUE); // PAL0 & PAL1 ARE IN "image_LEVEL_3_BG_B" //
         
         PAL_setPalette(PAL2,palette_STAGE.data,DMA_QUEUE);
-        
-        if(G_COLORS_OPTION == MD_COLORS)
-        {
-            PAL_setPalette(PAL3,palette_VIGILANTE_MD.data,DMA_QUEUE);
-        }
 
-        else
-        {
-            PAL_setPalette(PAL3,palette_VIGILANTE_PCE.data,DMA_QUEUE);
-        }
+        PAL_setPalette(PAL3,palette_VIGILANTE_MD.data,DMA_QUEUE);
+
 
 
 
@@ -2406,17 +2355,9 @@ void init_LEVEL()
         PAL_setPalette(PAL1,image_LEVEL_4_BG_A.palette->data,DMA_QUEUE);
         PAL_setPalette(PAL2,palette_STAGE.data,DMA_QUEUE);
 
-        if(G_COLORS_OPTION == MD_COLORS)
-        {
-            PAL_setPalette(PAL3,palette_VIGILANTE_MD.data,DMA_QUEUE);
-        }
 
-        else
-        {
-            PAL_setPalette(PAL3,palette_VIGILANTE_PCE.data,DMA_QUEUE);
-        }
+        PAL_setPalette(PAL3,palette_VIGILANTE_MD.data,DMA_QUEUE);
         
-
 
 
 
@@ -2688,15 +2629,9 @@ void init_LEVEL()
         PAL_setPalette(PAL1,image_LEVEL_5_BG_A.palette->data,DMA_QUEUE);
         PAL_setPalette(PAL2,palette_STAGE.data,DMA_QUEUE);
 
-        if(G_COLORS_OPTION == MD_COLORS)
-        {
-            PAL_setPalette(PAL3,palette_VIGILANTE_MD.data,DMA_QUEUE);
-        }
 
-        else
-        {
-            PAL_setPalette(PAL3,palette_VIGILANTE_PCE.data,DMA_QUEUE);
-        }
+        PAL_setPalette(PAL3,palette_VIGILANTE_MD.data,DMA_QUEUE);
+
         
 
 

@@ -37,7 +37,7 @@ u16 G_HI_SCORE;
 
 //s32 player.life;
 
-u8 G_NUMBER_LIFE;
+u8 G_NUMBER_LIVES;
 
 u8 G_TIME;
 
@@ -65,7 +65,7 @@ u16 G_COUNTER_TITLE;
 
 bool G_OPTIONS;
 
-bool G_COLORS_OPTION;
+//bool G_COLORS_OPTION;
 
 
 //--------------------------------------------------------------------------------------//

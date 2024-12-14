@@ -76,11 +76,11 @@ void title_Callback(u16 joy, u16 changed, u16 state)
                 // DISPLAY LEVEL NUMBER //
                 VDP_drawIntEx_BG_A_QUEUE(G_LEVEL,1,51,21,PAL0);
 
-                // DISPLAY COLORS //
-                VDP_setTileMapEx(BG_A, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 43, 23, 25, 28, 6, 1, DMA_QUEUE);
+                // DISPLAY LIVES //
+                VDP_setTileMapEx(BG_A, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 44, 23, 19, 28, 5, 1, DMA_QUEUE);
 
-                // DISPLAY MD //
-                VDP_setTileMapEx(BG_A, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 51, 23, 32, 28, 2, 1, DMA_QUEUE);
+                // DISPLAY LIVES NUMBER //
+                VDP_drawIntEx_BG_A_QUEUE(G_NUMBER_LIVES,1,51,23,PAL0);
 
                 // SELECTION ARROW //
                 SPR_setPosition(sprite_ARROW , 72 , 168);
@@ -130,28 +130,12 @@ void title_Callback(u16 joy, u16 changed, u16 state)
 
             else
             {
-                if(G_COLORS_OPTION == MD_COLORS)
+                if(G_NUMBER_LIVES < 5)
                 {
-                    G_COLORS_OPTION = PCE_COLORS;
+                    G_NUMBER_LIVES += 1;
 
-                    // DISPLAY PCE //
-                    VDP_setTileMapEx(BG_A, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 51, 23, 35, 28, 3, 1, DMA_QUEUE);
-
-                    VDP_setVerticalScrollVSync(BG_B , 288);
-
-                    PAL_setPalette(PAL1,palette_TITLE_BG_A_PCE.data,DMA_QUEUE);
-                }
-
-                else
-                {
-                    G_COLORS_OPTION = MD_COLORS;
-
-                    // DISPLAY MD //
-                    VDP_setTileMapEx(BG_A, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 51, 23, 32, 28, 3, 1, DMA_QUEUE);
-
-                    VDP_setVerticalScrollVSync(BG_B , 0);
-
-                    PAL_setPalette(PAL1,palette_TITLE_BG_A_MD.data,DMA_QUEUE);
+                    // DISPLAY LIVES NUMBER //
+                    VDP_drawIntEx_BG_A_QUEUE(G_NUMBER_LIVES,1,51,23,PAL0);
                 }
             }
         }
@@ -172,28 +156,12 @@ void title_Callback(u16 joy, u16 changed, u16 state)
 
             else
             {
-                if(G_COLORS_OPTION == MD_COLORS)
+                if(G_NUMBER_LIVES > 2)
                 {
-                    G_COLORS_OPTION = PCE_COLORS;
+                    G_NUMBER_LIVES -= 1;
 
-                    // DISPLAY PCE //
-                    VDP_setTileMapEx(BG_A, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 51, 23, 35, 28, 3, 1, DMA_QUEUE);
-
-                    VDP_setVerticalScrollVSync(BG_B , 288);
-
-                    PAL_setPalette(PAL1,palette_TITLE_BG_A_PCE.data,DMA_QUEUE);
-                }
-
-                else
-                {
-                    G_COLORS_OPTION = MD_COLORS;
-
-                    // DISPLAY MD //
-                    VDP_setTileMapEx(BG_A, image_TITLE_BG_B.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 51, 23, 32, 28, 3, 1, DMA_QUEUE);
-
-                    VDP_setVerticalScrollVSync(BG_B , 0);
-
-                    PAL_setPalette(PAL1,palette_TITLE_BG_A_MD.data,DMA_QUEUE);
+                    // DISPLAY LIVES NUMBER //
+                    VDP_drawIntEx_BG_A_QUEUE(G_NUMBER_LIVES,1,51,23,PAL0);
                 }
             }
         }
@@ -203,7 +171,7 @@ void title_Callback(u16 joy, u16 changed, u16 state)
         {
             if(G_OPTIONS == LEVEL_OPTION)
             {
-                G_OPTIONS = COLORS_OPTION;
+                G_OPTIONS = LIVES_OPTION;
 
                 SPR_setPosition(sprite_ARROW , 72 , 184);
             }
@@ -212,7 +180,7 @@ void title_Callback(u16 joy, u16 changed, u16 state)
         //
         else if( changed & state & BUTTON_UP )
         {
-            if(G_OPTIONS == COLORS_OPTION)
+            if(G_OPTIONS == LIVES_OPTION)
             {
                 G_OPTIONS = LEVEL_OPTION;
 
@@ -621,37 +589,41 @@ void player_Callback(u16 joy, u16 changed, u16 state)
             // DOWN //
             else if(changed & state & BUTTON_DOWN)
             {
-                if(sprite_WEAPON != NULL)
+                // GRAB NUNCHUCK //
+                if(player.invincible == FALSE)
                 {
-                    s16 pos_x_weapon = SPR_getPositionX(sprite_WEAPON);
-                    
-                    if(player.pos_X >= pos_x_weapon - 36 && player.pos_X <= pos_x_weapon - 20) // -32 -8
+                    if(sprite_WEAPON != NULL)
                     {
-                        player.armed = TRUE;
-
-                        SPR_releaseSprite(sprite_WEAPON);
-                        sprite_WEAPON = NULL;
-
-                        G_WEAPON_GRABBED = TRUE;
-
-                        sprite_NUNCHUK = SPR_addSprite(&tiles_SPR_NUNCHUK, 0, -32, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
-
-                        SPR_setDepth(sprite_NUNCHUK,6);
-
-                        SPR_setAnimAndFrame(player.spr_PLAYER,15,0);
-
-                        if(player.axis == AXIS_RIGHT)
+                        s16 pos_x_weapon = SPR_getPositionX(sprite_WEAPON);
+                        
+                        if(player.pos_X >= pos_x_weapon - 36 && player.pos_X <= pos_x_weapon - 20) // -32 -8
                         {
-                            SPR_setPosition(sprite_NUNCHUK,player.pos_X + 42,player.pos_Y + 36);
+                            player.armed = TRUE;
 
-                            SPR_setHFlip(sprite_NUNCHUK,FALSE);
-                        }
+                            SPR_releaseSprite(sprite_WEAPON);
+                            sprite_WEAPON = NULL;
 
-                        else
-                        {
-                            SPR_setPosition(sprite_NUNCHUK,player.pos_X - 2,player.pos_Y + 36);
+                            G_WEAPON_GRABBED = TRUE;
 
-                            SPR_setHFlip(sprite_NUNCHUK,TRUE);
+                            sprite_NUNCHUK = SPR_addSprite(&tiles_SPR_NUNCHUK, 0, -32, TILE_ATTR(PAL3, FALSE, FALSE, FALSE));
+
+                            SPR_setDepth(sprite_NUNCHUK,6);
+
+                            SPR_setAnimAndFrame(player.spr_PLAYER,15,0);
+
+                            if(player.axis == AXIS_RIGHT)
+                            {
+                                SPR_setPosition(sprite_NUNCHUK,player.pos_X + 42,player.pos_Y + 36);
+
+                                SPR_setHFlip(sprite_NUNCHUK,FALSE);
+                            }
+
+                            else
+                            {
+                                SPR_setPosition(sprite_NUNCHUK,player.pos_X - 2,player.pos_Y + 36);
+
+                                SPR_setHFlip(sprite_NUNCHUK,TRUE);
+                            }
                         }
                     }
                 }

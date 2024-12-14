@@ -170,6 +170,7 @@
 #define ENEMY_HIT_DOWN          11
 #define ENEMY_DEAD              12
 #define ENEMY_IDLE              13
+#define ENEMY_ESCAPE            14
 
 
 

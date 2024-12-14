@@ -5038,45 +5038,63 @@ void update_PUNK(struct_ENEMY_ *enemy)
         //                                                                //
         //----------------------------------------------------------------//
 
-        //----------------------------------------------------------------//
-        //                            AXIS LEFT                           //
-        //----------------------------------------------------------------//
-
-        if(enemy->axis == AXIS_LEFT)
+        if(player.state != STATE_DEAD && player.invincible != TRUE)
         {
-            if((enemy->pos_X - 42) < player.pos_X)
+            //----------------------------------------------------------------//
+            //                            AXIS LEFT                           //
+            //----------------------------------------------------------------//
+
+            if(enemy->axis == AXIS_LEFT)
             {
-                enemy->state = ENEMY_THREAT_FW;
+                if((enemy->pos_X - 42) < player.pos_X)
+                {
+                    enemy->state = ENEMY_THREAT_FW;
 
-                enemy->counter_ANIM = 0;
+                    enemy->counter_ANIM = 0;
 
-                enemy->vulnerable = TRUE;
+                    enemy->vulnerable = TRUE;
 
-                return;
+                    return;
+                }
+            }
+
+            //----------------------------------------------------------------//
+            //                            AXIS RIGHT                          //
+            //----------------------------------------------------------------//
+
+            else
+            {
+                if((enemy->pos_X + 58) > player.pos_X)
+                {
+                    enemy->state = ENEMY_THREAT_FW;
+
+                    enemy->counter_ANIM = 0;
+
+                    enemy->vulnerable = TRUE;
+
+                    return;
+                }
             }
         }
 
-        //----------------------------------------------------------------//
-        //                            AXIS RIGHT                          //
-        //----------------------------------------------------------------//
 
         else
         {
-            if((enemy->pos_X + 58) > player.pos_X)
-            {
-                enemy->state = ENEMY_THREAT_FW;
+            SPR_setAnimAndFrame(enemy->spr_ENEMY,2,0);
+            
+            enemy->state = ENEMY_IDLE;
 
-                enemy->counter_ANIM = 0;
+            enemy->counter_ANIM = 0;
 
-                enemy->vulnerable = TRUE;
+            enemy->vulnerable = TRUE;
 
-                return;
-            }
-        }
-        
-        
+            return;
+        }    
+            
         
         enemy->counter_ANIM += 1;
+
+
 
 
         //----------------------------------------------------------------//
@@ -5175,18 +5193,19 @@ void update_PUNK(struct_ENEMY_ *enemy)
         //                                                                //
         //----------------------------------------------------------------//
 
-        //----------------------------------------------------------------//
-        //                            AXIS LEFT                           //
-        //----------------------------------------------------------------//
-
-        if(enemy->axis == AXIS_LEFT)
+        if(player.state != STATE_DEAD && player.invincible != TRUE)
         {
-            //------------------------------------------------------//
-            //             IF PLAYER IS AT PUNCH RANGE              //
-            //------------------------------------------------------//
-            if(player.state != STATE_DEAD)
+            //----------------------------------------------------------------//
+            //                            AXIS LEFT                           //
+            //----------------------------------------------------------------//
+
+            if(enemy->axis == AXIS_LEFT)
             {
-                if(enemy->pos_X <= (player.pos_X + 10)) // PLAYER_CENTER
+                //------------------------------------------------------//
+                //             IF PLAYER IS AT PUNCH RANGE              //
+                //------------------------------------------------------//
+
+                if(enemy->pos_X <= (player.pos_X + 10))
                 {
                     enemy->counter_ANIM = 0;
 
@@ -5194,25 +5213,22 @@ void update_PUNK(struct_ENEMY_ *enemy)
 
                     enemy->state = random_NUMBER(6,7);
 
-                    //enemy->state = ENEMY_ATTACK_UP;
-
                     return;
                 }
+
             }
-        }
 
-        //----------------------------------------------------------------//
-        //                            AXIS RIGHT                          //
-        //----------------------------------------------------------------//
+            //----------------------------------------------------------------//
+            //                            AXIS RIGHT                          //
+            //----------------------------------------------------------------//
 
-        else if(enemy->axis == AXIS_RIGHT)
-        {
-            //------------------------------------------------------//
-            //             IF PLAYER IS AT PUNCH RANGE              //
-            //------------------------------------------------------//
-            if(player.state != STATE_DEAD)
+            else if(enemy->axis == AXIS_RIGHT)
             {
-                if(player.pos_X <= (enemy->pos_X + ENEMY_RIGHT_BOUND)) //26
+                //------------------------------------------------------//
+                //             IF PLAYER IS AT PUNCH RANGE              //
+                //------------------------------------------------------//
+
+                if(player.pos_X <= (enemy->pos_X + ENEMY_RIGHT_BOUND))
                 {
                     enemy->counter_ANIM = 0;
 
@@ -5220,12 +5236,24 @@ void update_PUNK(struct_ENEMY_ *enemy)
 
                     enemy->state = random_NUMBER(6,7);
 
-                    //enemy->state = ENEMY_ATTACK_UP;
-
                     return;
                 }
             }
         }
+
+
+        else
+        {
+            SPR_setAnimAndFrame(enemy->spr_ENEMY,2,0);
+            
+            enemy->state = ENEMY_IDLE;
+
+            enemy->counter_ANIM = 0;
+
+            enemy->vulnerable = TRUE;
+
+            return;
+        } 
 
 
 
@@ -5327,55 +5355,65 @@ void update_PUNK(struct_ENEMY_ *enemy)
 
         else if(enemy->counter_ANIM == 38)
         {
-            // CHECK DISTANCE BETWEEN PUNK AND PLAYER //
-            if(enemy->axis == AXIS_LEFT)
+            if(player.state != STATE_DEAD && player.invincible != TRUE)
             {
-                if((enemy->pos_X - 56) < player.pos_X)
+                // CHECK DISTANCE BETWEEN PUNK AND PLAYER //
+                if(enemy->axis == AXIS_LEFT)
                 {
-                    enemy->state = ENEMY_THREAT_FW;
+                    if((enemy->pos_X - 56) < player.pos_X)
+                    {
+                        enemy->state = ENEMY_THREAT_FW;
 
-                    enemy->counter_ANIM = 0;
+                        enemy->counter_ANIM = 0;
 
-                    SPR_setFrame(enemy->spr_ENEMY,0);
+                        return;
+                    }
 
-                    return;
+                    else
+                    {
+                        enemy->state = ENEMY_WALK;
+
+                        enemy->counter_ANIM = 0;
+
+                        return;
+                    }
                 }
 
-                else
+
+                else if(enemy->axis == AXIS_RIGHT)
                 {
-                    enemy->state = ENEMY_WALK;
+                    if((enemy->pos_X + 48) > player.pos_X)
+                    {
+                        enemy->state = ENEMY_THREAT_FW;
 
-                    enemy->counter_ANIM = 0;
+                        enemy->counter_ANIM = 0;
 
-                    SPR_setAnimAndFrame(enemy->spr_ENEMY,0,0);
+                        return;
+                    }
 
-                    return;
+                    else
+                    {
+                        enemy->state = ENEMY_WALK;
+
+                        enemy->counter_ANIM = 0;
+
+                        return;
+                    }
                 }
             }
 
-            else if(enemy->axis == AXIS_RIGHT)
+
+            else
             {
-                if((enemy->pos_X + 48) > player.pos_X)
-                {
-                    enemy->state = ENEMY_THREAT_FW;
+                SPR_setAnimAndFrame(enemy->spr_ENEMY,2,0);
+                
+                enemy->state = ENEMY_IDLE;
 
-                    enemy->counter_ANIM = 0;
+                enemy->counter_ANIM = 0;
 
-                    SPR_setFrame(enemy->spr_ENEMY,0);
+                enemy->vulnerable = TRUE;
 
-                    return;
-                }
-
-                else
-                {
-                    enemy->state = ENEMY_WALK;
-
-                    enemy->counter_ANIM = 0;
-
-                    SPR_setAnimAndFrame(enemy->spr_ENEMY,0,0);
-
-                    return;
-                }
+                return;
             }
         }
 
@@ -5492,13 +5530,27 @@ void update_PUNK(struct_ENEMY_ *enemy)
 
         else if(enemy->counter_ANIM == 38)
         {
-            enemy->state = ENEMY_THREAT_FW;
+            if(player.state != STATE_DEAD && player.invincible != TRUE)
+            {
+                enemy->state = ENEMY_THREAT_FW;
 
-            enemy->counter_ANIM = 0;
+                enemy->counter_ANIM = 0;
 
-            SPR_setFrame(enemy->spr_ENEMY,0);
+                return;
+            }
 
-            return;
+            else
+            {
+                SPR_setAnimAndFrame(enemy->spr_ENEMY,2,0);
+                
+                enemy->state = ENEMY_IDLE;
+
+                enemy->counter_ANIM = 0;
+
+                enemy->vulnerable = TRUE;
+
+                return;
+            } 
         }
 
 
@@ -5725,15 +5777,28 @@ void update_PUNK(struct_ENEMY_ *enemy)
 
         else if(enemy->counter_ANIM == 34)
         {
-            enemy->counter_ANIM = 0;
+            if(player.state != STATE_DEAD && player.invincible != TRUE)
+            {
+                enemy->counter_ANIM = 0;
 
-            enemy->state = random_NUMBER(4,7); //ENEMY_THREAT_BW
+                enemy->state = random_NUMBER(4,7);
 
-            /*enemy->counter_ANIM = 0;
-            
-            enemy->state = ENEMY_THREAT_FW;*/
+                return;
+            }
 
-            return;
+
+            else
+            {
+                SPR_setAnimAndFrame(enemy->spr_ENEMY,2,0);
+                
+                enemy->state = ENEMY_IDLE;
+
+                enemy->counter_ANIM = 0;
+
+                enemy->vulnerable = TRUE;
+
+                return;
+            }  
         }        
 
 
@@ -5972,13 +6037,28 @@ void update_PUNK(struct_ENEMY_ *enemy)
 
         else if(enemy->counter_ANIM == 34)
         {
-            enemy->counter_ANIM = 0;
+            if(player.state != STATE_DEAD && player.invincible != TRUE)
+            {
+                enemy->counter_ANIM = 0;
 
-            enemy->state = random_NUMBER(4,7);
+                enemy->state = random_NUMBER(4,7);
 
-            //enemy->state = ENEMY_THREAT_FW;
+                return;
+            }
 
-            return;
+
+            else
+            {
+                SPR_setAnimAndFrame(enemy->spr_ENEMY,2,0);
+                
+                enemy->state = ENEMY_IDLE;
+
+                enemy->counter_ANIM = 0;
+
+                enemy->vulnerable = TRUE;
+
+                return;
+            } 
         }        
 
 
@@ -6170,17 +6250,30 @@ void update_PUNK(struct_ENEMY_ *enemy)
 
         else if(enemy->counter_ANIM == 17)
         {
-            enemy->counter_ANIM = 0;
+            if(player.state != STATE_DEAD && player.invincible != TRUE)
+            {
+                enemy->counter_ANIM = 0;
 
-            enemy->vulnerable = TRUE;
-            
-            enemy->state = ENEMY_WALK;
+                enemy->vulnerable = TRUE;
+                
+                enemy->state = ENEMY_WALK;
 
-            SPR_setAnimAndFrame(enemy->spr_ENEMY , 0 , 0);
+                return;
+            }
 
-            //SPR_setPosition(enemy->spr_ENEMY , enemy->pos_X , enemy->pos_Y);
 
-            return;
+            else
+            {
+                SPR_setAnimAndFrame(enemy->spr_ENEMY,2,0);
+                
+                enemy->state = ENEMY_IDLE;
+
+                enemy->counter_ANIM = 0;
+
+                enemy->vulnerable = TRUE;
+
+                return;
+            } 
         }
 
 
@@ -6218,13 +6311,30 @@ void update_PUNK(struct_ENEMY_ *enemy)
 
         else if(enemy->counter_ANIM == 17)
         {
-            enemy->counter_ANIM = 0;
+            if(player.state != STATE_DEAD && player.invincible != TRUE)
+            {
+                enemy->counter_ANIM = 0;
 
-            enemy->vulnerable = TRUE;
-            
-            enemy->state = ENEMY_THREAT_FW;
+                enemy->vulnerable = TRUE;
+                
+                enemy->state = ENEMY_THREAT_FW;
 
-            return;
+                return;
+            }
+
+
+            else
+            {
+                SPR_setAnimAndFrame(enemy->spr_ENEMY,2,0);
+                
+                enemy->state = ENEMY_IDLE;
+
+                enemy->counter_ANIM = 0;
+
+                enemy->vulnerable = TRUE;
+
+                return;
+            } 
         }
 
 
@@ -6254,15 +6364,30 @@ void update_PUNK(struct_ENEMY_ *enemy)
 
         else if(enemy->counter_ANIM == 17)
         {
-            enemy->counter_ANIM = 0;
+            if(player.state != STATE_DEAD && player.invincible != TRUE)
+            {
+                enemy->counter_ANIM = 0;
 
-            enemy->vulnerable = TRUE;
-            
-            enemy->state = ENEMY_THREAT_FW;
+                enemy->vulnerable = TRUE;
+                
+                enemy->state = ENEMY_THREAT_FW;
 
-            SPR_setAnimAndFrame(enemy->spr_ENEMY , 0 , 0);
+                return;
+            }
 
-            return;
+
+            else
+            {
+                SPR_setAnimAndFrame(enemy->spr_ENEMY,2,0);
+                
+                enemy->state = ENEMY_IDLE;
+
+                enemy->counter_ANIM = 0;
+
+                enemy->vulnerable = TRUE;
+
+                return;
+            }
         }
 
 
@@ -6362,44 +6487,60 @@ void update_KNIFE_MAN(struct_ENEMY_ *enemy)
         //                                                                //
         //----------------------------------------------------------------//
 
-        //----------------------------------------------------------------//
-        //                            AXIS LEFT                           //
-        //----------------------------------------------------------------//
-
-        if(enemy->axis == AXIS_LEFT)
+        if(player.state != STATE_DEAD && player.invincible != TRUE)
         {
-            if((enemy->pos_X - 42) < player.pos_X)
+            //----------------------------------------------------------------//
+            //                            AXIS LEFT                           //
+            //----------------------------------------------------------------//
+
+            if(enemy->axis == AXIS_LEFT)
             {
-                enemy->state = ENEMY_THREAT_FW;
+                if((enemy->pos_X - 42) < player.pos_X)
+                {
+                    enemy->state = ENEMY_THREAT_FW;
 
-                enemy->counter_ANIM = 0;
+                    enemy->counter_ANIM = 0;
 
-                enemy->vulnerable = TRUE;
+                    enemy->vulnerable = TRUE;
 
-                return;
+                    return;
+                }
+            }
+
+            //----------------------------------------------------------------//
+            //                            AXIS RIGHT                          //
+            //----------------------------------------------------------------//
+
+            else
+            {
+                if((enemy->pos_X + 58) > player.pos_X)
+                {
+                    enemy->state = ENEMY_THREAT_FW;
+
+                    enemy->counter_ANIM = 0;
+
+                    enemy->vulnerable = TRUE;
+
+                    return;
+                }
             }
         }
 
-        //----------------------------------------------------------------//
-        //                            AXIS RIGHT                          //
-        //----------------------------------------------------------------//
 
         else
         {
-            if((enemy->pos_X + 58) > player.pos_X)
-            {
-                enemy->state = ENEMY_THREAT_FW;
+            SPR_setAnimAndFrame(enemy->spr_ENEMY,2,0);
+            
+            enemy->state = ENEMY_IDLE;
 
-                enemy->counter_ANIM = 0;
+            enemy->counter_ANIM = 0;
 
-                enemy->vulnerable = TRUE;
+            enemy->vulnerable = TRUE;
 
-                return;
-            }
-        }
-        
-        
-        
+            return;
+        }            
+            
+            
         enemy->counter_ANIM += 1;
 
 
@@ -6499,57 +6640,66 @@ void update_KNIFE_MAN(struct_ENEMY_ *enemy)
         //                                                                //
         //----------------------------------------------------------------//
 
-        //----------------------------------------------------------------//
-        //                            AXIS LEFT                           //
-        //----------------------------------------------------------------//
-
-        if(enemy->axis == AXIS_LEFT)
+        if(player.state != STATE_DEAD && player.invincible != TRUE)
         {
-            //------------------------------------------------------//
-            //             IF PLAYER IS AT PUNCH RANGE              //
-            //------------------------------------------------------//
-            if(player.state != STATE_DEAD)
+            //----------------------------------------------------------------//
+            //                            AXIS LEFT                           //
+            //----------------------------------------------------------------//
+
+            if(enemy->axis == AXIS_LEFT)
             {
-                if(enemy->pos_X <= (player.pos_X + 16)) // PLAYER_CENTER
+                //------------------------------------------------------//
+                //             IF PLAYER IS AT PUNCH RANGE              //
+                //------------------------------------------------------//
+
+                if(enemy->pos_X <= (player.pos_X + 16))
                 {
                     enemy->counter_ANIM = 0;
 
                     enemy->vulnerable = TRUE;
-
-                    //enemy->state = random_NUMBER(6,7);
 
                     enemy->state = ENEMY_ATTACK_UP;
 
                     return;
                 }
             }
-        }
 
-        //----------------------------------------------------------------//
-        //                            AXIS RIGHT                          //
-        //----------------------------------------------------------------//
+            //----------------------------------------------------------------//
+            //                            AXIS RIGHT                          //
+            //----------------------------------------------------------------//
 
-        else if(enemy->axis == AXIS_RIGHT)
-        {
-            //------------------------------------------------------//
-            //             IF PLAYER IS AT PUNCH RANGE              //
-            //------------------------------------------------------//
-            if(player.state != STATE_DEAD)
+            else if(enemy->axis == AXIS_RIGHT)
             {
+                //------------------------------------------------------//
+                //             IF PLAYER IS AT PUNCH RANGE              //
+                //------------------------------------------------------//
+
                 if(player.pos_X <= (enemy->pos_X + 32))
                 {
                     enemy->counter_ANIM = 0;
 
                     enemy->vulnerable = TRUE;
 
-                    //enemy->state = random_NUMBER(6,7);
-
                     enemy->state = ENEMY_ATTACK_UP;
 
                     return;
                 }
             }
         }
+
+
+        else
+        {
+            SPR_setAnimAndFrame(enemy->spr_ENEMY,2,0);
+            
+            enemy->state = ENEMY_IDLE;
+
+            enemy->counter_ANIM = 0;
+
+            enemy->vulnerable = TRUE;
+
+            return;
+        } 
 
 
 
@@ -6660,7 +6810,7 @@ void update_KNIFE_MAN(struct_ENEMY_ *enemy)
 
                     enemy->counter_ANIM = 0;
 
-                    SPR_setFrame(enemy->spr_ENEMY,0);
+                    //SPR_setFrame(enemy->spr_ENEMY,0);
 
                     return;
                 }
@@ -6671,7 +6821,7 @@ void update_KNIFE_MAN(struct_ENEMY_ *enemy)
 
                     enemy->counter_ANIM = 0;
 
-                    SPR_setAnimAndFrame(enemy->spr_ENEMY,0,0);
+                    //SPR_setAnimAndFrame(enemy->spr_ENEMY,0,0);
 
                     return;
                 }
@@ -6685,7 +6835,7 @@ void update_KNIFE_MAN(struct_ENEMY_ *enemy)
 
                     enemy->counter_ANIM = 0;
 
-                    SPR_setFrame(enemy->spr_ENEMY,0);
+                    //SPR_setFrame(enemy->spr_ENEMY,0);
 
                     return;
                 }
@@ -6696,7 +6846,7 @@ void update_KNIFE_MAN(struct_ENEMY_ *enemy)
 
                     enemy->counter_ANIM = 0;
 
-                    SPR_setAnimAndFrame(enemy->spr_ENEMY,0,0);
+                    //SPR_setAnimAndFrame(enemy->spr_ENEMY,0,0);
 
                     return;
                 }
@@ -6977,15 +7127,28 @@ void update_KNIFE_MAN(struct_ENEMY_ *enemy)
 
         else if(enemy->counter_ANIM == 40)
         {
-            //enemy->state = random_NUMBER(4,6); //ENEMY_THREAT_BW
+            if(player.state != STATE_DEAD && player.invincible != TRUE)
+            {
+                enemy->counter_ANIM = 0;
 
-            enemy->counter_ANIM = 0;
+                enemy->state = ENEMY_THREAT_FW;
 
-            //enemy->state = random_NUMBER(4,7);
+                return;
+            }
 
-            enemy->state = ENEMY_THREAT_FW;
 
-            return;
+            else
+            {
+                SPR_setAnimAndFrame(enemy->spr_ENEMY,2,0);
+                
+                enemy->state = ENEMY_IDLE;
+
+                enemy->counter_ANIM = 0;
+
+                enemy->vulnerable = TRUE;
+
+                return;
+            }
         }        
 
 
@@ -7177,17 +7340,30 @@ void update_KNIFE_MAN(struct_ENEMY_ *enemy)
 
         else if(enemy->counter_ANIM == 17)
         {
-            enemy->counter_ANIM = 0;
+            if(player.state != STATE_DEAD && player.invincible != TRUE)
+            {
+                enemy->counter_ANIM = 0;
 
-            enemy->vulnerable = TRUE;
-            
-            enemy->state = ENEMY_WALK;
+                enemy->vulnerable = TRUE;
+                
+                enemy->state = ENEMY_WALK;
 
-            SPR_setAnimAndFrame(enemy->spr_ENEMY , 0 , 0);
+                return;
+            }
 
-            //SPR_setPosition(enemy->spr_ENEMY , enemy->pos_X , enemy->pos_Y);
 
-            return;
+            else
+            {
+                SPR_setAnimAndFrame(enemy->spr_ENEMY,2,0);
+                
+                enemy->state = ENEMY_IDLE;
+
+                enemy->counter_ANIM = 0;
+
+                enemy->vulnerable = TRUE;
+
+                return;
+            }
         }
 
 
@@ -7225,13 +7401,30 @@ void update_KNIFE_MAN(struct_ENEMY_ *enemy)
 
         else if(enemy->counter_ANIM == 17)
         {
-            enemy->counter_ANIM = 0;
+            if(player.state != STATE_DEAD && player.invincible != TRUE)
+            {
+                enemy->counter_ANIM = 0;
 
-            enemy->vulnerable = TRUE;
-            
-            enemy->state = ENEMY_THREAT_FW;
+                enemy->vulnerable = TRUE;
+                
+                enemy->state = ENEMY_THREAT_FW;
 
-            return;
+                return;
+            }
+
+
+            else
+            {
+                SPR_setAnimAndFrame(enemy->spr_ENEMY,2,0);
+                
+                enemy->state = ENEMY_IDLE;
+
+                enemy->counter_ANIM = 0;
+
+                enemy->vulnerable = TRUE;
+
+                return;
+            }
         }
 
 
@@ -7261,15 +7454,30 @@ void update_KNIFE_MAN(struct_ENEMY_ *enemy)
 
         else if(enemy->counter_ANIM == 17)
         {
-            enemy->counter_ANIM = 0;
+            if(player.state != STATE_DEAD && player.invincible != TRUE)
+            {
+                enemy->counter_ANIM = 0;
 
-            enemy->vulnerable = TRUE;
-            
-            enemy->state = ENEMY_THREAT_FW;
+                enemy->vulnerable = TRUE;
+                
+                enemy->state = ENEMY_THREAT_FW;
 
-            SPR_setAnimAndFrame(enemy->spr_ENEMY , 0 , 0);
+                return;
+            }
 
-            return;
+
+            else
+            {
+                SPR_setAnimAndFrame(enemy->spr_ENEMY,2,0);
+                
+                enemy->state = ENEMY_IDLE;
+
+                enemy->counter_ANIM = 0;
+
+                enemy->vulnerable = TRUE;
+
+                return;
+            }
         }
 
 
@@ -7369,45 +7577,63 @@ void update_CHAIN_MAN(struct_ENEMY_ *enemy)
         //                                                                //
         //----------------------------------------------------------------//
 
-        //----------------------------------------------------------------//
-        //                            AXIS LEFT                           //
-        //----------------------------------------------------------------//
-
-        if(enemy->axis == AXIS_LEFT)
+        if(player.state != STATE_DEAD && player.invincible != TRUE)
         {
-            if((enemy->pos_X - 42) < player.pos_X)
+            //----------------------------------------------------------------//
+            //                            AXIS LEFT                           //
+            //----------------------------------------------------------------//
+
+            if(enemy->axis == AXIS_LEFT)
             {
-                enemy->state = ENEMY_THREAT_FW;
+                if((enemy->pos_X - 42) < player.pos_X)
+                {
+                    enemy->state = ENEMY_THREAT_FW;
 
-                enemy->counter_ANIM = 0;
+                    enemy->counter_ANIM = 0;
 
-                enemy->vulnerable = TRUE;
+                    enemy->vulnerable = TRUE;
 
-                return;
+                    return;
+                }
             }
-        }
 
-        //----------------------------------------------------------------//
-        //                            AXIS RIGHT                          //
-        //----------------------------------------------------------------//
+            //----------------------------------------------------------------//
+            //                            AXIS RIGHT                          //
+            //----------------------------------------------------------------//
+
+            else
+            {
+                if((enemy->pos_X + 58) > player.pos_X)
+                {
+                    enemy->state = ENEMY_THREAT_FW;
+
+                    enemy->counter_ANIM = 0;
+
+                    enemy->vulnerable = TRUE;
+
+                    return;
+                }
+            }
+        }   
+            
 
         else
         {
-            if((enemy->pos_X + 58) > player.pos_X)
-            {
-                enemy->state = ENEMY_THREAT_FW;
+            SPR_setAnimAndFrame(enemy->spr_ENEMY,2,0);
+            
+            enemy->state = ENEMY_IDLE;
 
-                enemy->counter_ANIM = 0;
+            enemy->counter_ANIM = 0;
 
-                enemy->vulnerable = TRUE;
+            enemy->vulnerable = TRUE;
 
-                return;
-            }
+            return;
         }
-        
-        
-        
+
+
         enemy->counter_ANIM += 1;
+
+
 
 
         //----------------------------------------------------------------//
@@ -7506,17 +7732,18 @@ void update_CHAIN_MAN(struct_ENEMY_ *enemy)
         //                                                                //
         //----------------------------------------------------------------//
 
-        //----------------------------------------------------------------//
-        //                            AXIS LEFT                           //
-        //----------------------------------------------------------------//
-
-        if(enemy->axis == AXIS_LEFT)
+        if(player.state != STATE_DEAD && player.invincible != TRUE)
         {
-            //------------------------------------------------------//
-            //             IF PLAYER IS AT PUNCH RANGE              //
-            //------------------------------------------------------//
-            if(player.state != STATE_DEAD)
+            //----------------------------------------------------------------//
+            //                            AXIS LEFT                           //
+            //----------------------------------------------------------------//
+
+            if(enemy->axis == AXIS_LEFT)
             {
+                //------------------------------------------------------//
+                //             IF PLAYER IS AT PUNCH RANGE              //
+                //------------------------------------------------------//
+
                 if(enemy->pos_X <= (player.pos_X + 16)) // PLAYER_CENTER
                 {
                     enemy->counter_ANIM = 0;
@@ -7525,37 +7752,47 @@ void update_CHAIN_MAN(struct_ENEMY_ *enemy)
 
                     enemy->state = random_NUMBER(6,7);
 
-                    //enemy->state = ENEMY_ATTACK_UP;
-
                     return;
+                }
+            }
+
+            //----------------------------------------------------------------//
+            //                            AXIS RIGHT                          //
+            //----------------------------------------------------------------//
+
+            else if(enemy->axis == AXIS_RIGHT)
+            {
+                //------------------------------------------------------//
+                //             IF PLAYER IS AT PUNCH RANGE              //
+                //------------------------------------------------------//
+                if(player.state != STATE_DEAD)
+                {
+                    if(player.pos_X <= (enemy->pos_X + 32))
+                    {
+                        enemy->counter_ANIM = 0;
+
+                        enemy->vulnerable = TRUE;
+
+                        enemy->state = random_NUMBER(6,7);
+
+                        return;
+                    }
                 }
             }
         }
 
-        //----------------------------------------------------------------//
-        //                            AXIS RIGHT                          //
-        //----------------------------------------------------------------//
 
-        else if(enemy->axis == AXIS_RIGHT)
+        else
         {
-            //------------------------------------------------------//
-            //             IF PLAYER IS AT PUNCH RANGE              //
-            //------------------------------------------------------//
-            if(player.state != STATE_DEAD)
-            {
-                if(player.pos_X <= (enemy->pos_X + 32))
-                {
-                    enemy->counter_ANIM = 0;
+            SPR_setAnimAndFrame(enemy->spr_ENEMY,2,0);
+            
+            enemy->state = ENEMY_IDLE;
 
-                    enemy->vulnerable = TRUE;
+            enemy->counter_ANIM = 0;
 
-                    enemy->state = random_NUMBER(6,7);
+            enemy->vulnerable = TRUE;
 
-                    //enemy->state = ENEMY_ATTACK_UP;
-
-                    return;
-                }
-            }
+            return;
         }
 
 
@@ -7658,55 +7895,65 @@ void update_CHAIN_MAN(struct_ENEMY_ *enemy)
 
         else if(enemy->counter_ANIM == 38)
         {
-            // CHECK DISTANCE BETWEEN PUNK AND PLAYER //
-            if(enemy->axis == AXIS_LEFT)
+            if(player.state != STATE_DEAD && player.invincible != TRUE)
             {
-                if((enemy->pos_X - 56) < player.pos_X)
+                // CHECK DISTANCE BETWEEN PUNK AND PLAYER //
+                if(enemy->axis == AXIS_LEFT)
                 {
-                    enemy->state = ENEMY_THREAT_FW;
+                    if((enemy->pos_X - 56) < player.pos_X)
+                    {
+                        enemy->state = ENEMY_THREAT_FW;
 
-                    enemy->counter_ANIM = 0;
+                        enemy->counter_ANIM = 0;
 
-                    SPR_setFrame(enemy->spr_ENEMY,0);
+                        return;
+                    }
 
-                    return;
+                    else
+                    {
+                        enemy->state = ENEMY_WALK;
+
+                        enemy->counter_ANIM = 0;
+
+                        return;
+                    }
                 }
 
-                else
+
+                else if(enemy->axis == AXIS_RIGHT)
                 {
-                    enemy->state = ENEMY_WALK;
+                    if((enemy->pos_X + 48) > player.pos_X)
+                    {
+                        enemy->state = ENEMY_THREAT_FW;
 
-                    enemy->counter_ANIM = 0;
+                        enemy->counter_ANIM = 0;
 
-                    SPR_setAnimAndFrame(enemy->spr_ENEMY,0,0);
+                        return;
+                    }
 
-                    return;
+                    else
+                    {
+                        enemy->state = ENEMY_WALK;
+
+                        enemy->counter_ANIM = 0;
+
+                        return;
+                    }
                 }
             }
 
-            else if(enemy->axis == AXIS_RIGHT)
+
+            else
             {
-                if((enemy->pos_X + 48) > player.pos_X)
-                {
-                    enemy->state = ENEMY_THREAT_FW;
+                SPR_setAnimAndFrame(enemy->spr_ENEMY,2,0);
+                
+                enemy->state = ENEMY_IDLE;
 
-                    enemy->counter_ANIM = 0;
+                enemy->counter_ANIM = 0;
 
-                    SPR_setFrame(enemy->spr_ENEMY,0);
+                enemy->vulnerable = TRUE;
 
-                    return;
-                }
-
-                else
-                {
-                    enemy->state = ENEMY_WALK;
-
-                    enemy->counter_ANIM = 0;
-
-                    SPR_setAnimAndFrame(enemy->spr_ENEMY,0,0);
-
-                    return;
-                }
+                return;
             }
         }
 
@@ -7823,13 +8070,28 @@ void update_CHAIN_MAN(struct_ENEMY_ *enemy)
 
         else if(enemy->counter_ANIM == 38)
         {
-            enemy->state = ENEMY_THREAT_FW;
+            if(player.state != STATE_DEAD && player.invincible != TRUE)
+            {
+                    enemy->state = ENEMY_THREAT_FW;
 
-            enemy->counter_ANIM = 0;
+                    enemy->counter_ANIM = 0;
 
-            SPR_setFrame(enemy->spr_ENEMY,0);
+                    return;
+            }
 
-            return;
+
+            else
+            {
+                SPR_setAnimAndFrame(enemy->spr_ENEMY,2,0);
+                
+                enemy->state = ENEMY_IDLE;
+
+                enemy->counter_ANIM = 0;
+
+                enemy->vulnerable = TRUE;
+
+                return;
+            }
         }
 
 
@@ -7977,13 +8239,28 @@ void update_CHAIN_MAN(struct_ENEMY_ *enemy)
         // 32
         else if(enemy->counter_ANIM == 34)
         {
-            //enemy->state = random_NUMBER(4,6); //ENEMY_THREAT_BW
+            if(player.state != STATE_DEAD && player.invincible != TRUE)
+            {
+                enemy->counter_ANIM = 0;
 
-            enemy->counter_ANIM = 0;
+                enemy->state = random_NUMBER(4,7);
 
-            enemy->state = random_NUMBER(4,7);
+                return;
+            }
 
-            return;
+
+            else
+            {
+                SPR_setAnimAndFrame(enemy->spr_ENEMY,2,0);
+                
+                enemy->state = ENEMY_IDLE;
+
+                enemy->counter_ANIM = 0;
+
+                enemy->vulnerable = TRUE;
+
+                return;
+            }
         }        
 
 
@@ -8126,11 +8403,28 @@ void update_CHAIN_MAN(struct_ENEMY_ *enemy)
 
         else if(enemy->counter_ANIM == 34)
         {
-            enemy->counter_ANIM = 0;
+            if(player.state != STATE_DEAD && player.invincible != TRUE)
+            {
+                enemy->counter_ANIM = 0;
 
-            enemy->state = random_NUMBER(4,7);
+                enemy->state = random_NUMBER(4,7);
 
-            return;
+                return;
+            }
+
+
+            else
+            {
+                SPR_setAnimAndFrame(enemy->spr_ENEMY,2,0);
+                
+                enemy->state = ENEMY_IDLE;
+
+                enemy->counter_ANIM = 0;
+
+                enemy->vulnerable = TRUE;
+
+                return;
+            }
         }        
 
 
@@ -8322,17 +8616,30 @@ void update_CHAIN_MAN(struct_ENEMY_ *enemy)
 
         else if(enemy->counter_ANIM == 17)
         {
-            enemy->counter_ANIM = 0;
+            if(player.state != STATE_DEAD && player.invincible != TRUE)
+            {
+                enemy->counter_ANIM = 0;
 
-            enemy->vulnerable = TRUE;
-            
-            enemy->state = ENEMY_WALK;
+                enemy->vulnerable = TRUE;
+                
+                enemy->state = ENEMY_WALK;
 
-            SPR_setAnimAndFrame(enemy->spr_ENEMY , 0 , 0);
+                return;
+            }
 
-            //SPR_setPosition(enemy->spr_ENEMY , enemy->pos_X , enemy->pos_Y);
 
-            return;
+            else
+            {
+                SPR_setAnimAndFrame(enemy->spr_ENEMY,2,0);
+                
+                enemy->state = ENEMY_IDLE;
+
+                enemy->counter_ANIM = 0;
+
+                enemy->vulnerable = TRUE;
+
+                return;
+            }
         }
 
 
@@ -8370,13 +8677,30 @@ void update_CHAIN_MAN(struct_ENEMY_ *enemy)
 
         else if(enemy->counter_ANIM == 17)
         {
-            enemy->counter_ANIM = 0;
+            if(player.state != STATE_DEAD && player.invincible != TRUE)
+            {
+                enemy->counter_ANIM = 0;
 
-            enemy->vulnerable = TRUE;
-            
-            enemy->state = ENEMY_THREAT_FW;
+                enemy->vulnerable = TRUE;
+                
+                enemy->state = ENEMY_THREAT_FW;
 
-            return;
+                return;
+            }
+
+
+            else
+            {
+                SPR_setAnimAndFrame(enemy->spr_ENEMY,2,0);
+                
+                enemy->state = ENEMY_IDLE;
+
+                enemy->counter_ANIM = 0;
+
+                enemy->vulnerable = TRUE;
+
+                return;
+            } 
         }
 
 
@@ -8406,15 +8730,30 @@ void update_CHAIN_MAN(struct_ENEMY_ *enemy)
 
         else if(enemy->counter_ANIM == 17)
         {
-            enemy->counter_ANIM = 0;
+            if(player.state != STATE_DEAD && player.invincible != TRUE)
+            {
+                enemy->counter_ANIM = 0;
 
-            enemy->vulnerable = TRUE;
-            
-            enemy->state = ENEMY_THREAT_FW;
+                enemy->vulnerable = TRUE;
+                
+                enemy->state = ENEMY_THREAT_FW;
 
-            SPR_setAnimAndFrame(enemy->spr_ENEMY , 0 , 0);
+                return;
+            }
 
-            return;
+
+            else
+            {
+                SPR_setAnimAndFrame(enemy->spr_ENEMY,2,0);
+                
+                enemy->state = ENEMY_IDLE;
+
+                enemy->counter_ANIM = 0;
+
+                enemy->vulnerable = TRUE;
+
+                return;
+            }
         }
 
 

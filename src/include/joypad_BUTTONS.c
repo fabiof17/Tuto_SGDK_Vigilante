@@ -39,6 +39,8 @@ void logo_Callback(u16 joy, u16 changed, u16 state)
         // BOUTON START //
         if( changed & state & BUTTON_START )
         {
+            JOY_setEventHandler(disable_Callback);
+            
             PAL_setPalette(PAL0,palette_BLACK.data,DMA_QUEUE);
 
             G_SEQUENCE = SEQUENCE_TITLE;
@@ -96,6 +98,8 @@ void title_Callback(u16 joy, u16 changed, u16 state)
 
             else
             {
+                JOY_setEventHandler(disable_Callback);
+                
                 PAL_setPalette(PAL0,palette_BLACK.data,DMA_QUEUE);
                 PAL_setPalette(PAL1,palette_BLACK.data,DMA_QUEUE);
 
@@ -206,6 +210,8 @@ void ranking_Callback(u16 joy, u16 changed, u16 state)
         // BUTTON START //
         if( changed & state & BUTTON_START )
         {
+            JOY_setEventHandler(disable_Callback);
+            
             PAL_setPalette(PAL0,palette_BLACK.data,DMA_QUEUE);
             PAL_setPalette(PAL1,palette_BLACK.data,DMA_QUEUE);
 

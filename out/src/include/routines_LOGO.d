@@ -15,4 +15,4 @@ out/src/include/routines_LOGO.o: src/include/routines_LOGO.c \
  C:/sgdk/inc/task_cst.h C:/sgdk/inc/ext/flash-save/flash.h \
  C:/sgdk/inc/types.h C:/sgdk/inc/ext/flash-save/saveman.h \
  src/include/custom_tools.h res/palettes.h src/include/structures.h \
- src/include/variables.h res/maps_TITLE.h
+ src/include/variables.h res/maps_TITLE.h src/include/joypad_BUTTONS.h

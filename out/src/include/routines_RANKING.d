@@ -14,4 +14,5 @@ out/src/include/routines_RANKING.o: src/include/routines_RANKING.c \
  C:/sgdk/inc/joy.h C:/sgdk/inc/timer.h C:/sgdk/inc/task.h \
  C:/sgdk/inc/task_cst.h C:/sgdk/inc/ext/flash-save/flash.h \
  C:/sgdk/inc/types.h C:/sgdk/inc/ext/flash-save/saveman.h \
- src/include/variables.h src/include/structures.h res/palettes.h
+ src/include/variables.h src/include/structures.h res/palettes.h \
+ src/include/joypad_BUTTONS.h

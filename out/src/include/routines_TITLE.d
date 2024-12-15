@@ -15,4 +15,5 @@ out/src/include/routines_TITLE.o: src/include/routines_TITLE.c \
  C:/sgdk/inc/task_cst.h C:/sgdk/inc/ext/flash-save/flash.h \
  C:/sgdk/inc/types.h C:/sgdk/inc/ext/flash-save/saveman.h \
  src/include/custom_tools.h src/include/structures.h \
- src/include/variables.h res/maps_TITLE.h res/musics.h res/palettes.h
+ src/include/variables.h res/maps_TITLE.h res/musics.h res/palettes.h \
+ src/include/joypad_BUTTONS.h

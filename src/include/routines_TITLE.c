@@ -19,6 +19,10 @@
 
 
 
+#include "joypad_BUTTONS.h"
+
+
+
 
 
 
@@ -107,8 +111,10 @@ void sequence_TITLE()
 
         G_TIMER += 1;
 
-        if(G_TIMER == 600)
+        if(G_TIMER == 534)
         {
+            JOY_setEventHandler(disable_Callback);
+            
             G_TIMER = 0;
 
             PAL_setPalette(PAL0,palette_BLACK.data,DMA_QUEUE);

@@ -14,6 +14,10 @@
 
 
 
+#include "joypad_BUTTONS.h"
+
+
+
 
 
 
@@ -24,6 +28,8 @@ void sequence_LOGO()
     
     if(G_COUNTER_LOGO  == 180)
     {
+        JOY_setEventHandler(disable_Callback);
+        
         G_COUNTER_LOGO = 0;
 
         PAL_setPalette(PAL0,palette_BLACK.data,DMA_QUEUE);

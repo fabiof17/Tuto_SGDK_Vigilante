@@ -15,6 +15,7 @@
 #include "maps_INTERMEDE.h"
 #include "maps_LEVELS.h"
 #include "maps_LOGO.h"
+#include "maps_RANKING.h"
 #include "maps_TITLE.h"
 
 
@@ -34,6 +35,7 @@
 
 
 #include "tables_LEVELS.h"
+#include "tables_RANKING.h"
 
 
 
@@ -110,11 +112,13 @@ void init_VARIABLES()
     //                                                                                      //
     //--------------------------------------------------------------------------------------//
 
-    G_NUMBER_LIVES               = 2;
+    G_NUMBER_LIVES              = 2;
     
     G_POINTS                    = 0;
 
     G_HI_SCORE                  = 5000;
+
+    G_TIMER                     = 0;
     
     G_LEVEL                     = 1;
 
@@ -297,6 +301,142 @@ void init_TITLE()
     G_OPTIONS                   = LEVEL_OPTION;
 
     //G_COLORS_OPTION             = MD_COLORS;
+
+    G_SEQUENCE_LOADED           = TRUE;
+}
+
+
+void init_RANKING()
+{
+    //**************************************************************************************//
+    //                                                                                      //
+    //                                      CLEAN VRAM                                      //
+    //                                                                                      //
+    //**************************************************************************************//
+
+    u16 i = 0;
+
+    for(i=16 ; i<1440 ; i++)
+    {
+        VDP_loadTileSet(image_EMPTY_TILE.tileset , i , CPU);
+    }
+
+
+
+
+    //**************************************************************************************//
+    //                                                                                      //
+    //                                    SETUP DISPLAY                                     //
+    //                                                                                      //
+    //**************************************************************************************//
+
+    VDP_setPlaneSize(64,32,TRUE);
+    
+    SPR_init();
+    
+    VDP_setHilightShadow(FALSE);
+
+    VDP_setScrollingMode(HSCROLL_PLANE, VSCROLL_PLANE);
+
+
+
+
+    //**************************************************************************************//
+    //                                                                                      //
+    //                                   NUMBERS TILESET                                    //
+    //                                                                                      //
+    //**************************************************************************************//
+
+    VDP_loadTileSet(image_NUMBERS.tileset, TILE_FONT_INDEX + 16, CPU);
+
+
+
+
+    //**************************************************************************************//
+    //                                                                                      //
+    //                                   LETTERS TILESET                                    //
+    //                                                                                      //
+    //**************************************************************************************//
+
+    VDP_loadTileSet(image_LETTERS_RANKING.tileset, TILE_FONT_INDEX + 33, CPU);
+
+
+
+
+    //**************************************************************************************//
+    //                                                                                      //
+    //                                         BG                                           //
+    //                                                                                      //
+    //**************************************************************************************//
+
+    G_ADR_VRAM_BG_B = TILE_USER_INDEX;
+
+    //--------------------------------------------------------------------------------------//
+    //                                                                                      //
+    //                                         BG_B                                         //
+    //                                                                                      //
+    //--------------------------------------------------------------------------------------//
+
+    VDP_loadTileSet(image_RANKING.tileset, G_ADR_VRAM_BG_B, CPU);
+    VDP_setTileMapEx(BG_B, image_RANKING.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 0, 0, 0, 0, 32, 28, CPU);
+
+
+
+
+    //--------------------------------------------------------------------------------------//
+    //                                                                                      //
+    //                                    DISPLAY SCORES                                    //
+    //                                                                                      //
+    //--------------------------------------------------------------------------------------//
+
+    for(i=0 ; i<10 ; i++)
+    {       
+        // SCORE //
+        VDP_drawIntEx_BG_B_CPU(TABLE_RANKING[i].score , 4 , 14 , 7 + (i<<1) , PAL0);
+
+        // NAMES //
+        VDP_setTileMapEx(BG_B, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, TILE_FONT_INDEX + TABLE_RANKING[i].letter_1), 22, 7 + (i<<1), 0, 0, 1, 1, CPU);
+        VDP_setTileMapEx(BG_B, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, TILE_FONT_INDEX + TABLE_RANKING[i].letter_2), 23, 7 + (i<<1), 0, 0, 1, 1, CPU);
+        VDP_setTileMapEx(BG_B, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, TILE_FONT_INDEX + TABLE_RANKING[i].letter_3), 24, 7 + (i<<1), 0, 0, 1, 1, CPU);
+    }
+
+
+
+
+    //--------------------------------------------------------------------------------------//
+    //                                                                                      //
+    //                                SETUP PLANES POSITION                                 //
+    //                                                                                      //
+    //--------------------------------------------------------------------------------------//
+
+    VDP_setHorizontalScroll(BG_B , 0);
+    VDP_setHorizontalScroll(BG_A , 0);
+
+    VDP_setVerticalScroll(BG_B , 0);
+    VDP_setVerticalScroll(BG_A , 0);
+
+
+
+
+    //**************************************************************************************//
+    //                                                                                      //
+    //                                       PALETTES                                       //
+    //                                                                                      //
+    //**************************************************************************************//
+
+    PAL_setPalette(PAL0,image_RANKING.palette->data,DMA_QUEUE);
+
+
+    SYS_doVBlankProcess();
+
+
+
+
+    //**************************************************************************************//
+    //                                                                                      //
+    //                                       VARIABLES                                      //
+    //                                                                                      //
+    //**************************************************************************************//
 
     G_SEQUENCE_LOADED           = TRUE;
 }

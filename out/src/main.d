@@ -16,5 +16,5 @@ out/src/main.o: src/main.c C:/sgdk/inc/genesis.h C:/sgdk/inc/types.h \
  src/include/custom_tools.h src/include/joypad_BUTTONS.h \
  src/include/init.h src/include/routines_INTERMEDE.h \
  src/include/routines_LEVEL.h src/include/routines_LOGO.h \
- src/include/routines_TITLE.h src/include/variables.h \
- src/include/structures.h
+ src/include/routines_TITLE.h src/include/routines_RANKING.h \
+ src/include/variables.h src/include/structures.h

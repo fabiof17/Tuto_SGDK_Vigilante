@@ -12,6 +12,8 @@ extern void logo_Callback(u16 joy, u16 changed, u16 state);
 
 extern void title_Callback(u16 joy, u16 changed, u16 state);
 
+extern void ranking_Callback(u16 joy, u16 changed, u16 state);
+
 extern void intermede_Callback(u16 joy, u16 changed, u16 state);
 
 extern void player_Callback(u16 joy, u16 changed, u16 state);

@@ -14,6 +14,8 @@ extern void init_LOGO();
 
 extern void init_TITLE();
 
+extern void init_RANKING();
+
 extern void init_INTERMEDE_1();
 
 extern void init_INTERMEDE_2();

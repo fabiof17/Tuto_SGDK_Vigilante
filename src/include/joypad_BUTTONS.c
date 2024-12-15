@@ -86,7 +86,12 @@ void title_Callback(u16 joy, u16 changed, u16 state)
                 SPR_setPosition(sprite_ARROW , 72 , 168);
 
                 // PLAY MUSIC //
-                XGM_startPlay(MUSIC_TITLE);
+                u8 music_state = XGM_isPlaying();
+
+                if(music_state != 64)
+                {
+                    XGM_startPlay(MUSIC_TITLE);
+                }
             }
 
             else
@@ -188,6 +193,40 @@ void title_Callback(u16 joy, u16 changed, u16 state)
             }
         }    
     
+    }
+}
+
+
+
+
+void ranking_Callback(u16 joy, u16 changed, u16 state)
+{
+    if(joy == JOY_1)
+    {
+        // BUTTON START //
+        if( changed & state & BUTTON_START )
+        {
+            PAL_setPalette(PAL0,palette_BLACK.data,DMA_QUEUE);
+            PAL_setPalette(PAL1,palette_BLACK.data,DMA_QUEUE);
+
+            // STOP MUSIC //
+            //XGM_stopPlay();
+
+            SYS_doVBlankProcess();
+
+            // CLEAR PLANES //
+            VDP_clearPlane(BG_B,TRUE);
+            VDP_clearPlane(BG_A,TRUE);
+
+            // RELEASE ALL SPRITES //
+            SPR_reset();
+
+            G_SEQUENCE = SEQUENCE_TITLE;
+
+            G_SEQUENCE_LOADED = FALSE;
+
+            SYS_doVBlankProcess();
+        }
     }
 }
 

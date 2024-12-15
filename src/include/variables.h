@@ -39,8 +39,9 @@
 
 #define SEQUENCE_LOGO           0
 #define SEQUENCE_TITLE          1
-#define SEQUENCE_INTERMEDE      2
-#define SEQUENCE_GAME           3
+#define SEQUENCE_RANKING        2
+#define SEQUENCE_INTERMEDE      3
+#define SEQUENCE_GAME           4
 
 
 
@@ -249,6 +250,8 @@ extern u16 G_COUNTER_TITLE;
 
 extern bool G_OPTIONS;
 
+extern u16 G_TIMER;
+
 //extern bool G_COLORS_OPTION;
 
 
@@ -363,7 +366,13 @@ extern u8 G_SPAWN_INDEX;
 extern u8 G_SPAWN_MAX_INDEX;
 
 
-//extern bool G_TOTO;
+//--------------------------------------------------------------------------------------//
+//                                                                                      //
+//                                       RANKING                                        //
+//                                                                                      //
+//--------------------------------------------------------------------------------------//
+
+//extern struct_RANK_ TABLE_RANKING[10];
 
 
 

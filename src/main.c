@@ -18,6 +18,7 @@
 #include "include/routines_LEVEL.h"
 #include "include/routines_LOGO.h"
 #include "include/routines_TITLE.h"
+#include "include/routines_RANKING.h"
 
 
 #include "include/variables.h"
@@ -51,6 +52,8 @@ int main(bool hardReset)
             // LOADING LOGO SCREEN //
             if(G_SEQUENCE_LOADED == FALSE)
             {
+                JOY_setEventHandler(disable_Callback);
+                
                 init_LOGO();
             }
 
@@ -79,6 +82,8 @@ int main(bool hardReset)
             // LOADING TITLE SCREEN //
             if(G_SEQUENCE_LOADED == FALSE)
             {
+                JOY_setEventHandler(disable_Callback);
+                
                 init_TITLE();
             }
 
@@ -87,6 +92,36 @@ int main(bool hardReset)
                 JOY_setEventHandler(title_Callback);
                 
                 sequence_TITLE();
+                
+                SPR_update();
+                SYS_doVBlankProcess();
+            } 
+        }
+
+
+
+
+        //**************************************************************************************//
+        //                                                                                      //
+        //                                      TITLE                                           //
+        //                                                                                      //
+        //**************************************************************************************//
+
+        else if(G_SEQUENCE == SEQUENCE_RANKING)
+        {
+            // LOADING TITLE SCREEN //
+            if(G_SEQUENCE_LOADED == FALSE)
+            {
+                JOY_setEventHandler(disable_Callback);
+                
+                init_RANKING();
+            }
+
+            else
+            {                
+                JOY_setEventHandler(ranking_Callback);
+
+                sequence_RANKING();
                 
                 SPR_update();
                 SYS_doVBlankProcess();

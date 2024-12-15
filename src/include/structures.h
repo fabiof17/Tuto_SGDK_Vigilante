@@ -126,6 +126,19 @@ typedef struct
 
 
 
+typedef struct
+{
+    u16 score;
+
+    u8 letter_1;
+    u8 letter_2;
+    u8 letter_3;
+
+} struct_RANK_;
+
+
+
+
 
 
 

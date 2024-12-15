@@ -266,7 +266,7 @@ void hi_score_Callback(u16 joy, u16 changed, u16 state)
                 PAL_setPalette(PAL1,palette_BLACK.data,DMA_QUEUE);
 
                 // STOP MUSIC //
-                //XGM_stopPlay();
+                XGM_stopPlay();
 
                 SYS_doVBlankProcess();
 

@@ -221,7 +221,7 @@ extern bool G_PAUSE;
 
 extern u16 G_HI_SCORE;
 
-//extern s32 player.life;
+extern u8 G_NUMBER_CONTINUE;
 
 extern u8 G_NUMBER_LIVES;
 

@@ -35,9 +35,9 @@ bool G_PAUSE;
 
 u16 G_HI_SCORE;
 
-//s32 player.life;
-
 u8 G_NUMBER_LIVES;
+
+u8 G_NUMBER_CONTINUE;
 
 u8 G_TIME;
 

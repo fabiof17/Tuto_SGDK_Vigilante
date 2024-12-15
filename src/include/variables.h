@@ -42,6 +42,7 @@
 #define SEQUENCE_RANKING        2
 #define SEQUENCE_INTERMEDE      3
 #define SEQUENCE_GAME           4
+#define SEQUENCE_HI_SCORE       5
 
 
 
@@ -212,7 +213,7 @@ extern u8 G_SEQUENCE;
 
 extern bool G_SEQUENCE_LOADED;
 
-extern u16 G_POINTS;
+extern u16 G_SCORE;
 
 extern u16 G_COUNTER;
 
@@ -368,11 +369,19 @@ extern u8 G_SPAWN_MAX_INDEX;
 
 //--------------------------------------------------------------------------------------//
 //                                                                                      //
-//                                       RANKING                                        //
+//                                       HI SCORE                                       //
 //                                                                                      //
 //--------------------------------------------------------------------------------------//
 
-//extern struct_RANK_ TABLE_RANKING[10];
+extern u8 G_RANK;
+
+extern u8 G_INDEX_LETTER;
+
+extern u8 G_SELECTED_LETTER_1;
+extern u8 G_SELECTED_LETTER_2;
+extern u8 G_SELECTED_LETTER_3;
+
+extern u8 TABLE_SELECTED_LETTERS[3];
 
 
 

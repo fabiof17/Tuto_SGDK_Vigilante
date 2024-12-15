@@ -84,7 +84,7 @@ void init_VARIABLES()
     //                                                                                      //
     //**************************************************************************************//
 
-    G_SEQUENCE = SEQUENCE_LOGO; // SEQUENCE_LOGO | SEQUENCE_TITLE | SEQUENCE_INTERMEDE | SEQUENCE_GAME 
+    G_SEQUENCE = SEQUENCE_LOGO; // SEQUENCE_LOGO | SEQUENCE_TITLE | SEQUENCE_INTERMEDE | SEQUENCE_GAME | SEQUENCE_HI_SCORE
 
 
 
@@ -114,7 +114,7 @@ void init_VARIABLES()
 
     G_NUMBER_LIVES              = 2;
     
-    G_POINTS                    = 0;
+    G_SCORE                     = 0;
 
     G_HI_SCORE                  = 5000;
 
@@ -437,6 +437,204 @@ void init_RANKING()
     //                                       VARIABLES                                      //
     //                                                                                      //
     //**************************************************************************************//
+
+    G_SEQUENCE_LOADED           = TRUE;
+}
+
+
+void init_HI_SCORE()
+{
+    //**************************************************************************************//
+    //                                                                                      //
+    //                                      CLEAN VRAM                                      //
+    //                                                                                      //
+    //**************************************************************************************//
+
+    u16 i = 0;
+
+    for(i=16 ; i<1440 ; i++)
+    {
+        VDP_loadTileSet(image_EMPTY_TILE.tileset , i , CPU);
+    }
+
+
+
+
+    //**************************************************************************************//
+    //                                                                                      //
+    //                                    SETUP DISPLAY                                     //
+    //                                                                                      //
+    //**************************************************************************************//
+
+    VDP_setPlaneSize(64,32,TRUE);
+    
+    SPR_init();
+    
+    VDP_setHilightShadow(FALSE);
+
+    VDP_setScrollingMode(HSCROLL_PLANE, VSCROLL_PLANE);
+
+
+
+
+    //**************************************************************************************//
+    //                                                                                      //
+    //                                   NUMBERS TILESET                                    //
+    //                                                                                      //
+    //**************************************************************************************//
+
+    VDP_loadTileSet(image_NUMBERS.tileset, TILE_FONT_INDEX + 16, CPU);
+
+
+
+
+    //**************************************************************************************//
+    //                                                                                      //
+    //                                   LETTERS TILESET                                    //
+    //                                                                                      //
+    //**************************************************************************************//
+
+    VDP_loadTileSet(image_LETTERS_RANKING.tileset, TILE_FONT_INDEX + 33, CPU);
+
+
+
+
+    //**************************************************************************************//
+    //                                                                                      //
+    //                                         BG                                           //
+    //                                                                                      //
+    //**************************************************************************************//
+
+    G_ADR_VRAM_BG_B = TILE_USER_INDEX;
+
+    //--------------------------------------------------------------------------------------//
+    //                                                                                      //
+    //                                         BG_B                                         //
+    //                                                                                      //
+    //--------------------------------------------------------------------------------------//
+
+    VDP_loadTileSet(image_RANKING.tileset, G_ADR_VRAM_BG_B, CPU);
+    VDP_setTileMapEx(BG_B, image_RANKING.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, G_ADR_VRAM_BG_B), 0, 0, 0, 0, 32, 28, CPU);
+
+
+
+
+    //--------------------------------------------------------------------------------------//
+    //                                                                                      //
+    //                                    DISPLAY SCORES                                    //
+    //                                                                                      //
+    //--------------------------------------------------------------------------------------//
+
+    for(i=0 ; i<10 ; i++)
+    {       
+        // SCORE //
+        VDP_drawIntEx_BG_B_CPU(TABLE_RANKING[i].score , 4 , 14 , 7 + (i<<1) , PAL0);
+
+        // NAMES //
+        VDP_setTileMapEx(BG_B, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, TILE_FONT_INDEX + TABLE_RANKING[i].letter_1), 22, 7 + (i<<1), 0, 0, 1, 1, CPU);
+        VDP_setTileMapEx(BG_B, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, TILE_FONT_INDEX + TABLE_RANKING[i].letter_2), 23, 7 + (i<<1), 0, 0, 1, 1, CPU);
+        VDP_setTileMapEx(BG_B, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, TILE_FONT_INDEX + TABLE_RANKING[i].letter_3), 24, 7 + (i<<1), 0, 0, 1, 1, CPU);
+    }
+
+
+
+
+    //--------------------------------------------------------------------------------------//
+    //                                                                                      //
+    //                                   CLEAN RANK SCORE                                   //
+    //                                                                                      //
+    //--------------------------------------------------------------------------------------//
+
+    
+
+
+
+
+    //--------------------------------------------------------------------------------------//
+    //                                                                                      //
+    //                                   CLEAN RANK NAME                                    //
+    //                                                                                      //
+    //--------------------------------------------------------------------------------------//
+
+    G_SELECTED_LETTER_1 = 33;
+    G_SELECTED_LETTER_2 = 60;
+    G_SELECTED_LETTER_3 = 60;
+
+    TABLE_SELECTED_LETTERS[0]   = G_SELECTED_LETTER_1;
+    TABLE_SELECTED_LETTERS[1]   = G_SELECTED_LETTER_2;
+    TABLE_SELECTED_LETTERS[2]   = G_SELECTED_LETTER_3;
+
+
+    for(i=0 ; i<10 ; i++)
+    {
+        if(G_SCORE >= TABLE_RANKING[i].score)
+        {
+            G_RANK = i;
+
+            // HIGHLIGHT RANK //
+            if(G_RANK < 9)
+            {
+                VDP_drawIntEx_BG_B_CPU(G_RANK + 1 ,  1 , 8 , 7 + (i<<1), PAL2);
+            }
+
+            else
+            {
+                VDP_drawIntEx_BG_B_CPU(G_RANK + 1 ,  2 , 7 , 7 + (i<<1), PAL2);
+            }
+            
+            
+            // HIGHLIGHT SCORE //
+            VDP_drawIntEx_BG_B_CPU(G_SCORE ,  4 , 14 , 7 + (i<<1), PAL2);
+
+            VDP_setTileMapEx(BG_B, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, TILE_FONT_INDEX + TABLE_SELECTED_LETTERS[0]), 22, 7 + (i<<1), 0, 0, 1, 1, CPU);
+            VDP_setTileMapEx(BG_B, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, TILE_FONT_INDEX + TABLE_SELECTED_LETTERS[1]), 23, 7 + (i<<1), 0, 0, 1, 1, CPU);
+            VDP_setTileMapEx(BG_B, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, TILE_FONT_INDEX + TABLE_SELECTED_LETTERS[2]), 24, 7 + (i<<1), 0, 0, 1, 1, CPU);
+
+            break;
+        }
+    }
+
+
+
+
+    //--------------------------------------------------------------------------------------//
+    //                                                                                      //
+    //                                SETUP PLANES POSITION                                 //
+    //                                                                                      //
+    //--------------------------------------------------------------------------------------//
+
+    VDP_setHorizontalScroll(BG_B , 0);
+    VDP_setHorizontalScroll(BG_A , 0);
+
+    VDP_setVerticalScroll(BG_B , 0);
+    VDP_setVerticalScroll(BG_A , 0);
+
+
+
+
+    //**************************************************************************************//
+    //                                                                                      //
+    //                                       PALETTES                                       //
+    //                                                                                      //
+    //**************************************************************************************//
+
+    PAL_setPalette(PAL0,image_RANKING.palette->data,DMA_QUEUE);
+    PAL_setPalette(PAL1,palette_HI_SCORE_1.data,DMA_QUEUE);
+    PAL_setPalette(PAL2,palette_HI_SCORE_2.data,DMA_QUEUE);
+
+
+    SYS_doVBlankProcess();
+
+
+
+
+    //**************************************************************************************//
+    //                                                                                      //
+    //                                       VARIABLES                                      //
+    //                                                                                      //
+    //**************************************************************************************//
+
+    G_INDEX_LETTER              = 0;
 
     G_SEQUENCE_LOADED           = TRUE;
 }
@@ -1360,7 +1558,7 @@ inline static void init_HUB()
     //                                     SCORE VALUE                                      //
     //--------------------------------------------------------------------------------------//
 
-    VDP_drawIntEx_WINDOW_CPU_PRIO(G_POINTS,1,7,2,PAL3);
+    VDP_drawIntEx_WINDOW_CPU_PRIO(G_SCORE,1,7,2,PAL3);
 
 
 
@@ -1839,7 +2037,7 @@ void init_LEVEL()
         //--------------------------------------------------------------------------------------//
         //                                        SCORE                                         //
         //--------------------------------------------------------------------------------------//
-        VDP_drawIntEx_WINDOW_CPU_PRIO(G_POINTS,1,7,2,PAL3);
+        VDP_drawIntEx_WINDOW_CPU_PRIO(G_SCORE,1,7,2,PAL3);
 
 
 
@@ -2088,7 +2286,7 @@ void init_LEVEL()
         //--------------------------------------------------------------------------------------//
         //                                        SCORE                                         //
         //--------------------------------------------------------------------------------------//
-        VDP_drawIntEx_WINDOW_CPU_PRIO(G_POINTS,1,7,2,PAL3);
+        VDP_drawIntEx_WINDOW_CPU_PRIO(G_SCORE,1,7,2,PAL3);
 
 
 
@@ -2381,7 +2579,7 @@ void init_LEVEL()
         //--------------------------------------------------------------------------------------//
         //                                        SCORE                                         //
         //--------------------------------------------------------------------------------------//
-        VDP_drawIntEx_WINDOW_CPU_PRIO(G_POINTS,1,7,2,PAL3);
+        VDP_drawIntEx_WINDOW_CPU_PRIO(G_SCORE,1,7,2,PAL3);
 
 
 
@@ -2655,7 +2853,7 @@ void init_LEVEL()
         //--------------------------------------------------------------------------------------//
         //                                        SCORE                                         //
         //--------------------------------------------------------------------------------------//
-        VDP_drawIntEx_WINDOW_CPU_PRIO(G_POINTS,1,7,2,PAL3);
+        VDP_drawIntEx_WINDOW_CPU_PRIO(G_SCORE,1,7,2,PAL3);
 
 
 

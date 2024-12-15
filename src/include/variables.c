@@ -27,7 +27,7 @@ u8 G_SEQUENCE;
 
 bool G_SEQUENCE_LOADED;
 
-u16 G_POINTS;
+u16 G_SCORE;
 
 u16 G_COUNTER;
 
@@ -185,13 +185,19 @@ u8 G_SPAWN_MAX_INDEX;
 
 //--------------------------------------------------------------------------------------//
 //                                                                                      //
-//                                       RANKING                                        //
+//                                       HI SCORE                                       //
 //                                                                                      //
 //--------------------------------------------------------------------------------------//
 
-//struct_RANK_ TABLE_RANKING[10];
+u8 G_RANK;
 
+u8 G_INDEX_LETTER;
 
+u8 G_SELECTED_LETTER_1;
+u8 G_SELECTED_LETTER_2;
+u8 G_SELECTED_LETTER_3;
+
+u8 TABLE_SELECTED_LETTERS[3];
 
 
 

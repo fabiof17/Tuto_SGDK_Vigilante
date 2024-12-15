@@ -103,7 +103,7 @@ int main(bool hardReset)
 
         //**************************************************************************************//
         //                                                                                      //
-        //                                      TITLE                                           //
+        //                                       RANKING                                        //
         //                                                                                      //
         //**************************************************************************************//
 
@@ -291,6 +291,36 @@ int main(bool hardReset)
                 }
 
             }
+        }
+
+
+
+
+        //**************************************************************************************//
+        //                                                                                      //
+        //                                       HI_SCORE                                       //
+        //                                                                                      //
+        //**************************************************************************************//
+
+        else if(G_SEQUENCE == SEQUENCE_HI_SCORE)
+        {
+            // LOADING TITLE SCREEN //
+            if(G_SEQUENCE_LOADED == FALSE)
+            {
+                JOY_setEventHandler(disable_Callback);
+                
+                init_HI_SCORE();
+            }
+
+            else
+            {                
+                JOY_setEventHandler(hi_score_Callback);
+
+                //sequence_HI_SCORE();
+                
+                SPR_update();
+                SYS_doVBlankProcess();
+            } 
         }
     }
 

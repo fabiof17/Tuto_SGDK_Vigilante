@@ -8,6 +8,7 @@
 
 
 
+#include "maps_GLOBAL.h"
 #include "maps_TITLE.h"
 
 
@@ -16,6 +17,10 @@
 
 
 #include "sprites_LEVEL.h"
+
+
+
+#include "tables_RANKING.h"
 
 
 
@@ -232,6 +237,113 @@ void ranking_Callback(u16 joy, u16 changed, u16 state)
             G_SEQUENCE_LOADED = FALSE;
 
             SYS_doVBlankProcess();
+        }
+    }
+}
+
+
+
+
+void hi_score_Callback(u16 joy, u16 changed, u16 state)
+{
+    if(joy == JOY_1)
+    {
+        // BUTTON START //
+        if( changed & state & BUTTON_START )
+        {
+            if(G_INDEX_LETTER == 2)
+            {
+                JOY_setEventHandler(disable_Callback);
+
+                // UPDATE RANKING TABLE //
+                TABLE_RANKING[G_RANK].score = G_SCORE;
+                TABLE_RANKING[G_RANK].letter_1 = TABLE_SELECTED_LETTERS[0];
+                TABLE_RANKING[G_RANK].letter_2 = TABLE_SELECTED_LETTERS[1];
+                TABLE_RANKING[G_RANK].letter_3 = TABLE_SELECTED_LETTERS[2];
+
+                
+                PAL_setPalette(PAL0,palette_BLACK.data,DMA_QUEUE);
+                PAL_setPalette(PAL1,palette_BLACK.data,DMA_QUEUE);
+
+                // STOP MUSIC //
+                //XGM_stopPlay();
+
+                SYS_doVBlankProcess();
+
+                // CLEAR PLANES //
+                VDP_clearPlane(BG_B,TRUE);
+                VDP_clearPlane(BG_A,TRUE);
+
+                // RELEASE ALL SPRITES //
+                SPR_reset();
+
+                G_SEQUENCE = SEQUENCE_TITLE;
+
+                G_SEQUENCE_LOADED = FALSE;
+
+                SYS_doVBlankProcess();
+            }
+        }
+
+
+        else if( changed & state & BUTTON_RIGHT )
+        {
+            if(G_INDEX_LETTER < 2)
+            {
+                // CHANGE CURRENT LETTER COLOR //
+                VDP_setTileMapEx(BG_B, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL2, FALSE, FALSE, FALSE, TILE_FONT_INDEX + TABLE_SELECTED_LETTERS[G_INDEX_LETTER]), 22 + G_INDEX_LETTER, 7 + (G_RANK<<1), 0, 0, 1, 1, DMA_QUEUE);
+
+                G_INDEX_LETTER += 1;
+
+                if(TABLE_SELECTED_LETTERS[G_INDEX_LETTER] > 33)
+                {
+                    TABLE_SELECTED_LETTERS[G_INDEX_LETTER] = 33;
+                }
+
+                // HIGHLIGHT NEXT LETTER //
+                VDP_setTileMapEx(BG_B, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, TILE_FONT_INDEX + TABLE_SELECTED_LETTERS[G_INDEX_LETTER]), 22 + G_INDEX_LETTER, 7 + (G_RANK<<1), 0, 0, 1, 1, DMA_QUEUE);
+            }
+        }
+
+
+        else if( changed & state & BUTTON_LEFT )
+        {
+            if(G_INDEX_LETTER > 0)
+            {
+                // CHANGE CURRENT LETTER COLOR //
+                VDP_setTileMapEx(BG_B, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL2, FALSE, FALSE, FALSE, TILE_FONT_INDEX + TABLE_SELECTED_LETTERS[G_INDEX_LETTER]), 22 + G_INDEX_LETTER, 7 + (G_RANK<<1), 0, 0, 1, 1, DMA_QUEUE);
+
+                G_INDEX_LETTER -= 1;
+
+                // HIGHLIGHT NEXT LETTER //
+                VDP_setTileMapEx(BG_B, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, TILE_FONT_INDEX + TABLE_SELECTED_LETTERS[G_INDEX_LETTER]), 22 + G_INDEX_LETTER, 7 + (G_RANK<<1), 0, 0, 1, 1, DMA_QUEUE);
+            }
+        }
+    
+
+        else if( changed & state & BUTTON_UP )
+        {
+            TABLE_SELECTED_LETTERS[G_INDEX_LETTER] += 1;
+
+            if(TABLE_SELECTED_LETTERS[G_INDEX_LETTER] > 60)
+            {
+                TABLE_SELECTED_LETTERS[G_INDEX_LETTER] = 33;
+            }
+
+            VDP_setTileMapEx(BG_B, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, TILE_FONT_INDEX + TABLE_SELECTED_LETTERS[G_INDEX_LETTER]), 22 + G_INDEX_LETTER, 7 + (G_RANK<<1), 0, 0, 1, 1, DMA_QUEUE);
+        }
+
+
+        else if( changed & state & BUTTON_DOWN )
+        {
+            TABLE_SELECTED_LETTERS[G_INDEX_LETTER] -= 1;
+
+            if(TABLE_SELECTED_LETTERS[G_INDEX_LETTER] < 33)
+            {
+                TABLE_SELECTED_LETTERS[G_INDEX_LETTER] = 60;
+            }
+
+            VDP_setTileMapEx(BG_B, image_EMPTY_TILE.tilemap, TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, TILE_FONT_INDEX + TABLE_SELECTED_LETTERS[G_INDEX_LETTER]), 22 + G_INDEX_LETTER, 7 + (G_RANK<<1), 0, 0, 1, 1, DMA_QUEUE);
         }
     }
 }

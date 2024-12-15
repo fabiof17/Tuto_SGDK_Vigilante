@@ -32,39 +32,39 @@
 
 inline static void update_HISCORE()
 {
-    if(G_POINTS < 10000)
+    if(G_SCORE < 10000)
     {
-        VDP_drawIntEx_WINDOW_QUEUE_PRIO(G_POINTS,4,15,2,PAL3);
+        VDP_drawIntEx_WINDOW_QUEUE_PRIO(G_SCORE,4,15,2,PAL3);
     }
 
     else
     {
-        VDP_drawIntEx_WINDOW_QUEUE_PRIO(G_POINTS,5,14,2,PAL3);
+        VDP_drawIntEx_WINDOW_QUEUE_PRIO(G_SCORE,5,14,2,PAL3);
     }   
 }
 
 
 inline static void update_SCORE()
 {
-    if(G_POINTS < 100)
+    if(G_SCORE < 100)
     {
-        VDP_drawIntEx_WINDOW_QUEUE_PRIO(G_POINTS,2,6,2,PAL3);
+        VDP_drawIntEx_WINDOW_QUEUE_PRIO(G_SCORE,2,6,2,PAL3);
     }
 
-    else if(G_POINTS < 1000)
+    else if(G_SCORE < 1000)
     {
-        VDP_drawIntEx_WINDOW_QUEUE_PRIO(G_POINTS,3,5,2,PAL3);
+        VDP_drawIntEx_WINDOW_QUEUE_PRIO(G_SCORE,3,5,2,PAL3);
     }
 
-    else if(G_POINTS < 10000)
+    else if(G_SCORE < 10000)
     {
-        VDP_drawIntEx_WINDOW_QUEUE_PRIO(G_POINTS,4,4,2,PAL3);
+        VDP_drawIntEx_WINDOW_QUEUE_PRIO(G_SCORE,4,4,2,PAL3);
     }
 
 
-    if(G_POINTS > G_HI_SCORE)
+    if(G_SCORE > G_HI_SCORE)
     {
-        G_HI_SCORE = G_POINTS;
+        G_HI_SCORE = G_SCORE;
 
         update_HISCORE();
     }
@@ -3670,7 +3670,7 @@ inline static void collision_PLAYER_ATTACK()
 
                                         LIST_ENEMIES[i].vulnerable = FALSE;
 
-                                        G_POINTS += LIST_ENEMIES[i].points;
+                                        G_SCORE += LIST_ENEMIES[i].points;
 
                                         update_SCORE();
                                     }
@@ -3725,7 +3725,7 @@ inline static void collision_PLAYER_ATTACK()
 
                                         LIST_ENEMIES[i].vulnerable = FALSE;
 
-                                        G_POINTS += LIST_ENEMIES[i].points;
+                                        G_SCORE += LIST_ENEMIES[i].points;
 
                                         update_SCORE();
                                     }
@@ -3798,7 +3798,7 @@ inline static void collision_PLAYER_ATTACK()
 
                                         LIST_ENEMIES[i].vulnerable = FALSE;
 
-                                        G_POINTS += LIST_ENEMIES[i].points;
+                                        G_SCORE += LIST_ENEMIES[i].points;
 
                                         update_SCORE();
                                     }
@@ -3866,7 +3866,7 @@ inline static void collision_PLAYER_ATTACK()
 
                                         LIST_ENEMIES[i].vulnerable = FALSE;
 
-                                        G_POINTS += LIST_ENEMIES[i].points;
+                                        G_SCORE += LIST_ENEMIES[i].points;
 
                                         update_SCORE();
                                     }
@@ -3957,7 +3957,7 @@ inline static void collision_PLAYER_ATTACK()
 
                                             LIST_ENEMIES[i].vulnerable = FALSE;
 
-                                            G_POINTS += LIST_ENEMIES[i].points;
+                                            G_SCORE += LIST_ENEMIES[i].points;
 
                                             update_SCORE();
                                         }
@@ -3999,7 +3999,7 @@ inline static void collision_PLAYER_ATTACK()
 
                                             LIST_ENEMIES[i].vulnerable = FALSE;
 
-                                            G_POINTS += LIST_ENEMIES[i].points;
+                                            G_SCORE += LIST_ENEMIES[i].points;
 
                                             update_SCORE();
                                         }
@@ -4063,7 +4063,7 @@ inline static void collision_PLAYER_ATTACK()
 
                                                 LIST_ENEMIES[i].vulnerable = FALSE;
 
-                                                G_POINTS += LIST_ENEMIES[i].points;
+                                                G_SCORE += LIST_ENEMIES[i].points;
 
                                                 update_SCORE();
                                             }
@@ -4103,7 +4103,7 @@ inline static void collision_PLAYER_ATTACK()
 
                                                 LIST_ENEMIES[i].vulnerable = FALSE;
 
-                                                G_POINTS += LIST_ENEMIES[i].points;
+                                                G_SCORE += LIST_ENEMIES[i].points;
 
                                                 update_SCORE();
                                             }
